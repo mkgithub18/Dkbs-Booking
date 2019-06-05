@@ -5,10 +5,12 @@ using System.Threading.Tasks;
 using AutoMapper;
 using DKBS.Domain;
 using DKBS.DTO;
+using DKBS.Infrastructure.Sharepoint;
 using DKBS.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 
 namespace DKBS.API.Controllers
 {
@@ -20,14 +22,18 @@ namespace DKBS.API.Controllers
     public class PartnerController : ControllerBase
     {
         private readonly IChoiceRepository _choiceRepoistory;
+        private readonly IConfiguration _configuration;
+        private readonly ISharepointService _sharePointService;
         private IMapper _mapper;
         /// <summary>
         /// Partner controller
         /// </summary>
-        public PartnerController(IChoiceRepository choiceReposiroty, IMapper mapper)
+        public PartnerController(IChoiceRepository choiceReposiroty, IMapper mapper, ISharepointService sharePointService, IConfiguration configuration)
         {
             _choiceRepoistory = choiceReposiroty;
             _mapper = mapper;
+            _sharePointService = sharePointService;
+            _configuration = configuration;
         }
 
         /// <summary>
@@ -63,7 +69,7 @@ namespace DKBS.API.Controllers
         [HttpPost("")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
-        public IActionResult CreatePartner([FromBody] CRMPartnerDTO dto)
+        public async Task<IActionResult> CreatePartner([FromBody] CRMPartnerDTO dto)
         {
 
             try
@@ -98,6 +104,17 @@ namespace DKBS.API.Controllers
                 newPartner.CreatedDate = DateTime.UtcNow;
                 newPartner.LastModified = DateTime.UtcNow;
                 newPartner.LastModifiedBy = "CRM";
+
+                if (bool.Parse(_configuration["SharePointIntegrationEnabled"].ToString()))
+                {
+                    var sharePointId = await _sharePointService.InsertPartnerAsync(newPartner);
+                    if (sharePointId <= 0)
+                    {
+                        return StatusCode(500, "An error occurred while creating sharepoint partner. Please try again or contact adminstrator");
+                    }
+                    newPartner.SharePointId = sharePointId;
+                }
+
                 _choiceRepoistory.Attach<CRMPartner>(newPartner);
                 _choiceRepoistory.Complete();
 
@@ -125,7 +142,7 @@ namespace DKBS.API.Controllers
                 return NotFound(accountId);
             }
 
-           var returnval = _mapper.Map<CRMPartner, CRMPartnerDTO>(partner);
+            var returnval = _mapper.Map<CRMPartner, CRMPartnerDTO>(partner);
 
             return Ok(returnval);
         }
@@ -139,7 +156,7 @@ namespace DKBS.API.Controllers
         /// 
         [Authorize]
         [HttpPut("{accountId}")]
-        public IActionResult UpdatePartner(string accountId, [FromBody] CRMPartnerDTO dto)
+        public async Task<IActionResult> UpdatePartner(string accountId, [FromBody] CRMPartnerDTO dto)
         {
             try
             {
@@ -195,6 +212,14 @@ namespace DKBS.API.Controllers
                 partner.LastModified = DateTime.UtcNow;
                 partner.LastModifiedBy = "CRM";  //later need to change
                 _choiceRepoistory.Attach(partner);
+                if (bool.Parse(_configuration["SharePointIntegrationEnabled"].ToString()))
+                {
+                    var status = await _sharePointService.UpdatePartnerAsync(partner);
+                    if (!status)
+                    {
+                        return StatusCode(500, "An error occurred while creating sharepoint partner. Please try again or contact adminstrator");
+                    }
+                }
                 _choiceRepoistory.Complete();
 
                 return NoContent();

@@ -24,6 +24,7 @@
           PanoramView NVARCHAR(200),
           RecommandedNPGRT60 bit,
           QualityAssuredNPSGRD30 bit,
+		  SharePointId INT,
           LastModified datetime,
           LastModifiedBy NVARCHAR(100),
           CreatedDate datetime,

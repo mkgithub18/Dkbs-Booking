@@ -14,9 +14,10 @@ namespace DKBS.Infrastructure.Sharepoint
     {
         Task<int> InsertCustomerAsync(Customer customer);
         Task<bool> UpdateCustomerAsync(Customer customer);
-
         Task<int> InsertCustomerContactAsync(ContactPerson contact, Customer customer);
         Task<bool> UpdateCustomerContactAsync(ContactPerson contact, Customer customer);
+        Task<int> InsertPartnerAsync(CRMPartner partner);
+        Task<bool> UpdatePartnerAsync(CRMPartner partner);
     }
     public class SharepointService : ISharepointService
     {
@@ -309,7 +310,7 @@ namespace DKBS.Infrastructure.Sharepoint
 
         }
 
-        public async Task<int> InsertCustomerContactAsync(ContactPerson contact,Customer customer)
+        public async Task<int> InsertCustomerContactAsync(ContactPerson contact, Customer customer)
         {
             try
             {
@@ -344,7 +345,7 @@ namespace DKBS.Infrastructure.Sharepoint
                     string relatedOrgId = null;
                     if (itemMetaData.Find(x => x.FieldName == "accountId") != null)
                     {
-                        if (customer.SharePointId>0)
+                        if (customer.SharePointId > 0)
                         {
                             relatedOrgId = customer.SharePointId.ToString() + ";#";
                         }
@@ -400,7 +401,7 @@ namespace DKBS.Infrastructure.Sharepoint
 
         }
 
-        public async Task<bool> UpdateCustomerContactAsync(ContactPerson contact,Customer customer)
+        public async Task<bool> UpdateCustomerContactAsync(ContactPerson contact, Customer customer)
         {
             try
             {
@@ -436,7 +437,7 @@ namespace DKBS.Infrastructure.Sharepoint
                     string relatedOrgId = null;
                     if (itemMetaData.Find(x => x.FieldName == "accountId") != null)
                     {
-                        if (customer.SharePointId>0)
+                        if (customer.SharePointId > 0)
                         {
                             relatedOrgId = customer.SharePointId.ToString() + ";#";
                         }
@@ -494,6 +495,264 @@ namespace DKBS.Infrastructure.Sharepoint
 
         }
 
+        public async Task<int> InsertPartnerAsync(CRMPartner partner)
+        {
+            try
+            {
+                if (partner == null)
+                {
+                    throw new ArgumentNullException("Partner can't be null.");
+                }
+                List<FieldMataData> itemMetaData = new List<FieldMataData>();
+                foreach (var prop in partner.GetType().GetProperties())
+                {
+                    FieldMataData obj = new FieldMataData();
+                    var value = prop.GetValue(partner);
+                    obj.FieldName = string.Concat(prop.Name.ToCharArray()[0].ToString().ToLower(), prop.Name.Remove(0, 1));
+                    obj.Value = value == null ? "" : value.ToString();
+                    itemMetaData.Add(obj);
+                }
+
+                using (var context = GetClientContext())
+                {
+                    Web web = context.Web;
+                    List lst = web.Lists.GetByTitle("Partnere");
+                    ContentTypeCollection ctColl = lst.ContentTypes;
+                    context.Load(ctColl);
+                    context.ExecuteQuery();
+                    string zipCodeId = null;
+                    if (itemMetaData.Find(x => x.FieldName == "postNumber") != null)
+                    {
+                        zipCodeId = GetZipCodeId(context, itemMetaData.Find(x => x.FieldName == "postNumber").Value) + ";#";
+                    }
+                    ContentType ct = ctColl.FirstOrDefault(p => p.Name == "Partner");
+
+                    if (ct == null)
+                    {
+                        throw new ArgumentNullException("Partner can't be null.");
+                    }
+                    ListItemCreationInformation itemCreateInfo = new ListItemCreationInformation();
+                    ListItem newItem = lst.AddItem(itemCreateInfo);
+                    newItem["ContentTypeId"] = ct.Id;
+                    foreach (FieldMataData field in itemMetaData)
+                    {
+                        switch (field.FieldName)
+                        {
+                            case "accountId":
+                                newItem["accountID"] = field.Value;
+                                break;
+                            case "partnertype":
+                                newItem["PartnerType"] = GetPartnerTypeID(field.Value) + ";#";
+                                break;
+                            //case "membershipType":
+                            //    break;
+                            case "partnerName":
+                                newItem["CompanyName"] = field.Value;
+                                break;
+                            case "cvr":
+                                newItem["VatNumber"] = field.Value;
+                                break;
+                            case "telefon":
+                                newItem["Phone"] = field.Value + "#@#";
+                                break;
+                            case "centertype":
+                                newItem["CenterType"] = GetCenterTypeFormatedValue(field.Value);
+                                break;
+                            case "address1":
+                                newItem["Address1"] = field.Value;
+                                break;
+                            case "address2":
+                                newItem["Address2"] = field.Value;
+                                break;
+                            //case "town":
+                            case "postNumber":
+                                newItem["ZipMachingFilter"] = zipCodeId;
+                                break;
+                            case "land":
+                                newItem["Country"] = GetLandId(field.Value);
+                                break;
+                            //case "stateAgreement":
+                            //    break;
+                            case "debitornummer":
+                                newItem["DebtorNumber"] = field.Value;
+                                break;
+                            case "debitornummer2":
+                                newItem["DebtorNumber2"] = field.Value;
+                                break;
+                            case "regions":
+                                //region values have to be sepaprated by => ;#
+                                newItem["Region"] = field.Value;
+                                break;
+                            case "membershipStartDate":
+                                //have to be provided in UTC format string
+                                newItem["MembershipStartDate"] = field.Value;
+                                break;
+                            case "publicURL":
+                                newItem["PublicURL"] = field.Value;
+                                break;
+                            case "email":
+                                newItem["EmailAddress"] = field.Value;
+                                break;
+                            case "website":
+                                newItem["Website"] = field.Value + ", " + field.Value;
+                                break;
+                            case "panoramView":
+                                newItem["PanoramaView"] = field.Value + ", " + field.Value;
+                                break;
+                            case "recommandedNPGRT60":
+                                newItem["Recommended"] = field.Value;
+                                break;
+                            case "qualityAssuredNPSGRD30":
+                                newItem["Quality"] = field.Value;
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    newItem.Update();
+                    context.ExecuteQuery();
+                    return await Task.FromResult<int>(newItem.Id);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
+        public async Task<bool> UpdatePartnerAsync(CRMPartner partner)
+        {
+            try
+            {
+                if (partner == null)
+                {
+                    throw new ArgumentNullException("Partner can't be null.");
+                }
+                List<FieldMataData> itemMetaData = new List<FieldMataData>();
+                foreach (var prop in partner.GetType().GetProperties())
+                {
+                    FieldMataData obj = new FieldMataData();
+                    var value = prop.GetValue(partner);
+                    obj.FieldName = string.Concat(prop.Name.ToCharArray()[0].ToString().ToLower(), prop.Name.Remove(0, 1));
+                    obj.Value = value == null ? "" : value.ToString();
+                    itemMetaData.Add(obj);
+                }
+
+                using (var context = GetClientContext())
+                {
+                    Web web = context.Web;
+                    List lst = web.Lists.GetByTitle(listName);
+                    ContentTypeCollection ctColl = lst.ContentTypes;
+                    context.Load(ctColl);
+                    context.ExecuteQuery();
+                    ContentType ct = ctColl.FirstOrDefault(p => p.Name == "Partner");
+
+                    if (ct == null)
+                    {
+                        throw new ArgumentNullException("Partner can't be null.");
+                    }
+
+                    string zipCodeId = null;
+                    if (itemMetaData.Find(x => x.FieldName == "postNumber") != null)
+                    {
+                        zipCodeId = GetZipCodeId(context, itemMetaData.Find(x => x.FieldName == "postNumber").Value) + ";#";
+                    }
+
+                    if (itemMetaData.Find(x => x.FieldName == "accountId") != null)
+                    {
+                        string accountId = itemMetaData.Find(x => x.FieldName == "accountId").Value;
+                        ListItem updatableItem = GetPartnerItem(context, lst, accountId);
+
+                        if (updatableItem != null)
+                        {
+                            foreach (FieldMataData field in itemMetaData)
+                            {
+                                switch (field.FieldName)
+                                {
+                                    case "partnertype":
+                                        updatableItem["PartnerType"] = GetPartnerTypeID(field.Value) + ";#";
+                                        break;
+                                    //case "membershipType":
+                                    //    break;
+                                    case "partnerName":
+                                        updatableItem["CompanyName"] = field.Value;
+                                        break;
+                                    case "cvr":
+                                        updatableItem["VatNumber"] = field.Value;
+                                        break;
+                                    case "telefon":
+                                        updatableItem["Phone"] = field.Value + "#@#";
+                                        break;
+                                    case "centertype":
+                                        updatableItem["CenterType"] = GetCenterTypeFormatedValue(field.Value);
+                                        break;
+                                    case "address1":
+                                        updatableItem["Address1"] = field.Value;
+                                        break;
+                                    case "address2":
+                                        updatableItem["Address2"] = field.Value;
+                                        break;
+                                    //case "town":
+                                    case "postNumber":
+                                        updatableItem["ZipMachingFilter"] = zipCodeId;
+                                        break;
+                                    case "land":
+                                        updatableItem["Country"] = GetLandId(field.Value);
+                                        break;
+                                    //case "stateAgreement":
+                                    //    break;
+                                    case "debitornummer":
+                                        updatableItem["DebtorNumber"] = field.Value;
+                                        break;
+                                    case "debitornummer2":
+                                        updatableItem["DebtorNumber2"] = field.Value;
+                                        break;
+                                    case "regions":
+                                        //region values have to be sepaprated by => ;#
+                                        updatableItem["Region"] = field.Value;
+                                        break;
+                                    case "membershipStartDate":
+                                        //have to be provided in UTC format string
+                                        updatableItem["MembershipStartDate"] = field.Value;
+                                        break;
+                                    case "publicURL":
+                                        updatableItem["PublicURL"] = field.Value;
+                                        break;
+                                    case "email":
+                                        updatableItem["EmailAddress"] = field.Value;
+                                        break;
+                                    case "website":
+                                        updatableItem["Website"] = field.Value + ", " + field.Value;
+                                        break;
+                                    case "panoramView":
+                                        updatableItem["PanoramaView"] = field.Value + ", " + field.Value;
+                                        break;
+                                    case "recommandedNPGRT60":
+                                        updatableItem["Recommended"] = field.Value;
+                                        break;
+                                    case "qualityAssuredNPSGRD30":
+                                        updatableItem["Quality"] = field.Value;
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            }
+                            updatableItem.Update();
+                            context.ExecuteQuery();
+                        }
+                    }
+                }
+
+                return await Task.FromResult<bool>(true);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
         private ClientContext GetClientContext()
         {
             ClientContext context = new ClientContext(_configuration["SharePointServerURL"]);
@@ -519,5 +778,138 @@ namespace DKBS.Infrastructure.Sharepoint
             }
             return result;
         }
+
+        private static string GetZipCodeId(ClientContext context, string zipCode)
+        {
+            string result = null;
+            List zipsList = context.Web.Lists.GetByTitle("TownZipCodes");
+            CamlQuery query = new CamlQuery();
+            query.ViewXml = @"<View><Query><Where><Eq><FieldRef Name='WorkZip' /><Value Type='Text'>" + zipCode + @"</Value></Eq></Where></Query>
+                                                        <ViewFields><FieldRef Name='ID'/></ViewFields></View>";
+            ListItemCollection zipColl = zipsList.GetItems(query);
+            context.Load(zipColl);
+            context.ExecuteQuery();
+            if (zipColl.Count == 1)
+            {
+                result = zipColl[0].Id.ToString() + ";#";
+            }
+            return result;
+        }
+
+        private static string GetPartnerTypeID(string partnereTypeTitle)
+        {
+            string result = null;
+            switch (partnereTypeTitle)
+            {
+                case "Gold":
+                    result = "1";
+                    break;
+                case "Ikke-partner":
+                    result = "2";
+                    break;
+                case "Samarbejdspartner":
+                    result = "3";
+                    break;
+                case "Bronze":
+                    result = "4";
+                    break;
+                case "Silver":
+                    result = "5";
+                    break;
+                case "Deaktiverede partnere":
+                    result = "6";
+                    break;
+                case "Preferred partner":
+                    result = "7";
+                    break;
+                default:
+                    break;
+            }
+            return result;
+        }
+        private static string GetCenterTypeFormatedValue(string centerTypes)
+        {
+            string result = null;
+            string[] centerTitles = centerTypes.Split(new string[] { ";#" }, StringSplitOptions.RemoveEmptyEntries);
+            for (int i = 0; i < centerTitles.Length; i++)
+            {
+                if (centerTitles[i] == "Slotte & Herregårde")
+                {
+                    result = result + "8;#" + centerTitles[i] + ";#";
+                }
+                if (centerTitles[i] == "Ud i naturen")
+                {
+                    result = result + "9;#" + centerTitles[i] + ";#";
+                }
+                if (centerTitles[i] == "Teambuilding & aktiviteter")
+                {
+                    result = result + "10;#" + centerTitles[i] + ";#";
+                }
+                if (centerTitles[i] == "Det kulinariske arrangement")
+                {
+                    result = result + "11;#" + centerTitles[i] + ";#";
+                }
+                if (centerTitles[i] == "Strand & vand")
+                {
+                    result = result + "12;#" + centerTitles[i] + ";#";
+                }
+                if (centerTitles[i] == "Det skæve arrangement")
+                {
+                    result = result + "13;#" + centerTitles[i] + ";#";
+                }
+                if (centerTitles[i] == "By & seværdigheder")
+                {
+                    result = result + "14;#" + centerTitles[i] + ";#";
+                }
+                if (centerTitles[i] == "Firmafester")
+                {
+                    result = result + "15;#" + centerTitles[i] + ";#";
+                }
+            }
+
+            return result;
+        }
+        private static string GetLandId(string landTitle)
+        {
+            string result = null;
+            switch (landTitle)
+            {
+                case "Denmark":
+                    result = "1;#";
+                    break;
+                case "Germany":
+                    result = "2;#";
+                    break;
+                case "Sweden":
+                    result = "3;#";
+                    break;
+                case "Andora":
+                    result = "4;#";
+                    break;
+                default:
+                    break;
+            }
+            return result;
+        }
+
+        private static ListItem GetPartnerItem(ClientContext context, List customersLst, string accountId)
+        {
+            ListItem result = null;
+            CamlQuery query2 = new CamlQuery();
+            query2.ViewXml = @"<View><Query><Where><Eq><FieldRef Name='ID' /><Value Type='Text'>" + accountId + @"</Value></Eq></Where></Query>
+                                                        <ViewFields><FieldRef Name='ID'/><FieldRef Name='accountID'/><FieldRef Name='PartnerType'/><FieldRef Name='CompanyName'/><FieldRef Name='VatNumber'/><FieldRef Name='Phone'/><FieldRef Name='CenterType'/><FieldRef Name='Address1'/><FieldRef Name='Address2'/><FieldRef Name='ZipMachingFilter'/><FieldRef Name='Country'/><FieldRef Name='DebtorNumber'/><FieldRef Name='DebtorNumber2'/><FieldRef Name='Region'/><FieldRef Name='MembershipStartDate'/><FieldRef Name='PublicURL'/><FieldRef Name='EmailAddress'/><FieldRef Name='Website'/><FieldRef Name='PanoramaView'/><FieldRef Name='Recommended'/><FieldRef Name='Quality'/></ViewFields></View>";
+            ListItemCollection customerColl2 = customersLst.GetItems(query2);
+            context.Load(customerColl2);
+            context.ExecuteQuery();
+            if (customerColl2.Count == 1)
+            {
+                result = customerColl2[0];
+            }
+
+            return result;
+        }
+
     }
+
 }
+
