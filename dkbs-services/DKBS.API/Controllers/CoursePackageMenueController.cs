@@ -79,15 +79,7 @@ namespace DKBS.API.Controllers
                     return BadRequest(ModelState);
                 }
 
-                // Intentionally commented                                               
-                //var contactPersonInDb = _choiceRepoistory.GetById<ContactPerson>(c => c.AccountId == contactPersonDTO.AccountId);
-
-                //if (contactPersonInDb != null)
-                //{
-                //    ModelState.AddModelError("ContactPerson", $"ContactPerson entry already exist for AccountId {contactPersonDTO.AccountId}.");
-                //    return BadRequest(ModelState);
-                //}
-
+               
                 var CoursePackageMenueInDb = _choiceRepoistory.GetById<CoursePackageMenue>(c => c.CoursePackageMenueID == CoursePackageMenueDTO.CoursePackageMenueID);
                 if (CoursePackageMenueInDb != null)
                 {
@@ -140,7 +132,7 @@ namespace DKBS.API.Controllers
                     return BadRequest(ModelState);
                 }
 
-                var CoursePackageMenueInDb = _choiceRepoistory.GetById<CoursePackageMenue>(c => c.ServiceCatalogueID == id && c.CoursePackageID == coursePackageMenuenDTO.CoursePackageID);
+                var CoursePackageMenueInDb = _choiceRepoistory.GetById<CoursePackageMenue>(c => c.ServiceCatalogueID == id);
 
 
                 if (CoursePackageMenueInDb == null)
@@ -149,12 +141,12 @@ namespace DKBS.API.Controllers
                     return NotFound(ModelState);
                 }
                 CoursePackageMenueInDb.CoursePackageMenueID = coursePackageMenuenDTO.CoursePackageMenueID;
-                CoursePackageMenueInDb.CoursePackageID = coursePackageMenuenDTO.CoursePackageID;
+               // CoursePackageMenueInDb.CoursePackageID = coursePackageMenuenDTO.CoursePackageID;
                 CoursePackageMenueInDb.ServiceCatalogueID = coursePackageMenuenDTO.ServiceCatalogueID;
                 CoursePackageMenueInDb.Description = coursePackageMenuenDTO.Description;
                 CoursePackageMenueInDb.Include = coursePackageMenuenDTO.Include;
                 CoursePackageMenueInDb.Order = coursePackageMenuenDTO.Order;
-                CoursePackageMenueInDb.SharepointID = coursePackageMenuenDTO.SharepointID;
+                CoursePackageMenueInDb.CoursePackageMenue_SPID = coursePackageMenuenDTO.CoursePackageMenue_SPID;
                 _choiceRepoistory.Attach(CoursePackageMenueInDb);
                 _choiceRepoistory.Complete();
 

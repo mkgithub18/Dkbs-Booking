@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DKBS.Domain;
 using DKBS.DTO;
 using DKBS.Repository;
 using Microsoft.AspNetCore.Http;
@@ -424,7 +425,7 @@ namespace DKBS.API.Controllers
         /// <returns></returns>
         [Route("ServiceCatalogs")]
         [HttpGet()]
-        public ActionResult<ServiceCatalogDTO> GetServiceCatalogs()
+        public ActionResult<ServiceCatalogueDTO> GetServiceCatalogs()
         {
             return Ok(_choiceRepoistory.GetServiceCatalog());
         }

@@ -34,7 +34,7 @@ namespace DKBS.Repository
         List<CoursePackagePremiumServicesDTO> GetAllCoursePackagePremiumServices();
         List<CoursePackageYearPriceDTO> GetAllCoursePackageYearPrice();
         List<SCPartnerCoursePackageMappingDTO> GetAllSCPartnerCoursePackageMapping();
-        List<ServiceCatalogDTO> GetServiceCatalog();
+        List<ServiceCatalogueDTO> GetServiceCatalog();
         List<RegionDTO> GetRegions();
         List<PurposeDTO> GetPurposes();
         List<PartnerTypeDTO> GetPartnerTypes();
@@ -58,7 +58,7 @@ namespace DKBS.Repository
         List<PartnerCenterDescriptionDTO> GetPartnerCenterDescriptions();
         List<PartnerEmployeeDTO> GetPartnerEmployees();
         List<BookingAndStatusDTO> GetBookingAndStatuses();
-      
+
         List<ServiceRequestCommunicationDTO> GetServiceRequestCommunications();
         List<ServiceRequestNoteDTO> GetServiceRequestNotes();
         List<SRConversationItemDTO> GetSRConversationItems();
@@ -201,7 +201,7 @@ namespace DKBS.Repository
 
         public List<ContactPersonDTO> GetContactPersons()
         {
-            return _dbContext.ContactPerson.Select(p => new ContactPersonDTO { FirstName = p.FirstName, LastName = p.LastName, ContactPersonId = p.ContactPersonId, AccountId = p.AccountId, /*Department = p.Department,*/ Email = p.Email, MobilePhone = p.MobilePhone, Telephone = p.Telephone , ContactId = p.ContactId }).ToList();
+            return _dbContext.ContactPerson.Select(p => new ContactPersonDTO { FirstName = p.FirstName, LastName = p.LastName, ContactPersonId = p.ContactPersonId, AccountId = p.AccountId, /*Department = p.Department,*/ Email = p.Email, MobilePhone = p.MobilePhone, Telephone = p.Telephone, ContactId = p.ContactId }).ToList();
         }
 
         public List<CampaignDTO> GetCampaigns()
@@ -889,9 +889,14 @@ namespace DKBS.Repository
             return _mapper.Map<List<SCPartnerCoursePackageMappingDTO>>(_dbContext.SCPartnerCoursePackageMapping.ToList());
         }
 
-        public List<ServiceCatalogDTO> GetServiceCatalog()
+        public List<ServiceCatalogueDTO> GetServiceCatalog()
         {
-            return _mapper.Map<List<ServiceCatalogDTO>>(_dbContext.ServiceCatalog.ToList());
+            var returnserviceCatalogueList = _mapper.Map<List<ServiceCatalogueDTO>>(_dbContext.ServiceCatalogue.ToList());
+            foreach (var serviceCatalogue in returnserviceCatalogueList)
+            {                
+                serviceCatalogue.CoursePackageMenueList = GetAllCoursePackageMenue().FindAll(x => x.ServiceCatalogueID == serviceCatalogue.ServiceCatalogueID);
+            }
+            return returnserviceCatalogueList;
         }
     }
 }

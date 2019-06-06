@@ -55,7 +55,7 @@ namespace DKBS.Repository
             CreateMap<Provision, ProvisionDTO>();
             CreateMap<Purpose, PurposeDTO>();
             CreateMap<Region, RegionDTO>();
-            CreateMap<ServiceCatalog, ServiceCatalogDTO>();
+            CreateMap<ServiceCatalogue, ServiceCatalogueDTO>();
             CreateMap<ServiceRequestCommunication, ServiceRequestCommunicationDTO>();
             CreateMap<ServiceRequestNote, ServiceRequestNoteDTO>();
             CreateMap<SRConversationItem, SRConversationItemDTO>();

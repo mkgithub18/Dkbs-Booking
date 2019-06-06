@@ -89,7 +89,7 @@ namespace DKBS.Data
 
         public DbSet<BookingAndStatus> BookingAndStatus { get; set; }
 
-        public DbSet<ServiceCatalog> ServiceCatalog { get; set; }
+        public DbSet<ServiceCatalogue> ServiceCatalogue { get; set; }
         public DbSet<ServiceRequestCommunication> ServiceRequestCommunication { get; set; }
         public DbSet<ServiceRequestNote> ServiceRequestNote { get; set; }
         public DbSet<SRConversationItem> SRConversationItem { get; set; }

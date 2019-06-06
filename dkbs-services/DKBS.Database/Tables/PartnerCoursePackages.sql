@@ -1,13 +1,17 @@
-﻿CREATE TABLE [dbo].[PartnerCoursePackages]
-(
-	[PartnerCoursePackages_Id] INT NOT NULL PRIMARY KEY, 
-    [PartnerId] INT NOT NULL, 
-    [ServiceCatalogId] INT NOT NULL, 
-    [Offered] BIT NULL, 
-    [Name] NVARCHAR(50) NULL, 
-    [Price] NVARCHAR(50) NULL, 
-    [Approval Status] BIT NULL,
-	CONSTRAINT [FK_PartnerCoursePackages_Partner] FOREIGN KEY ([PartnerId]) REFERENCES [Partner]([PartnerId]),
-		CONSTRAINT [FK_PartnerCoursePackages_ServiceCatalogue] FOREIGN KEY ([ServiceCatalogId]) REFERENCES [ServiceCatalog]([ServiceCatalogId]),
+﻿CREATE TABLE [dbo].[PartnerCoursePackages] (
+    [ID]                        INT           IDENTITY (1, 1) NOT NULL,
+    [PartnerID]                 INT           NULL,
+    [ServiceCatalogueID]        INT           NULL,
+    [Offered]                   BIT           NULL,
+    [Price]                     MONEY         NULL,
+    [PartnerCoursePackage_SPID] VARCHAR (50)  NULL,
+    [CreatedDate]               DATETIME      NULL,
+    [ModifiedDate]              DATETIME      NULL,
+    [CreatedBy]                 NVARCHAR (50) NULL,
+    [ModifiedBy]                NVARCHAR (50) NULL,
+    CONSTRAINT [PK_PartnerCoursePackages] PRIMARY KEY CLUSTERED ([ID] ASC)
+);
 
-)
+
+
+

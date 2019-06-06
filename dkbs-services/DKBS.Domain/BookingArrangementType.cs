@@ -8,7 +8,7 @@ namespace DKBS.Domain
 
         public int BookingId { get; set; }
         public Booking Booking { get; set; }
-        public ServiceCatalog ServiceCatalog  { get; set; }
+        public ServiceCatalogue ServiceCatalogue { get; set; }
         public int ServiceCatalogId { get; set; }
         public int NumberOfParticipants { get; set; }
         public DateTime? ToDate { get; set; }

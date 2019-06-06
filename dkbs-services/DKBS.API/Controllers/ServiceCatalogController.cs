@@ -35,7 +35,7 @@ namespace DKBS.API.Controllers
         /// <returns></returns>
 
         [HttpGet()]
-        public ActionResult<ServiceCatalogDTO> GetServiceCatalogController()
+        public ActionResult<ServiceCatalogueDTO> GetServiceCatalogController()
         {
             return Ok(_choiceRepoistory.GetServiceCatalog());
         }
@@ -48,9 +48,9 @@ namespace DKBS.API.Controllers
         ///
 
         [HttpGet("{ServiceCatalogId}")]
-        public ActionResult<IEnumerable<ServiceCatalogDTO>> GetSCPartnerCoursePackageMappingByCoursePackageID(int ServiceCatalogId)
+        public ActionResult<IEnumerable<ServiceCatalogueDTO>> GetServiceCatalogByServiceCatalogID(int ServiceCatalogId)
         {
-            return _choiceRepoistory.GetServiceCatalog().FindAll(c => c.ServiceCatalogId == ServiceCatalogId);
+            return _choiceRepoistory.GetServiceCatalog().FindAll(c => c.ServiceCatalogueID == ServiceCatalogId);
         }
 
         /// <summary>
@@ -59,9 +59,9 @@ namespace DKBS.API.Controllers
         /// <param name="ServiceCatalogDTO"></param>
         /// <returns></returns>
 
-       
+
         [HttpPost]
-        public ActionResult<ServiceCatalogDTO> CreateServiceCatalog([FromBody] ServiceCatalogDTO serviceCatalogDTO)
+        public ActionResult<ServiceCatalogueDTO> CreateServiceCatalog([FromBody] ServiceCatalogueDTO serviceCatalogDTO)
         {
 
             try
@@ -76,34 +76,31 @@ namespace DKBS.API.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-
-                // Intentionally commented                                               
-                //var contactPersonInDb = _choiceRepoistory.GetById<ContactPerson>(c => c.AccountId == contactPersonDTO.AccountId);
-
-                //if (contactPersonInDb != null)
-                //{
-                //    ModelState.AddModelError("ContactPerson", $"ContactPerson entry already exist for AccountId {contactPersonDTO.AccountId}.");
-                //    return BadRequest(ModelState);
-                //}
-
-                var ServiceCatalogInDb = _choiceRepoistory.GetById<ServiceCatalog>(c => c.ServiceCatalogId == serviceCatalogDTO.ServiceCatalogId);
+                var ServiceCatalogInDb = _choiceRepoistory.GetById<ServiceCatalogue>(c => c.CoursePackageName == serviceCatalogDTO.CoursePackageName);
                 if (ServiceCatalogInDb != null)
                 {
-                    ModelState.AddModelError("ServiceCatalog", $"ServiceCatalog entry already exist for CoursePackageMenueID {serviceCatalogDTO.ServiceCatalogId}.");
+                    ModelState.AddModelError("ServiceCatalog", $"ServiceCatalog entry already exist for ServiceCatalogueID {serviceCatalogDTO.ServiceCatalogueID}.");
                     return BadRequest(ModelState);
                 }
 
-                ServiceCatalog newServiceCatalog = _mapper.Map<ServiceCatalogDTO, ServiceCatalog>(serviceCatalogDTO);
+                ServiceCatalogue newServiceCatalog = _mapper.Map<ServiceCatalogueDTO, ServiceCatalogue>(serviceCatalogDTO);
 
-                newServiceCatalog.CreatedBy = "SCD";
+                //newServiceCatalog.CreatedBy = "SCD";
                 newServiceCatalog.CreatedDate = DateTime.UtcNow;
                 newServiceCatalog.LastModified = DateTime.UtcNow;
-                newServiceCatalog.LastModifiedBY = "SCD";
+                //newServiceCatalog.LastModifiedBY = "SCD";
 
-                _choiceRepoistory.Attach<ServiceCatalog>(newServiceCatalog);
+                _choiceRepoistory.Attach<ServiceCatalogue>(newServiceCatalog);
                 _choiceRepoistory.Complete();
 
-                return CreatedAtRoute("GetServiceCatalogByServiceCatalogID", new { newServiceCatalog.ServiceCatalogId });
+                string status = AddNewCoursePackageMenue(serviceCatalogDTO, newServiceCatalog.ServiceCatalogueID);
+
+                if (status == "Error")
+                {
+                    return BadRequest(ModelState);
+                }
+
+                return CreatedAtRoute("ServiceCatalog", new { newServiceCatalog.ServiceCatalogueID });
             }
             catch (Exception ex)
             {
@@ -111,6 +108,42 @@ namespace DKBS.API.Controllers
                 return StatusCode(500, "An error occurred while creating ServiceCatalog. Please try again or contact adminstrator");
             }
         }
+        /// <summary>
+        /// Add New CoursePackageMenue                                                                                                                         
+        /// </summary>
+        /// <param name="serviceCatalogDTO"></param>
+        /// <param name="serviceCatalogId"></param>
+        /// <returns></returns>
+
+        private string AddNewCoursePackageMenue(ServiceCatalogueDTO serviceCatalogDTO, int serviceCatalogId)
+        {
+            foreach (var coursePackageMenue in serviceCatalogDTO.CoursePackageMenueList)
+            {
+                var CoursePackageMenueInDb = _choiceRepoistory.GetById<CoursePackageMenue>(c => c.ServiceCatalogueID == serviceCatalogId);
+                if (CoursePackageMenueInDb != null)
+                {
+                    ModelState.AddModelError("CoursePackageMenue", $"CoursePackageMenue entry \"{coursePackageMenue.Description}\"  already exist for ServiceCatalogId {serviceCatalogDTO.ServiceCatalogueID}.");
+                    return "Error";
+                }
+
+                CoursePackageMenue newcoursePackageMenue = new CoursePackageMenue
+                {
+                    Description = coursePackageMenue.Description,
+                    ServiceCatalogueID = serviceCatalogId,
+                    Include = coursePackageMenue.Include,
+                    Order = coursePackageMenue.Order,
+                    CreatedDate = DateTime.UtcNow,
+                    LastModified = DateTime.UtcNow,
+                    CoursePackageMenue_SPID = string.Empty,
+                    CreatedBy = string.Empty,
+                    LastModifiedBY = string.Empty
+                };
+                _choiceRepoistory.Attach<CoursePackageMenue>(newcoursePackageMenue);
+                _choiceRepoistory.Complete();
+            }
+            return "Success";
+        }
+
 
         /// <summary>
         /// Update Contact Person
@@ -120,16 +153,10 @@ namespace DKBS.API.Controllers
         /// <returns></returns>
 
         [HttpPut("{ServiceCatalogId}")]
-        public IActionResult UpdateServiceCatalog(int ServiceCatalogId, [FromBody] ServiceCatalogDTO serviceCatalogDTO)
+        public IActionResult UpdateServiceCatalog(int ServiceCatalogId, [FromBody] ServiceCatalogueDTO serviceCatalogDTO)
         {
             try
             {
-                //if (int.IsNullOrWhiteSpace(serviceCatalogueID))
-                //{
-                //    ModelState.AddModelError("ServiceCatalogueID", "ServiceCatalogueID can't be null or empty");
-                //    return BadRequest(ModelState);
-                //}
-
                 if (serviceCatalogDTO == null)
                 {
                     ModelState.AddModelError("serviceCatalog", "serviceCatalog object can't be null");
@@ -141,7 +168,7 @@ namespace DKBS.API.Controllers
                     return BadRequest(ModelState);
                 }
 
-                var serviceCatalogInDb = _choiceRepoistory.GetById<ServiceCatalog>(c => c.ServiceCatalogId == ServiceCatalogId);
+                var serviceCatalogInDb = _choiceRepoistory.GetById<ServiceCatalogue>(c => c.ServiceCatalogueID == ServiceCatalogId);
 
 
                 if (serviceCatalogInDb == null)
@@ -149,19 +176,18 @@ namespace DKBS.API.Controllers
                     ModelState.AddModelError("ServiceCatalog", $"No v found with SevicrCatalogeID {ServiceCatalogId}");
                     return NotFound(ModelState);
                 }
-                serviceCatalogInDb.ServiceCatalogId = serviceCatalogDTO.ServiceCatalogId;
-                serviceCatalogInDb.CoursePackage = serviceCatalogDTO.CoursePackage;
-                serviceCatalogInDb.CoursePackageEng = serviceCatalogDTO.CoursePackageEng;
+                serviceCatalogInDb.ServiceCatalogueID = serviceCatalogDTO.ServiceCatalogueID;
+                serviceCatalogInDb.CoursePackageName = serviceCatalogDTO.CoursePackageName;
                 serviceCatalogInDb.Offered = serviceCatalogDTO.Offered;
                 serviceCatalogInDb.Price = serviceCatalogDTO.Price;
-                serviceCatalogInDb.CoursePackageType = serviceCatalogDTO.CoursePackageType;
-                serviceCatalogInDb.CanBePurchased = serviceCatalogDTO.CanBePurchased;
                 serviceCatalogInDb.CreatedDate = serviceCatalogDTO.CreatedDate;
                 serviceCatalogInDb.CreatedBy = serviceCatalogDTO.CreatedBy;
                 serviceCatalogInDb.LastModified = serviceCatalogDTO.LastModified;
                 serviceCatalogInDb.LastModifiedBY = serviceCatalogDTO.LastModifiedBY;
                 _choiceRepoistory.Attach(serviceCatalogInDb);
                 _choiceRepoistory.Complete();
+
+                UpdateCoursePackageMenue(serviceCatalogDTO, serviceCatalogInDb.ServiceCatalogueID);
 
                 return NoContent();
 
@@ -173,6 +199,39 @@ namespace DKBS.API.Controllers
             }
         }
 
+        private void UpdateCoursePackageMenue(ServiceCatalogueDTO serviceCatalogDTO, int serviceCatalogId)
+        {
+            foreach (var coursePackageMenue in serviceCatalogDTO.CoursePackageMenueList)
+            {
+                var CoursePackageMenueInDb = _choiceRepoistory.GetById<CoursePackageMenue>(c => c.ServiceCatalogueID == serviceCatalogId && c.Description == coursePackageMenue.Description);
+                if (CoursePackageMenueInDb == null)
+                {
+                    CoursePackageMenue newcoursePackageMenue = new CoursePackageMenue
+                    {
+                        Description = coursePackageMenue.Description,
+                        ServiceCatalogueID = serviceCatalogId,
+                        Include = coursePackageMenue.Include,
+                        Order = coursePackageMenue.Order,
+                        CreatedDate = DateTime.UtcNow,
+                        LastModified = DateTime.UtcNow
+                    };
+                    _choiceRepoistory.Attach<CoursePackageMenue>(newcoursePackageMenue);
+                    _choiceRepoistory.Complete();
+                }
+                else
+                {
+                    CoursePackageMenueInDb.Description = coursePackageMenue.Description;
+                    CoursePackageMenueInDb.ServiceCatalogueID = serviceCatalogId;
+                    CoursePackageMenueInDb.Include = coursePackageMenue.Include;
+                    CoursePackageMenueInDb.Order = coursePackageMenue.Order;
+                    CoursePackageMenueInDb.LastModified = DateTime.UtcNow;
+                    _choiceRepoistory.Attach<CoursePackageMenue>(CoursePackageMenueInDb);
+                    _choiceRepoistory.Complete();
+                }
+
+
+            }
+        }
 
 
     }
