@@ -36,7 +36,7 @@ namespace DKBS.DTO
         public string Debitornummer { get; set; }
         public string Debitornummer2 { get; set; }
         public string Regions { get; set; }
-        public DateTime MembershipStartDate { get; set; }
+        public DateTime? MembershipStartDate { get; set; }
         public string PublicURL { get; set; }
         public string Email { get; set; }
         public string Website { get; set; }

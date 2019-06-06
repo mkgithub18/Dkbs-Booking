@@ -35,13 +35,14 @@ namespace DKBS.Domain
         public string Debitornummer { get; set; }
         public string Debitornummer2 { get; set; }
         public string Regions { get; set; }
-        public DateTime MembershipStartDate { get; set; }
+        public DateTime? MembershipStartDate { get; set; }
         public string PublicURL { get; set; }
         public string Email { get; set; }
         public string Website { get; set; }
         public string PanoramView { get; set; }
         public bool RecommandedNPGRT60 { get; set; }
         public bool QualityAssuredNPSGRD30 { get; set; }
+        public int? SharePointId { get; set; }
         public DateTime LastModified { get; set; }
         public string LastModifiedBy { get; set; }
         public DateTime CreatedDate { get; set; }

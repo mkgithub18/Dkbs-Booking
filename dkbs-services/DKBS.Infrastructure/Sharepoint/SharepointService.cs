@@ -521,7 +521,7 @@ namespace DKBS.Infrastructure.Sharepoint
                     context.Load(ctColl);
                     context.ExecuteQuery();
                     string zipCodeId = null;
-                    if (itemMetaData.Find(x => x.FieldName == "postNumber") != null)
+                    if (!string.IsNullOrEmpty(itemMetaData.Find(x => x.FieldName == "postNumber").Value))
                     {
                         zipCodeId = GetZipCodeId(context, itemMetaData.Find(x => x.FieldName == "postNumber").Value) + ";#";
                     }
@@ -539,71 +539,91 @@ namespace DKBS.Infrastructure.Sharepoint
                         switch (field.FieldName)
                         {
                             case "accountId":
-                                newItem["accountID"] = field.Value;
+                                if (!string.IsNullOrEmpty(field.Value))
+                                    newItem["accountID"] = field.Value;
                                 break;
                             case "partnertype":
-                                newItem["PartnerType"] = GetPartnerTypeID(field.Value) + ";#";
+                                if (!string.IsNullOrEmpty(field.Value))
+                                    newItem["PartnerType"] = GetPartnerTypeID(field.Value) + ";#";
                                 break;
                             //case "membershipType":
                             //    break;
                             case "partnerName":
-                                newItem["CompanyName"] = field.Value;
+                                if (!string.IsNullOrEmpty(field.Value))
+                                    newItem["CompanyName"] = field.Value;
                                 break;
                             case "cvr":
-                                newItem["VatNumber"] = field.Value;
+                                if (!string.IsNullOrEmpty(field.Value))
+                                    newItem["VatNumber"] = field.Value;
                                 break;
                             case "telefon":
-                                newItem["Phone"] = field.Value + "#@#";
+                                if (!string.IsNullOrEmpty(field.Value))
+                                    newItem["Phone"] = field.Value + "#@#";
                                 break;
                             case "centertype":
-                                newItem["CenterType"] = GetCenterTypeFormatedValue(field.Value);
+                                if (!string.IsNullOrEmpty(field.Value))
+                                    newItem["CenterType"] = GetCenterTypeFormatedValue(field.Value);
                                 break;
                             case "address1":
-                                newItem["Address1"] = field.Value;
+                                if (!string.IsNullOrEmpty(field.Value))
+                                    newItem["Address1"] = field.Value;
                                 break;
                             case "address2":
-                                newItem["Address2"] = field.Value;
+                                if (!string.IsNullOrEmpty(field.Value))
+                                    newItem["Address2"] = field.Value;
                                 break;
                             //case "town":
                             case "postNumber":
-                                newItem["ZipMachingFilter"] = zipCodeId;
+                                if (!string.IsNullOrEmpty(field.Value))
+                                    newItem["ZipMachingFilter"] = zipCodeId;
                                 break;
                             case "land":
-                                newItem["Country"] = GetLandId(field.Value);
+                                if (!string.IsNullOrEmpty(field.Value))
+                                    newItem["Country"] = GetLandId(field.Value);
                                 break;
                             //case "stateAgreement":
                             //    break;
                             case "debitornummer":
-                                newItem["DebtorNumber"] = field.Value;
+                                if (!string.IsNullOrEmpty(field.Value))
+                                    newItem["DebtorNumber"] = field.Value;
                                 break;
                             case "debitornummer2":
-                                newItem["DebtorNumber2"] = field.Value;
+                                if (!string.IsNullOrEmpty(field.Value))
+                                    newItem["DebtorNumber2"] = field.Value;
                                 break;
                             case "regions":
                                 //region values have to be sepaprated by => ;#
+                                if(!string.IsNullOrEmpty(field.Value))
                                 newItem["Region"] = field.Value;
                                 break;
                             case "membershipStartDate":
                                 //have to be provided in UTC format string
-                                newItem["MembershipStartDate"] = field.Value;
+                                if (!string.IsNullOrEmpty(field.Value))
+                                    newItem["MembershipStartDate"] = field.Value;
                                 break;
                             case "publicURL":
-                                newItem["PublicURL"] = field.Value;
+                                if (!string.IsNullOrEmpty(field.Value))
+                                    newItem["PublicURL"] = field.Value;
                                 break;
                             case "email":
-                                newItem["EmailAddress"] = field.Value;
+                                if (!string.IsNullOrEmpty(field.Value))
+                                    newItem["EmailAddress"] = field.Value;
                                 break;
                             case "website":
-                                newItem["Website"] = field.Value + ", " + field.Value;
+                                if (!string.IsNullOrEmpty(field.Value))
+                                    newItem["Website"] = field.Value + ", " + field.Value;
                                 break;
                             case "panoramView":
-                                newItem["PanoramaView"] = field.Value + ", " + field.Value;
+                                if (!string.IsNullOrEmpty(field.Value))
+                                    newItem["PanoramaView"] = field.Value + ", " + field.Value;
                                 break;
                             case "recommandedNPGRT60":
-                                newItem["Recommended"] = field.Value;
+                                if (!string.IsNullOrEmpty(field.Value))
+                                    newItem["Recommended"] = field.Value;
                                 break;
                             case "qualityAssuredNPSGRD30":
-                                newItem["Quality"] = field.Value;
+                                if (!string.IsNullOrEmpty(field.Value))
+                                    newItem["Quality"] = field.Value;
                                 break;
                             default:
                                 break;
@@ -642,7 +662,7 @@ namespace DKBS.Infrastructure.Sharepoint
                 using (var context = GetClientContext())
                 {
                     Web web = context.Web;
-                    List lst = web.Lists.GetByTitle(listName);
+                    List lst = web.Lists.GetByTitle("Partnere");
                     ContentTypeCollection ctColl = lst.ContentTypes;
                     context.Load(ctColl);
                     context.ExecuteQuery();
@@ -654,15 +674,14 @@ namespace DKBS.Infrastructure.Sharepoint
                     }
 
                     string zipCodeId = null;
-                    if (itemMetaData.Find(x => x.FieldName == "postNumber") != null)
+                    if (!string.IsNullOrWhiteSpace( itemMetaData.Find(x => x.FieldName == "postNumber").Value))
                     {
                         zipCodeId = GetZipCodeId(context, itemMetaData.Find(x => x.FieldName == "postNumber").Value) + ";#";
                     }
 
-                    if (itemMetaData.Find(x => x.FieldName == "accountId") != null)
+                    if (itemMetaData.Find(x => x.FieldName == "accountId") != null && partner.SharePointId.HasValue)
                     {
-                        string accountId = itemMetaData.Find(x => x.FieldName == "accountId").Value;
-                        ListItem updatableItem = GetPartnerItem(context, lst, accountId);
+                        ListItem updatableItem = GetPartnerItem(context, lst, partner.SharePointId.Value.ToString());
 
                         if (updatableItem != null)
                         {
@@ -670,69 +689,92 @@ namespace DKBS.Infrastructure.Sharepoint
                             {
                                 switch (field.FieldName)
                                 {
+                                    case "accountId":
+                                        if (!string.IsNullOrEmpty(field.Value))
+                                            updatableItem["accountID"] = field.Value;
+                                        break;
                                     case "partnertype":
-                                        updatableItem["PartnerType"] = GetPartnerTypeID(field.Value) + ";#";
+                                        if (!string.IsNullOrEmpty(field.Value))
+                                            updatableItem["PartnerType"] = GetPartnerTypeID(field.Value) + ";#";
                                         break;
                                     //case "membershipType":
                                     //    break;
                                     case "partnerName":
-                                        updatableItem["CompanyName"] = field.Value;
+                                        if (!string.IsNullOrEmpty(field.Value))
+                                            updatableItem["CompanyName"] = field.Value;
                                         break;
                                     case "cvr":
-                                        updatableItem["VatNumber"] = field.Value;
+                                        if (!string.IsNullOrEmpty(field.Value))
+                                            updatableItem["VatNumber"] = field.Value;
                                         break;
                                     case "telefon":
-                                        updatableItem["Phone"] = field.Value + "#@#";
+                                        if (!string.IsNullOrEmpty(field.Value))
+                                            updatableItem["Phone"] = field.Value + "#@#";
                                         break;
                                     case "centertype":
-                                        updatableItem["CenterType"] = GetCenterTypeFormatedValue(field.Value);
+                                        if (!string.IsNullOrEmpty(field.Value))
+                                            updatableItem["CenterType"] = GetCenterTypeFormatedValue(field.Value);
                                         break;
                                     case "address1":
-                                        updatableItem["Address1"] = field.Value;
+                                        if (!string.IsNullOrEmpty(field.Value))
+                                            updatableItem["Address1"] = field.Value;
                                         break;
                                     case "address2":
-                                        updatableItem["Address2"] = field.Value;
+                                        if (!string.IsNullOrEmpty(field.Value))
+                                            updatableItem["Address2"] = field.Value;
                                         break;
                                     //case "town":
                                     case "postNumber":
-                                        updatableItem["ZipMachingFilter"] = zipCodeId;
+                                        if (!string.IsNullOrEmpty(field.Value))
+                                            updatableItem["ZipMachingFilter"] = zipCodeId;
                                         break;
                                     case "land":
-                                        updatableItem["Country"] = GetLandId(field.Value);
+                                        if (!string.IsNullOrEmpty(field.Value))
+                                            updatableItem["Country"] = GetLandId(field.Value);
                                         break;
                                     //case "stateAgreement":
                                     //    break;
                                     case "debitornummer":
-                                        updatableItem["DebtorNumber"] = field.Value;
+                                        if (!string.IsNullOrEmpty(field.Value))
+                                            updatableItem["DebtorNumber"] = field.Value;
                                         break;
                                     case "debitornummer2":
-                                        updatableItem["DebtorNumber2"] = field.Value;
+                                        if (!string.IsNullOrEmpty(field.Value))
+                                            updatableItem["DebtorNumber2"] = field.Value;
                                         break;
                                     case "regions":
                                         //region values have to be sepaprated by => ;#
-                                        updatableItem["Region"] = field.Value;
+                                        if (!string.IsNullOrEmpty(field.Value))
+                                            updatableItem["Region"] = field.Value;
                                         break;
                                     case "membershipStartDate":
                                         //have to be provided in UTC format string
-                                        updatableItem["MembershipStartDate"] = field.Value;
+                                        if (!string.IsNullOrEmpty(field.Value))
+                                            updatableItem["MembershipStartDate"] = field.Value;
                                         break;
                                     case "publicURL":
-                                        updatableItem["PublicURL"] = field.Value;
+                                        if (!string.IsNullOrEmpty(field.Value))
+                                            updatableItem["PublicURL"] = field.Value;
                                         break;
                                     case "email":
-                                        updatableItem["EmailAddress"] = field.Value;
+                                        if (!string.IsNullOrEmpty(field.Value))
+                                            updatableItem["EmailAddress"] = field.Value;
                                         break;
                                     case "website":
-                                        updatableItem["Website"] = field.Value + ", " + field.Value;
+                                        if (!string.IsNullOrEmpty(field.Value))
+                                            updatableItem["Website"] = field.Value + ", " + field.Value;
                                         break;
                                     case "panoramView":
-                                        updatableItem["PanoramaView"] = field.Value + ", " + field.Value;
+                                        if (!string.IsNullOrEmpty(field.Value))
+                                            updatableItem["PanoramaView"] = field.Value + ", " + field.Value;
                                         break;
                                     case "recommandedNPGRT60":
-                                        updatableItem["Recommended"] = field.Value;
+                                        if (!string.IsNullOrEmpty(field.Value))
+                                            updatableItem["Recommended"] = field.Value;
                                         break;
                                     case "qualityAssuredNPSGRD30":
-                                        updatableItem["Quality"] = field.Value;
+                                        if (!string.IsNullOrEmpty(field.Value))
+                                            updatableItem["Quality"] = field.Value;
                                         break;
                                     default:
                                         break;
