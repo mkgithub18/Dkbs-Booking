@@ -81,7 +81,6 @@
     <Build Include="Tables\CauseOfRemoval.sql" />
     <Build Include="Tables\CancellationReason.sql" />
     <Build Include="Tables\Booking.sql" />
-    <Build Include="Tables\Partner.sql" />
     <Build Include="Tables\ProcedureReviewType.sql" />
     <Build Include="Tables\Procedure.sql" />
     <Build Include="Tables\ServiceCatalog.sql" />
@@ -116,9 +115,11 @@
     <Build Include="dbo\Tables\CoursePackagePremiumServices.sql" />
     <Build Include="dbo\Tables\CoursePackageMenue.sql" />
     <Build Include="dbo\Tables\CoursePackageFreeServices.sql" />
+    <Build Include="Tables\Partner.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="DKBS.publish.xml" />
+    <None Include="DKBS.Database.publish.xml" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="DKBS.Database.refactorlog" />

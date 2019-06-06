@@ -54,7 +54,7 @@ namespace DKBS.Repository
         List<CauseOfRemovalDTO> GetCauseOfRemovals();
         List<CancellationReasonDTO> GetCancellationReasons();
         List<CustomerDTO> GetCustomers();
-        List<PartnerDTO> GetPartners();
+        List<CRMPartnerDTO> GetPartners();
         List<PartnerCenterDescriptionDTO> GetPartnerCenterDescriptions();
         List<PartnerEmployeeDTO> GetPartnerEmployees();
         List<BookingAndStatusDTO> GetBookingAndStatuses();
@@ -234,9 +234,9 @@ namespace DKBS.Repository
             return _mapper.Map<List<CustomerDTO>>(_dbContext.Customer.ToList());
         }
 
-        public List<PartnerDTO> GetPartners()
+        public List<CRMPartnerDTO> GetPartners()
         {
-            return _mapper.Map<List<PartnerDTO>>(_dbContext.Partner.ToList());
+            return _mapper.Map<List<CRMPartnerDTO>>(_dbContext.CRMPartner.ToList());
         }
 
         public List<PartnerEmployeeDTO> GetPartnerEmployees()

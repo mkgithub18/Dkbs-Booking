@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace DKBS.DTO
 {
+    [Obsolete("Use CRMParterDTO")]
     public class PartnerDTO
     {
         public int PartnerId { get; set; }
@@ -19,6 +21,8 @@ namespace DKBS.DTO
 
     public class CRMPartnerDTO
     {
+        [JsonIgnore]
+        public int CRMPartnerId { get; set; }
         public string AccountId { get; set; }
         public string Partnertype { get; set; }
         public string MembershipType { get; set; }

@@ -12,5 +12,6 @@
 	[CreatedDate] DATETIME NULL,
 	[CreatedBy] nvarchar(100),
 	[LastModified] DATETIME NULL, 
-	[LastModifiedBy] NVARCHAR(100) NULL
+	[LastModifiedBy] NVARCHAR(100) NULL,
+	FOREIGN KEY (AccountId) REFERENCES Customer(AccountId)
 )
