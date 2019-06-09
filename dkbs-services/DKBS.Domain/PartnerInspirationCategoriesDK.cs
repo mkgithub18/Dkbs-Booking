@@ -10,7 +10,7 @@ namespace DKBS.Domain
 
 
         [Key]
-        public int PartnerInspirationCategoriesDK_Id { get; set; }
+        public int PartnerInspirationCategoriesDKId { get; set; }
 
         public int PartnerId { get; set; }
 

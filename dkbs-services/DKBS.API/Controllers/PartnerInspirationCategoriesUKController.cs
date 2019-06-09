@@ -49,7 +49,7 @@ namespace DKBS.API.Controllers
         [HttpGet("{PartnerInspirationCategoriesUK_Id}")]
         public ActionResult<PartnerInspirationCategoriesUKDTO> GetPartnerInspirationCategoriesUK(int PartnerInspirationCategoriesUK_Id)
         {
-            return _choiceRepoistory.GetPartnerInspirationCategoriesUK().FirstOrDefault(c => c.PartnerInspirationCategoriesUK_Id == PartnerInspirationCategoriesUK_Id);
+            return _choiceRepoistory.GetPartnerInspirationCategoriesUK().FirstOrDefault(c => c.PartnerInspirationCategoriesUKId == PartnerInspirationCategoriesUK_Id);
         }
 
         /// <summary>
@@ -85,7 +85,7 @@ namespace DKBS.API.Controllers
                 return BadRequest();
             }
 
-            var PartnerInspirationCategoriesUK = _choiceRepoistory.GetPartnerInspirationCategoriesUK().Find(c => c.PartnerInspirationCategoriesUK_Id == PartnerInspirationCategoriesUK_Id);
+            var PartnerInspirationCategoriesUK = _choiceRepoistory.GetPartnerInspirationCategoriesUK().Find(c => c.PartnerInspirationCategoriesUKId == PartnerInspirationCategoriesUK_Id);
 
             if (PartnerInspirationCategoriesUK == null)
             {
@@ -119,7 +119,7 @@ namespace DKBS.API.Controllers
                 return BadRequest();
             }
 
-            var checkPartnerCenterRoomInfoIdinDb = _choiceRepoistory.GetPartnerInspirationCategoriesUK().Find(c => c.PartnerInspirationCategoriesUK_Id == PartnerInspirationCategoriesUKDTO.PartnerInspirationCategoriesUK_Id);
+            var checkPartnerCenterRoomInfoIdinDb = _choiceRepoistory.GetPartnerInspirationCategoriesUK().Find(c => c.PartnerInspirationCategoriesUKId == PartnerInspirationCategoriesUKDTO.PartnerInspirationCategoriesUKId);
 
             if (checkPartnerCenterRoomInfoIdinDb != null)
             {
@@ -128,7 +128,7 @@ namespace DKBS.API.Controllers
 
             PartnerInspirationCategoriesUK newlyPartnerInspirationCategoriesUKDTO = new PartnerInspirationCategoriesUK()
             {
-                PartnerInspirationCategoriesUK_Id = PartnerInspirationCategoriesUKDTO.PartnerInspirationCategoriesUK_Id,
+                PartnerInspirationCategoriesUKId = PartnerInspirationCategoriesUKDTO.PartnerInspirationCategoriesUKId,
                 PartnerId = PartnerInspirationCategoriesUKDTO.PartnerId,
                 // Room_Name = PartnerInspirationCategoriesUKDTO.Room_Name,
                 Heading = PartnerInspirationCategoriesUKDTO.Heading,

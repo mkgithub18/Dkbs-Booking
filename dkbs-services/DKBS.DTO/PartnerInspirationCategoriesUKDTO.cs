@@ -13,7 +13,7 @@ namespace DKBS.DTO
         //public Boolean Approval_Status { get; set; }
         //public DateTime LastModified { get; set; }
 
-        public int PartnerInspirationCategoriesUK_Id { get; set; }
+        public int PartnerInspirationCategoriesUKId { get; set; }
 
         public int PartnerId { get; set; }
 

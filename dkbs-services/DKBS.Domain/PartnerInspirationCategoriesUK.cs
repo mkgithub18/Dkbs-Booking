@@ -19,7 +19,7 @@ namespace DKBS.Domain
 
 
         [Key]
-        public int PartnerInspirationCategoriesUK_Id { get; set; }
+        public int PartnerInspirationCategoriesUKId { get; set; }
 
         public int PartnerId { get; set; }
 

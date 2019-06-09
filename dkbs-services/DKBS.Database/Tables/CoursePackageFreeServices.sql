@@ -1,8 +1,8 @@
-﻿CREATE TABLE [dbo].CoursePackageFreeServices
-(
-	[CoursePackageFreeServiceID] INT NOT NULL PRIMARY KEY IDENTITY, 
-    [CoursePackageID] INT NULL, 
-    [Description] VARCHAR(MAX) NULL, 
-    [SharepointID] VARCHAR(MAX) NULL, 
-    CONSTRAINT [PK_Table] PRIMARY KEY ([CoursePackageFreeServiceID])
-)
+﻿CREATE TABLE [dbo].[CoursePackageFreeServices] (
+    [CoursePackageFreeServiceID] INT           IDENTITY (1, 1) NOT NULL,
+    [CoursePackageID]            INT           NULL,
+    [Description]                VARCHAR (MAX) NULL,
+    [SharepointID]               VARCHAR (MAX) NULL,
+    PRIMARY KEY CLUSTERED ([CoursePackageFreeServiceID] ASC)
+);
+
