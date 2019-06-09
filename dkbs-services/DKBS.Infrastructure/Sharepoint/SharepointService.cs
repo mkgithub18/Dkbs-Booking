@@ -534,6 +534,12 @@ namespace DKBS.Infrastructure.Sharepoint
                     ListItemCreationInformation itemCreateInfo = new ListItemCreationInformation();
                     ListItem newItem = lst.AddItem(itemCreateInfo);
                     newItem["ContentTypeId"] = ct.Id;
+                    if (itemMetaData.Find(x => x.FieldName == "partnerName") != null)
+                    {
+                        newItem["CompanyName"] = itemMetaData.Find(x => x.FieldName == "partnerName").Value;
+                    }
+                    newItem.Update();
+                    context.ExecuteQuery();
                     foreach (FieldMataData field in itemMetaData)
                     {
                         switch (field.FieldName)
@@ -541,10 +547,6 @@ namespace DKBS.Infrastructure.Sharepoint
                             case "accountId":
                                 if (!string.IsNullOrEmpty(field.Value))
                                     newItem["accountID"] = field.Value;
-                                break;
-                            case "partnertype":
-                                if (!string.IsNullOrEmpty(field.Value))
-                                    newItem["PartnerType"] = GetPartnerTypeID(field.Value) + ";#";
                                 break;
                             //case "membershipType":
                             //    break;
@@ -916,17 +918,29 @@ namespace DKBS.Infrastructure.Sharepoint
             string result = null;
             switch (landTitle)
             {
-                case "Denmark":
+                case "Danmark":
                     result = "1;#";
                     break;
-                case "Germany":
+                case "UK":
                     result = "2;#";
                     break;
-                case "Sweden":
+                case "Sverige":
                     result = "3;#";
                     break;
-                case "Andora":
+                case "Tyskland":
                     result = "4;#";
+                    break;
+                case "Norge":
+                    result = "5;#";
+                    break;
+                case "Finland":
+                    result = "6;#";
+                    break;
+                case "Belgien":
+                    result = "7;#";
+                    break;
+                case "USA":
+                    result = "8;#";
                     break;
                 default:
                     break;

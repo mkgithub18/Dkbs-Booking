@@ -105,15 +105,15 @@ namespace DKBS.API.Controllers
                 newPartner.LastModified = DateTime.UtcNow;
                 newPartner.LastModifiedBy = "CRM";
 
-                //if (bool.Parse(_configuration["SharePointIntegrationEnabled"].ToString()))
-                //{
-                //    var sharePointId = await _sharePointService.InsertPartnerAsync(newPartner);
-                //    if (sharePointId <= 0)
-                //    {
-                //        return StatusCode(500, "An error occurred while creating sharepoint partner. Please try again or contact adminstrator");
-                //    }
-                //    newPartner.SharePointId = sharePointId;
-                //}
+                if (bool.Parse(_configuration["SharePointIntegrationEnabled"].ToString()))
+                {
+                    var sharePointId = await _sharePointService.InsertPartnerAsync(newPartner);
+                    if (sharePointId <= 0)
+                    {
+                        return StatusCode(500, "An error occurred while creating sharepoint partner. Please try again or contact adminstrator");
+                    }
+                    newPartner.SharePointId = sharePointId;
+                }
 
                 _choiceRepoistory.Attach<CRMPartner>(newPartner);
                 _choiceRepoistory.Complete();
@@ -212,14 +212,14 @@ namespace DKBS.API.Controllers
                 partner.LastModified = DateTime.UtcNow;
                 partner.LastModifiedBy = "CRM";  //later need to change
                 _choiceRepoistory.Attach(partner);
-                //if (bool.Parse(_configuration["SharePointIntegrationEnabled"].ToString()))
-                //{
-                //    var status = await _sharePointService.UpdatePartnerAsync(partner);
-                //    if (!status)
-                //    {
-                //        return StatusCode(500, "An error occurred while creating sharepoint partner. Please try again or contact adminstrator");
-                //    }
-                //}
+                if (bool.Parse(_configuration["SharePointIntegrationEnabled"].ToString()))
+                {
+                    var status = await _sharePointService.UpdatePartnerAsync(partner);
+                    if (!status)
+                    {
+                        return StatusCode(500, "An error occurred while creating sharepoint partner. Please try again or contact adminstrator");
+                    }
+                }
                 _choiceRepoistory.Complete();
 
                 return NoContent();
