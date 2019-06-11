@@ -544,6 +544,10 @@ namespace DKBS.Infrastructure.Sharepoint
                     {
                         switch (field.FieldName)
                         {
+                            case "partnertype":
+                                if (!string.IsNullOrEmpty(field.Value))
+                                    newItem["PartnerType"] = GetPartnerTypeID(field.Value) + ";#";
+                                break;
                             case "accountId":
                                 if (!string.IsNullOrEmpty(field.Value))
                                     newItem["accountID"] = field.Value;
