@@ -35,20 +35,63 @@ namespace DKBS.API.Controllers
         /// </summary>
         /// <returns>List of partners.</returns>
         [HttpGet()]
-        public ActionResult<PartnerEmployeeDTO> GetPartners()
+        public ActionResult<CRMPartnerDTO> GetPartners()
         {
             return Ok(_choiceRepoistory.GetPartners());
         }
+
         /// <summary>
         /// Get Partner by id
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id:int}")]
-        public ActionResult<PartnerDTO> GetPartnerById(int id)
+        public ActionResult<CRMPartnerDTO> GetPartnerById(int id)
         {
-            return _choiceRepoistory.GetPartners().Find(c => c.PartnerId == id);
+            return _choiceRepoistory.GetPartners().Find(c => c.CRMPartnerId == id);
         }
+
+        /// <summary>
+        /// Get  Website Partner List.
+        /// </summary>
+        /// <param name="LastModified"></param>
+        /// <returns>Website Partner List</returns>
+        ///
+
+        [HttpGet("GetWebsitePartnerList")]
+        public ActionResult<List<GetWebsitePartnerListDTO>> GetWebsitePartner()
+        {
+            var partnerList = _choiceRepoistory.GetWebsitePartners().FindAll(c => c.LastModified.Date == DateTime.Now.Date);
+            return partnerList;
+        }
+
+        /// <summary>
+        /// Get Partner Details .
+        /// </summary>
+        /// <param name="LastModified"></param>
+        /// <returns> Partner Details</returns>
+        ///
+
+     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         /// <summary>
@@ -59,7 +102,7 @@ namespace DKBS.API.Controllers
         /// <response code="400">If the item is null</response>            
         /// <returns>newly created partner</returns>
         ///
-        [Authorize]
+       // [Authorize]
         [HttpPost("")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
@@ -101,6 +144,10 @@ namespace DKBS.API.Controllers
                 _choiceRepoistory.Attach<CRMPartner>(newPartner);
                 _choiceRepoistory.Complete();
 
+                AddNewServiceCatalog(newPartner.CRMPartnerId);
+
+                AddNewPartnerCenterInfo(newPartner.CRMPartnerId);
+
                 return CreatedAtRoute("GetPartnerByAccountId", new { newPartner.AccountId }, dto);
             }
             catch (Exception ex)
@@ -108,6 +155,108 @@ namespace DKBS.API.Controllers
                 // TODO : Add logging and decide on showing ex.message
                 return StatusCode(500, "An error occurred while creating partner. Please try again or contact adminstrator");
             }
+        }
+
+        private void AddNewPartnerCenterInfo(int PartnerId)
+        {
+            PartnerCenterInfo newPartnerCenterInfo = new PartnerCenterInfo
+            {
+                PartnerId = PartnerId,
+                PartnerCenterInfo_Id = 1,
+                Total_Rooms = 0,
+                Group_Rooms = 0,
+                Max_space_at_row_of_chairs = string.Empty,
+                Maxspace_at_tables = string.Empty,
+                State_agreement = false,
+                MaxAccommodation = string.Empty,
+                PartnerCenfoInfoSPId = string.Empty,
+                NumberOfSingleRooms = 0,
+                NumberOfDoubleRooms = 0,
+                Suite = 0,
+                DistanceToAddtiionalAccommodation = 0,
+                Chamber = 0,
+                HandicapRooms = 0,
+                MaximumNumberOfVisitors = 0,
+                MaxDiningPlacesInRestaurant = 0,
+                MaxDiningPlacesInRoom = 0,
+                MaxSpaceInAuditorium = 0,
+                MinParticipants = 0,
+                AirportDistance = 0,
+                StationDdistance = 0,
+                DistanceToBus = 0,
+                DistanceToMotorway = 0,
+                NumberOfFreeParkingSpaces = 0,
+                DistanceToFreeParking = 0,
+                NumberOfParkingSpaces = 0,
+                DistanceToPayParking = 0,
+                EnvironmentalCertificate = false,
+                AgreementForEmployees = true,
+                Handicapfriendly = true,
+                RegionsAgreement = false,
+                Bar = true,
+                Lounge = true,
+                Spa = false,
+                Pool = true,
+                FitnessRoom = false,
+                Casino = false,
+                DiningArea = 0,
+                GreenArea = false,
+                Golf = false,
+                AirCondition = true,
+                CookingSchool = false,
+                NoOfRooms = 0,
+                Auditoriums = 0,
+                ApprovalStatus = false,
+                CreatedDate = DateTime.UtcNow,
+                CreatedBy = "CRM",
+                LastModified = DateTime.UtcNow,
+                LastModifiedBY = "CRM"
+
+            };
+
+            _choiceRepoistory.Attach<PartnerCenterInfo>(newPartnerCenterInfo);
+            _choiceRepoistory.Complete();
+
+        }
+
+        private void AddNewServiceCatalog(int PartnerId)
+        {
+            var serviceCatalogueList = _choiceRepoistory.GetServiceCatalog();
+
+            foreach (var serviceCatalogue in serviceCatalogueList)
+            {
+                PartnerCoursePackages newPartnerCoursePackages = new PartnerCoursePackages
+                {
+                    ServiceCatalogueID = serviceCatalogue.ServiceCatalogueID,
+                    PartnerID = PartnerId,
+                    Offered = false,
+                    Price = serviceCatalogue.Price.HasValue ? serviceCatalogue.Price.Value : 0,
+                    ModifiedDate = DateTime.UtcNow,
+                    CreatedDate = DateTime.UtcNow
+                };
+                _choiceRepoistory.Attach<PartnerCoursePackages>(newPartnerCoursePackages);
+                _choiceRepoistory.Complete();
+                AddNewPartnerCoursePackageMenue(serviceCatalogue.CoursePackageMenueList, PartnerId, serviceCatalogue.ServiceCatalogueID);
+            }
+
+        }
+
+        private void AddNewPartnerCoursePackageMenue(List<CoursePackageMenueDTO> coursePackageMenueList, int PartnerId, int serviceCatalogueID)
+        {
+            foreach (var coursePackageMenue in coursePackageMenueList)
+            {
+                PartnerCoursePackageMenue newPartnerCoursePackageMenue = new PartnerCoursePackageMenue
+                {
+                    ServiceCatalogueID = serviceCatalogueID,
+                    PartnerID = PartnerId,
+                    CoursePackageMenueID = coursePackageMenue.CoursePackageMenueID,
+                    ModifiedDate = DateTime.UtcNow,
+                    CreatedDate = DateTime.UtcNow
+                };
+                _choiceRepoistory.Attach<PartnerCoursePackageMenue>(newPartnerCoursePackageMenue);
+                _choiceRepoistory.Complete();
+            }
+
         }
 
         /// <summary>
@@ -125,7 +274,7 @@ namespace DKBS.API.Controllers
                 return NotFound(accountId);
             }
 
-           var returnval = _mapper.Map<CRMPartner, CRMPartnerDTO>(partner);
+            var returnval = _mapper.Map<CRMPartner, CRMPartnerDTO>(partner);
 
             return Ok(returnval);
         }
@@ -205,7 +354,8 @@ namespace DKBS.API.Controllers
             }
         }
 
-
+       
+        
 
     }
 }

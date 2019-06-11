@@ -30,10 +30,10 @@ namespace DKBS.Repository
         List<TownZipCodeDTO> GetTownZipCodes();
         List<TableSetDTO> GetTableSets();
         List<CoursePackageMenueDTO> GetAllCoursePackageMenue();
-        List<CoursePackageFreeServicesDTO> GetAllCoursePackageFreeServices();
-        List<CoursePackagePremiumServicesDTO> GetAllCoursePackagePremiumServices();
+        List<PartnerCoursePackagePremiumServicesDTO> GetAllCoursePackagePremiumServices();
         List<CoursePackageYearPriceDTO> GetAllCoursePackageYearPrice();
         List<SCPartnerCoursePackageMappingDTO> GetAllSCPartnerCoursePackageMapping();
+       
         List<ServiceCatalogueDTO> GetServiceCatalog();
         List<RegionDTO> GetRegions();
         List<PurposeDTO> GetPurposes();
@@ -47,6 +47,7 @@ namespace DKBS.Repository
         List<FlowDTO> GetFlowDetails();
         List<CrmStatusDTO> GetCrmStatusDetails();
         List<CoursePackageTypeDTO> GetCoursePackageTypes();
+
         List<ContactPersonDTO> GetContactPersons();
         List<CampaignDTO> GetCampaigns();
         List<CenterTypeDTO> GetCenterTypes();
@@ -54,8 +55,12 @@ namespace DKBS.Repository
         List<CauseOfRemovalDTO> GetCauseOfRemovals();
         List<CancellationReasonDTO> GetCancellationReasons();
         List<CustomerDTO> GetCustomers();
-        List<PartnerDTO> GetPartners();
+        List<CRMPartnerDTO> GetPartners();
+        List<GetWebsitePartnerListDTO> GetWebsitePartners();
         List<PartnerCenterDescriptionDTO> GetPartnerCenterDescriptions();
+        List<PartnerCoursePackageFreeServicesDTO> GetPartnerCoursePackageFreeServices();
+        List<PartnerCoursePackagesDTO> GetPartnerCoursePackages();
+        List<PartnerCoursePackageMenueDTO> GetPartnerCoursePackagesMenue();
         List<PartnerEmployeeDTO> GetPartnerEmployees();
         List<BookingAndStatusDTO> GetBookingAndStatuses();
 
@@ -234,9 +239,9 @@ namespace DKBS.Repository
             return _mapper.Map<List<CustomerDTO>>(_dbContext.Customer.ToList());
         }
 
-        public List<PartnerDTO> GetPartners()
+        public List<CRMPartnerDTO> GetPartners()
         {
-            return _mapper.Map<List<PartnerDTO>>(_dbContext.Partner.ToList());
+            return _mapper.Map<List<CRMPartnerDTO>>(_dbContext.CRMPartner.ToList());
         }
 
         public List<PartnerEmployeeDTO> GetPartnerEmployees()
@@ -870,19 +875,9 @@ namespace DKBS.Repository
             return _mapper.Map<List<CoursePackageMenueDTO>>(_dbContext.CoursePackageMenue.ToList());
         }
 
-        public List<CoursePackageFreeServicesDTO> GetAllCoursePackageFreeServices()
-        {
-            return _mapper.Map<List<CoursePackageFreeServicesDTO>>(_dbContext.CoursePackageFreeServices.ToList());
-        }
-
-        public List<CoursePackagePremiumServicesDTO> GetAllCoursePackagePremiumServices()
-        {
-            return _mapper.Map<List<CoursePackagePremiumServicesDTO>>(_dbContext.CoursePackagePremiumServices.ToList());
-        }
-
         public List<CoursePackageYearPriceDTO> GetAllCoursePackageYearPrice()
         {
-            return _mapper.Map<List<CoursePackageYearPriceDTO>>(_dbContext.CoursePackageYearPrice.ToList());
+            return _mapper.Map<List<CoursePackageYearPriceDTO>>(_dbContext.PartnerCoursePackageYearPrice.ToList());
         }
         public List<SCPartnerCoursePackageMappingDTO> GetAllSCPartnerCoursePackageMapping()
         {
@@ -893,10 +888,65 @@ namespace DKBS.Repository
         {
             var returnserviceCatalogueList = _mapper.Map<List<ServiceCatalogueDTO>>(_dbContext.ServiceCatalogue.ToList());
             foreach (var serviceCatalogue in returnserviceCatalogueList)
-            {                
+            {
                 serviceCatalogue.CoursePackageMenueList = GetAllCoursePackageMenue().FindAll(x => x.ServiceCatalogueID == serviceCatalogue.ServiceCatalogueID);
             }
             return returnserviceCatalogueList;
+        }
+
+        public List<PartnerCoursePackagesDTO> GetPartnerCoursePackages()
+        {
+            var returnPartnerCoursePackages = _mapper.Map<List<PartnerCoursePackagesDTO>>(_dbContext.PartnerCoursePackages.ToList());
+            foreach (var partnerCoursePackages in returnPartnerCoursePackages)
+            {
+                partnerCoursePackages.PartnerCoursePackageMenueList = GetPartnerCoursePackagesMenue().FindAll(x => x.PartnerID == partnerCoursePackages.PartnerID && x.ServiceCatalogueID == partnerCoursePackages.ServiceCatalogueID);
+                partnerCoursePackages.PartnerCoursePackageFreeServicesList = GetPartnerCoursePackageFreeServices().FindAll(x => x.PartnerID == partnerCoursePackages.PartnerID && x.ServiceCatalogueID == partnerCoursePackages.ServiceCatalogueID);
+                partnerCoursePackages.PartnerCoursePackagePremiumServicesList = GetAllCoursePackagePremiumServices().FindAll(x => x.PartnerID == partnerCoursePackages.PartnerID && x.ServiceCatalogueID == partnerCoursePackages.ServiceCatalogueID);
+                partnerCoursePackages.PartnerCoursePackageYearPriceList = GetCoursePackageYearPrice().FindAll(x => x.PartnerID == partnerCoursePackages.PartnerID && x.ServiceCatalogueID == partnerCoursePackages.ServiceCatalogueID);
+            }
+            return returnPartnerCoursePackages;
+        }
+
+        public List<PartnerCoursePackagePremiumServicesDTO> GetAllCoursePackagePremiumServices()
+        {
+            return _mapper.Map<List<PartnerCoursePackagePremiumServicesDTO>>(_dbContext.PartnerCoursePackagePremiumServices.ToList());
+        }
+
+        public List<GetWebsitePartnerListDTO> GetWebsitePartners()
+        {
+            return _dbContext.CRMPartner.Select(p => new GetWebsitePartnerListDTO { CRMPartnerId = p.CRMPartnerId, CVR = p.CVR, Address1 = p.Address1, Address2 = p.Address2, PostNumber = p.PostNumber, Regions = p.Regions, Land = p.Land, Telefon = p.Telefon, Email = p.Email, PanoramView = p.PanoramView, PublicURL = p.PublicURL, Centertype = p.Centertype, RecommandedNPGRT60 = p.RecommandedNPGRT60, QualityAssuredNPSGRD30 = p.QualityAssuredNPSGRD30, Partnertype = p.Partnertype, LastModified = p.LastModified }).ToList();
+        }
+
+        public List<PartnerCoursePackageMenueDTO> GetPartnerCoursePackagesMenue()
+        {
+            return (from pcm in _dbContext.PartnerCoursePackageMenue
+                    join cm in _dbContext.CoursePackageMenue
+                    on pcm.CoursePackageMenueID equals cm.CoursePackageMenueID
+                    select new PartnerCoursePackageMenueDTO
+                    {
+                        CoursePackageMenueID = pcm.CoursePackageMenueID,
+                        PartnerID = pcm.PartnerID,
+                        ServiceCatalogueID = pcm.ServiceCatalogueID,
+                        PartnerCoursePackageMenueID = pcm.PartnerCoursePackageMenueID,
+                        PartnerCoursePakageMenue_SPID = pcm.PartnerCoursePakageMenue_SPID,
+                        CreatedDate = pcm.CreatedDate,
+                        ModifiedDate = pcm.ModifiedDate,
+                        createdBy = pcm.createdBy,
+                        ModifiedBy = pcm.ModifiedBy,
+                        Include = pcm.Include,
+                        Description = cm.Description,
+                        Order = cm.Order
+                    }).ToList();
+        }
+
+        public List<PartnerCoursePackageFreeServicesDTO> GetPartnerCoursePackageFreeServices()
+        {
+            return _mapper.Map<List<PartnerCoursePackageFreeServicesDTO>>(_dbContext.PartnerCoursePackageFreeServices.ToList());
+        }
+
+        public List<PartnerCoursePackageYearPriceDTO> GetCoursePackageYearPrice()
+        {
+            return _mapper.Map<List<PartnerCoursePackageYearPriceDTO>>(_dbContext.PartnerCoursePackageYearPrice.ToList());
         }
     }
 }

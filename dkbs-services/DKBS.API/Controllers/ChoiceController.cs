@@ -257,7 +257,7 @@ namespace DKBS.API.Controllers
         /// <returns>List of partners.</returns>
         [Route("partners")]
         [HttpGet()]
-        public ActionResult<PartnerEmployeeDTO> GetPartners()
+        public ActionResult<CRMPartnerDTO> GetPartners()
         {
             return Ok(_choiceRepoistory.GetPartners());
         }

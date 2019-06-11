@@ -95,16 +95,18 @@ namespace DKBS.Data
         public DbSet<SRConversationItem> SRConversationItem { get; set; }
         public DbSet<Refreshment> Refreshment { get; set; }
         public DbSet<CoursePackageMenue> CoursePackageMenue { get; set; }
-        public DbSet<CoursePackageFreeServices> CoursePackageFreeServices { get; set; }
-        public DbSet<CoursePackagePremiumServices> CoursePackagePremiumServices { get; set; }
-        public DbSet<CoursePackageYearPrice> CoursePackageYearPrice { get; set; }
         public DbSet<PartnerCenterInfo> PartnerCenterInfo { get; set; }
         public DbSet<PartnerCenterRoomInfo> PartnerCenterRoomInfo { get; set; }
         public DbSet<PartnerInspirationCategoriesUK> PartnerInspirationCategoriesUK { get; set; }
         public DbSet<PartnerInspirationCategoriesDK> PartnerInspirationCategoriesDK { get; set; }
         public DbSet<Provision> provision { get; set; }
-
+        public DbSet<PartnerCoursePackages> PartnerCoursePackages { get; set; }
+        public DbSet<PartnerCoursePackageMenue> PartnerCoursePackageMenue { get; set; }
+        public DbSet<PartnerCoursePackageFreeServices> PartnerCoursePackageFreeServices { get; set; }
+        public DbSet<PartnerCoursePackagePremiumServices> PartnerCoursePackagePremiumServices { get; set; }
+        public DbSet<PartnerCoursePackageYearPrice> PartnerCoursePackageYearPrice { get; set; }
         public DbSet<SCPartnerCoursePackageMapping> SCPartnerCoursePackageMapping { get; set; }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

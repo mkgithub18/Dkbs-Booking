@@ -43,7 +43,11 @@ namespace DKBS.DTO
         public string PanoramView { get; set; }
         public bool RecommandedNPGRT60 { get; set; }
         public bool QualityAssuredNPSGRD30 { get; set; }
-
+        public int? CRMPartnerId { get; set; }
+        public DateTime LastModified { get; set; }
+        public string LastModifiedBy { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public string CreatedBy { get; set; }
     }
 
 }

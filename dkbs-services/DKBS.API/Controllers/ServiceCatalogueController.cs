@@ -12,9 +12,9 @@ namespace DKBS.API.Controllers
     /// <summary>
     /// ServiceCatalog
     /// </summary>
-    [Route("ServiceCatalog")]
+    [Route("ServiceCatalogue")]
     [ApiController]
-    public class ServiceCatalogController : ControllerBase
+    public class ServiceCatalogueController : ControllerBase
     {
         private readonly IChoiceRepository _choiceRepoistory;
         private IMapper _mapper;
@@ -24,7 +24,7 @@ namespace DKBS.API.Controllers
         /// <param name="choiceRepoistory"></param>
         /// <param name="mapper"></param>
 
-        public ServiceCatalogController(IChoiceRepository choiceRepoistory, IMapper mapper)
+        public ServiceCatalogueController(IChoiceRepository choiceRepoistory, IMapper mapper)
         {
             _choiceRepoistory = choiceRepoistory;
             _mapper = mapper;
@@ -100,7 +100,7 @@ namespace DKBS.API.Controllers
                     return BadRequest(ModelState);
                 }
 
-                return CreatedAtRoute("ServiceCatalog", new { newServiceCatalog.ServiceCatalogueID });
+                return CreatedAtRoute("ServiceCatalogue", new { newServiceCatalog.ServiceCatalogueID });
             }
             catch (Exception ex)
             {

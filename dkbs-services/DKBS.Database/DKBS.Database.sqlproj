@@ -114,7 +114,6 @@
     <Build Include="Tables\PartnerCoursePackageMenue.sql" />
     <Build Include="Tables\PartnerCoursePackagePremiumServices.sql" />
     <Build Include="Tables\PartnerCoursePackageYearPrice.sql" />
-    <Build Include="Tables\PartnerServiceCatalogue.sql" />
     <Build Include="Tables\SCPartnerCoursePackageMapping.sql" />
     <Build Include="Tables\ServiceCatalogue.sql" />
   </ItemGroup>
