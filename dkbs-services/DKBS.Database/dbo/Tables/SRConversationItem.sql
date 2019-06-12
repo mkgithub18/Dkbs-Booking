@@ -10,6 +10,8 @@
     [LastModified]          DATETIME       NOT NULL,
     [LastModifiedBY]        NCHAR (10)     NOT NULL,
     PRIMARY KEY CLUSTERED ([SRConversationItemId] ASC),
-    CONSTRAINT [FK_SRConversationItems_Bookingss] FOREIGN KEY ([BookingId]) REFERENCES [dbo].[Booking] ([BookingId])
+    CONSTRAINT [FK_SRConversationItems_Booking] FOREIGN KEY ([BookingId]) REFERENCES [dbo].[Booking] ([BookingId])
 );
+
+
 

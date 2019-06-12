@@ -1,10 +1,10 @@
 ﻿CREATE TABLE [dbo].[PartnerCenterInfo] (
-    [PartnerCenterInfo_Id]              INT            IDENTITY (1, 1) NOT NULL,
-    [Total_Rooms]                       INT            NULL,
-    [Group_Rooms]                       INT            NULL,
-    [Max_space_at_row_of_chairs]        NVARCHAR (50)  NULL,
-    [Maxspace_at_tables]                NVARCHAR (50)  NULL,
-    [State_agreement]                   BIT            NULL,
+    [PartnerCenterInfoId]               INT            IDENTITY (1, 1) NOT NULL,
+    [TotalRooms]                        INT            NULL,
+    [GroupRooms]                        INT            NULL,
+    [MaxSpaceAtRowOfChairs]             NVARCHAR (50)  NULL,
+    [MaxspaceAtTables]                  NVARCHAR (50)  NULL,
+    [StateAgreement]                    BIT            NULL,
     [MaxAccommodation]                  NVARCHAR (50)  NULL,
     [PartnerId]                         INT            NULL,
     [PartnerCenfoInfoSPId]              NVARCHAR (50)  NULL,
@@ -50,8 +50,10 @@
     [LastModified]                      DATETIME       NOT NULL,
     [LastModifiedBY]                    NVARCHAR (255) NOT NULL,
     [PartnerCenterRoomInfospID]         INT            NULL,
-    PRIMARY KEY CLUSTERED ([PartnerCenterInfo_Id] ASC)
+    PRIMARY KEY CLUSTERED ([PartnerCenterInfoId] ASC)
 );
+
+
 
 
 

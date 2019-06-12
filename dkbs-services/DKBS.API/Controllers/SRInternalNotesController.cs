@@ -49,7 +49,7 @@ namespace DKBS.API.Controllers
         [HttpGet()]
         public ActionResult<SRInternalNotesDTO> GetById(string BookingID)
         {
-            return _choiceRepoistory.GetSRInternalNotes().FirstOrDefault(c => c.Booking_ID == BookingID);
+            return _choiceRepoistory.GetSRInternalNotes().FirstOrDefault(c => c.BookingID == BookingID);
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace DKBS.API.Controllers
                 return BadRequest();
             }
 
-            var SRInternalNotes = _choiceRepoistory.GetSRInternalNotes().Find(c => c.InternalNote_ID == InternalNote_ID);
+            var SRInternalNotes = _choiceRepoistory.GetSRInternalNotes().Find(c => c.InternalNoteID == InternalNote_ID);
 
             if (SRInternalNotes == null)
             {
@@ -108,7 +108,7 @@ namespace DKBS.API.Controllers
                 return BadRequest();
             }
 
-            var checkSRInternalNotesIdinDb = _choiceRepoistory.GetSRInternalNotes().Find(c => c.InternalNote_ID == sRInternalNotesDTO.InternalNote_ID);
+            var checkSRInternalNotesIdinDb = _choiceRepoistory.GetSRInternalNotes().Find(c => c.InternalNoteID == sRInternalNotesDTO.InternalNoteID);
 
             if (checkSRInternalNotesIdinDb != null)
             {
@@ -117,21 +117,21 @@ namespace DKBS.API.Controllers
 
             SRInternalNotes newlySRInternalNotes = new SRInternalNotes()
             {
-                InternalNote_ID = sRInternalNotesDTO.InternalNote_ID,
+                InternalNoteID = sRInternalNotesDTO.InternalNoteID,
                 InternalNoteName = sRInternalNotesDTO.InternalNoteName,
-                Booking_ID = sRInternalNotesDTO.Booking_ID,
+                BookingID = sRInternalNotesDTO.BookingID,
                 Notes = sRInternalNotesDTO.Notes,
                 InternalNoteNotify = sRInternalNotesDTO.InternalNoteNotify,
-                Schedule_action = sRInternalNotesDTO.Schedule_action,
-                Copy_to_close_remark = sRInternalNotesDTO.Copy_to_close_remark,
-                Planned_start = sRInternalNotesDTO.Planned_start,
-                Planned_end = sRInternalNotesDTO.Planned_end,
-                to_Message = sRInternalNotesDTO.to_Message,
+                ScheduleAction = sRInternalNotesDTO.ScheduleAction,
+                CopyToCloseRemark = sRInternalNotesDTO.CopyToCloseRemark,
+                PlannedStart = sRInternalNotesDTO.PlannedStart,
+                PlannedEnd = sRInternalNotesDTO.PlannedEnd,
+                toMessage = sRInternalNotesDTO.toMessage,
                 CreatedDate = sRInternalNotesDTO.CreatedDate,
                 CreatedBy = sRInternalNotesDTO.CreatedBy,
                 LastModified = sRInternalNotesDTO.LastModified,
                 LastModifiedBY = sRInternalNotesDTO.LastModifiedBY,
-                Sharepoint_ID = sRInternalNotesDTO.Sharepoint_ID,
+                SharepointID = sRInternalNotesDTO.SharepointID,
             };         
             _choiceRepoistory.SetSRInternalNotes(newlySRInternalNotes);
             _choiceRepoistory.Complete();

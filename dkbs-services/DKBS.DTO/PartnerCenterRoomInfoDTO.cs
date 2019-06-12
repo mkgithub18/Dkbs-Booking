@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace DKBS.DTO
 {
     public class PartnerCenterRoomInfoDTO
     {
-        public int PartnerCenterRoomInfo_Id { get; set; }
+        [Key]
+        public int PartnerCenterRoomInfoId { get; set; }
 
-        public string Room_Name { get; set; }
+        public string RoomName { get; set; }
 
         public int PartnerId { get; set; }
 

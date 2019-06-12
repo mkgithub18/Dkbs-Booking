@@ -10,6 +10,8 @@
     [LastModified]         DATETIME   NULL,
     [LastModifiedBY]       NCHAR (10) NULL,
     PRIMARY KEY CLUSTERED ([ServiceRequestNoteId] ASC),
-    CONSTRAINT [FK_ServiceRequestNotes_Bookings] FOREIGN KEY ([BookingId]) REFERENCES [dbo].[Booking] ([BookingId])
+    CONSTRAINT [FK_ServiceRequestNotes_Booking] FOREIGN KEY ([BookingId]) REFERENCES [dbo].[Booking] ([BookingId])
 );
+
+
 
