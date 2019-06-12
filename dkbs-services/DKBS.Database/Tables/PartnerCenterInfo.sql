@@ -45,7 +45,7 @@
     [CookingSchool]                     BIT            NULL,
     [NoOfRooms]                         INT            NULL,
     [Auditoriums]                       INT            NULL,
-    [ApprovalStatus]                    BIT            NULL,
+    [ApprovalStatus]                    INT            NULL,
     [CreatedDate]                       DATETIME       NOT NULL,
     [CreatedBy]                         NVARCHAR (255) NOT NULL,
     [LastModified]                      DATETIME       NOT NULL,
@@ -53,6 +53,8 @@
     [PartnerCenterRoomInfospID]         INT            NULL,
     PRIMARY KEY CLUSTERED ([PartnerCenterInfoId] ASC)
 );
+
+
 
 
 
