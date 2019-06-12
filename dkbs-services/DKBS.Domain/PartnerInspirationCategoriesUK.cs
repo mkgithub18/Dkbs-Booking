@@ -33,5 +33,14 @@ namespace DKBS.Domain
 
         public string PartnerInspirationCategoriesSpId { get; set; }
 
+        public DateTime CreatedDate { get; set; }
+
+        public string CreatedBy { get; set; }
+
+        public DateTime LastModified { get; set; }
+
+        public string LastModifiedBY { get; set; }
+
+
     }
 }

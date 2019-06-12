@@ -100,6 +100,8 @@ namespace DKBS.Domain
 
         public bool? Lounge { get; set; }
 
+        public bool? BilliardsDartTableTennis { get; set; }        
+
         public bool? Spa { get; set; }
 
         public bool? Pool { get; set; }

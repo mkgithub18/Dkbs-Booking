@@ -33,6 +33,7 @@
     [RegionsAgreement]                  BIT            NULL,
     [Bar]                               BIT            NULL,
     [Lounge]                            BIT            NULL,
+    [BilliardsDartTableTennis]          BIT            NULL,
     [Spa]                               BIT            NULL,
     [Pool]                              BIT            NULL,
     [FitnessRoom]                       BIT            NULL,
@@ -52,6 +53,8 @@
     [PartnerCenterRoomInfospID]         INT            NULL,
     PRIMARY KEY CLUSTERED ([PartnerCenterInfoId] ASC)
 );
+
+
 
 
 
