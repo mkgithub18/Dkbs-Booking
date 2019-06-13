@@ -90,6 +90,7 @@ namespace DKBS.API.Controllers
                 UpdateCoursePackageFreeServices(partnerCoursePackageDTO, partnerCoursePackageInDb.Id, partnerCoursePackageInDb.PartnerID, partnerCoursePackageInDb.ServiceCatalogueID);
                 UpdateCoursePackagePremiumServices(partnerCoursePackageDTO, partnerCoursePackageInDb.Id, partnerCoursePackageInDb.PartnerID,partnerCoursePackageInDb.ServiceCatalogueID);
                 UpdateCoursePackageYearPrice(partnerCoursePackageDTO, partnerCoursePackageInDb.Id,partnerCoursePackageInDb.PartnerID,partnerCoursePackageInDb.ServiceCatalogueID);
+                UpdateCRMPartnerInfoModificationdate(partnerCoursePackageDTO.PartnerID);
                 return NoContent();
 
             }
@@ -100,6 +101,13 @@ namespace DKBS.API.Controllers
             }
         }
 
+        private void UpdateCRMPartnerInfoModificationdate(int partnerID)
+        {
+            var partner = _choiceRepoistory.GetById<CRMPartner>(c => c.CRMPartnerId == partnerID);
+            partner.PartnerInfoModificationdate = DateTime.UtcNow;
+            _choiceRepoistory.Attach(partner);
+            _choiceRepoistory.Complete();
+        }
 
         private void UpdateCoursePackageMenue(PartnerCoursePackagesDTO partnerCoursePackageDTO, int Id, int PartnerId, int serviceCatalogueID)
         {

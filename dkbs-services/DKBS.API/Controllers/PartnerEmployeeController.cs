@@ -147,7 +147,7 @@ namespace DKBS.API.Controllers
 
             };
 
-
+            UpdateCRMPartnerInfoModificationdate(partnerEmployeeDto.PartnerId);
             return CreatedAtRoute("GetPartnerEmployeeById", new { peSharePointId = newlyCreatedPartnerEmployee.PESharePointId }, newlyCreatedPartnerEmployee);
         }
 
@@ -234,8 +234,16 @@ namespace DKBS.API.Controllers
 
             _choiceRepoistory.Attach(checkPartnerIdinDb);
             _choiceRepoistory.Complete();
-
+            UpdateCRMPartnerInfoModificationdate(partnerEmployeeDto.PartnerId);
             return NoContent();
+        }
+
+        private void UpdateCRMPartnerInfoModificationdate(int? partnerID)
+        {
+            var partner = _choiceRepoistory.GetById<CRMPartner>(c => c.CRMPartnerId == partnerID);
+            partner.PartnerInfoModificationdate = DateTime.UtcNow;
+            _choiceRepoistory.Attach(partner);
+            _choiceRepoistory.Complete();
         }
 
     }

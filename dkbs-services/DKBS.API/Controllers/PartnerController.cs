@@ -72,36 +72,7 @@ namespace DKBS.API.Controllers
         /// <returns> Partner Details</returns>
         ///
 
-     
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        /// <summary>
-        /// Creating Partner
-        /// </summary>
-        /// <param name="dto"></param>
-        /// <response code="201">Returns the newly created partner</response>
-        /// <response code="400">If the item is null</response>            
-        /// <returns>newly created partner</returns>
-        ///
+       
        // [Authorize]
         [HttpPost("")]
         [ProducesResponseType(201)]
@@ -141,11 +112,11 @@ namespace DKBS.API.Controllers
                 newPartner.CreatedDate = DateTime.UtcNow;
                 newPartner.LastModified = DateTime.UtcNow;
                 newPartner.LastModifiedBy = "CRM";
+                newPartner.PartnerInfoModificationdate = DateTime.UtcNow;
                 _choiceRepoistory.Attach<CRMPartner>(newPartner);
                 _choiceRepoistory.Complete();
 
                 AddNewServiceCatalog(newPartner.CRMPartnerId);
-
                 AddNewPartnerCenterInfo(newPartner.CRMPartnerId);
 
                 return CreatedAtRoute("GetPartnerByAccountId", new { newPartner.AccountId }, dto);
@@ -162,7 +133,6 @@ namespace DKBS.API.Controllers
             PartnerCenterInfo newPartnerCenterInfo = new PartnerCenterInfo
             {
                 PartnerId = PartnerId,
-                PartnerCenterInfo_Id = 1,
                 Total_Rooms = 0,
                 Group_Rooms = 0,
                 Max_space_at_row_of_chairs = string.Empty,
@@ -211,6 +181,7 @@ namespace DKBS.API.Controllers
                 CreatedBy = "CRM",
                 LastModified = DateTime.UtcNow,
                 LastModifiedBY = "CRM"
+                
 
             };
 
@@ -286,7 +257,7 @@ namespace DKBS.API.Controllers
         /// <param name="dto"></param>
         /// <returns></returns>
         /// 
-        [Authorize]
+        //[Authorize]
         [HttpPut("{accountId}")]
         public IActionResult UpdatePartner(string accountId, [FromBody] CRMPartnerDTO dto)
         {
@@ -316,18 +287,16 @@ namespace DKBS.API.Controllers
                     ModelState.AddModelError("Partner", $"No Partner found with AccountId {accountId}");
                     return NotFound(ModelState);
                 }
-
+                
                 partner.Partnertype = dto.Partnertype;
                 partner.MembershipType = dto.MembershipType;
                 partner.PartnerName = dto.PartnerName;
                 partner.CVR = dto.CVR;
                 partner.Telefon = dto.Telefon;
                 partner.Centertype = dto.Centertype;
-
                 partner.Address1 = dto.Address1;
                 partner.Address2 = dto.Address2;
                 partner.Town = dto.Town;
-
                 partner.PostNumber = dto.PostNumber;
                 partner.Land = dto.Land;
                 partner.StateAgreement = dto.StateAgreement;
@@ -342,7 +311,8 @@ namespace DKBS.API.Controllers
                 partner.RecommandedNPGRT60 = dto.RecommandedNPGRT60;
                 partner.QualityAssuredNPSGRD30 = dto.QualityAssuredNPSGRD30;
                 partner.LastModified = DateTime.UtcNow;
-                partner.LastModifiedBy = "CRM";  //later need to change
+                partner.LastModifiedBy = "CRM";  
+                partner.PartnerInfoModificationdate = DateTime.UtcNow;
                 _choiceRepoistory.Attach(partner);
                 _choiceRepoistory.Complete();
 

@@ -1,4 +1,5 @@
-﻿using DKBS.DTO;
+﻿using DKBS.Domain;
+using DKBS.DTO;
 using DKBS.Repository;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -71,7 +72,7 @@ namespace DKBS.API.Controllers
 
         //[HttpPut("{PartnerCenterInfo_Id}")]
         [HttpPut()]
-        [Route("UpdatePartnerCenterInfo/{PartnerCenterInfo_Id:int}")]      
+        [Route("UpdatePartnerCenterInfo/{PartnerCenterInfo_Id:int}")]
         public IActionResult UpdatePartnerCenterInfo(int PartnerCenterInfo_Id, [FromBody] PartnerCenterInfoDTO partnerCenterInfoDTO)
         {
             if (!ModelState.IsValid)
@@ -92,8 +93,19 @@ namespace DKBS.API.Controllers
             PartnerCenterInfo = partnerCenterInfoDTO;
 
             _choiceRepoistory.Complete();
+            UpdateCRMPartnerInfoModificationdate(partnerCenterInfoDTO.PartnerId);
             return NoContent();
+        }
+        
+        private void UpdateCRMPartnerInfoModificationdate(int? partnerID)
+        {
+            var partner = _choiceRepoistory.GetById<CRMPartner>(c => c.CRMPartnerId == partnerID);
+            partner.PartnerInfoModificationdate = DateTime.UtcNow;
+            _choiceRepoistory.Attach(partner);
+            _choiceRepoistory.Complete();
         }
 
     }
+
+
 }

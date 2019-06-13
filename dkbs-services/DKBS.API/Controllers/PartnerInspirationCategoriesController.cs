@@ -95,9 +95,17 @@ namespace DKBS.API.Controllers
             PartnerInspirationCategoriesUK = PartnerInspirationCategoriesUKDTO;
 
             _choiceRepoistory.Complete();
+            UpdateCRMPartnerInfoModificationdate(PartnerInspirationCategoriesUKDTO.PartnerId);
             return NoContent();
         }
 
+        private void UpdateCRMPartnerInfoModificationdate(int partnerID)
+        {
+            var partner = _choiceRepoistory.GetById<CRMPartner>(c => c.CRMPartnerId == partnerID);
+            partner.PartnerInfoModificationdate = DateTime.UtcNow;
+            _choiceRepoistory.Attach(partner);
+            _choiceRepoistory.Complete();
+        }
 
         /// <summary>
         /// Creating PartnerCenterRoomInfo
@@ -146,7 +154,7 @@ namespace DKBS.API.Controllers
 
             _choiceRepoistory.SetpartnerInspirationCategoriesUK(newlyPartnerInspirationCategoriesUKDTO);
             _choiceRepoistory.Complete();
-
+            UpdateCRMPartnerInfoModificationdate(PartnerInspirationCategoriesUKDTO.PartnerId);
             return CreatedAtRoute("GetPartnerInspirationCategoriesUK", new { name = newlyPartnerInspirationCategoriesUKDTO.Heading }, newlyPartnerInspirationCategoriesUKDTO);
         }
 

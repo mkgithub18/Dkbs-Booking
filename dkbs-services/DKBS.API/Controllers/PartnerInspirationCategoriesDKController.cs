@@ -99,7 +99,16 @@ namespace DKBS.API.Controllers
             partnerInspirationCategoriesDK = PartnerInspirationCategoriesDKDTO;
 
             _choiceRepoistory.Complete();
+            UpdateCRMPartnerInfoModificationdate(PartnerInspirationCategoriesDKDTO.PartnerId);
             return NoContent();
+        }
+
+        private void UpdateCRMPartnerInfoModificationdate(int partnerID)
+        {
+            var partner = _choiceRepoistory.GetById<CRMPartner>(c => c.CRMPartnerId == partnerID);
+            partner.PartnerInfoModificationdate = DateTime.UtcNow;
+            _choiceRepoistory.Attach(partner);
+            _choiceRepoistory.Complete();
         }
 
 
@@ -150,7 +159,7 @@ namespace DKBS.API.Controllers
 
             _choiceRepoistory.SetpartnerInspirationCategoriesDK(newlypartnerInspirationCategoriesDKDTO);
             _choiceRepoistory.Complete();
-
+            UpdateCRMPartnerInfoModificationdate(PartnerInspirationCategoriesDKDTO.PartnerId);
             return CreatedAtRoute("GetPartnerCenterRoomInfo", new { name = newlypartnerInspirationCategoriesDKDTO.Heading }, newlypartnerInspirationCategoriesDKDTO);
         }
 

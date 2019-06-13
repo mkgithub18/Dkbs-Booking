@@ -96,7 +96,16 @@ namespace DKBS.API.Controllers
             partnerCenterRoomInfo = partnerCenterRoomInfoDTO;
 
             _choiceRepoistory.Complete();
+            UpdateCRMPartnerInfoModificationdate(partnerCenterRoomInfoDTO.PartnerId);
             return NoContent();
+        }
+
+        private void UpdateCRMPartnerInfoModificationdate(int? partnerID)
+        {
+            var partner = _choiceRepoistory.GetById<CRMPartner>(c => c.CRMPartnerId == partnerID);
+            partner.PartnerInfoModificationdate = DateTime.UtcNow;
+            _choiceRepoistory.Attach(partner);
+            _choiceRepoistory.Complete();
         }
 
 
@@ -150,6 +159,7 @@ namespace DKBS.API.Controllers
 
             _choiceRepoistory.SetpartnerCenterRoomInfo(newlyCreatedPartnerCenterRoomInfo);
             _choiceRepoistory.Complete();
+            UpdateCRMPartnerInfoModificationdate(partnerCenterRoomInfoDTO.PartnerId);
 
             return CreatedAtRoute("GetPartnerCenterRoomInfo", new { name = newlyCreatedPartnerCenterRoomInfo.Room_Name }, newlyCreatedPartnerCenterRoomInfo);
         }
