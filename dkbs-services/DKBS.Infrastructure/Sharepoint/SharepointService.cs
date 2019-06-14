@@ -870,6 +870,15 @@ namespace DKBS.Infrastructure.Sharepoint
                 case "Preferred partner":
                     result = "7";
                     break;
+                case "Partner":
+                    result = "8";
+                    break;
+                case "Tidligere Partner":
+                    result = "9";
+                    break;
+                case "Potentiel Partner":
+                    result = "10";
+                    break;
                 default:
                     break;
             }

@@ -7,7 +7,7 @@
           PartnerName NVARCHAR(200) NOT NULL,
           CVR NVARCHAR(255),
           Telefon NVARCHAR(50),
-          Centertype NVARCHAR(100),
+          Centertype NVARCHAR(255),
           Address1 NVARCHAR(500),
           Address2 NVARCHAR(500),
           Town NVARCHAR(200),
