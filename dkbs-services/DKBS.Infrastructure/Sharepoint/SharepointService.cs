@@ -849,7 +849,7 @@ namespace DKBS.Infrastructure.Sharepoint
             string result = null;
             switch (partnereTypeTitle)
             {
-                case "Gold":
+                case "Guld":
                     result = "1";
                     break;
                 case "Ikke-partner":
@@ -861,7 +861,7 @@ namespace DKBS.Infrastructure.Sharepoint
                 case "Bronze":
                     result = "4";
                     break;
-                case "Silver":
+                case "Sølv":
                     result = "5";
                     break;
                 case "Deaktiverede partnere":
