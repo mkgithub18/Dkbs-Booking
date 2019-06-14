@@ -8,7 +8,7 @@ namespace DKBS.Domain
    public class PartnerCenterDescription
     {
         [Key]
-        public int PartnerCenterDescription_Id { get; set; }
+        public int PartnerCenterDescriptionId { get; set; }
         public int PartnerId { get; set; }
         public string Rooms { get; set; }
         public string Capacity { get; set; }

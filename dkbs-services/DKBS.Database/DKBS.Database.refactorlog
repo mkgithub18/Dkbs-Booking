@@ -1337,4 +1337,11 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="ProcedureReplyId" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="89c81604-2970-4c59-ac6c-686e150d3902" ChangeDateTime="06/14/2019 17:19:42">
+    <Property Name="ElementName" Value="[dbo].[PartnerCoursePackages].[PartnerCoursePackages_Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[PartnerCoursePackages]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="PartnerCoursePackagesId" />
+  </Operation>
 </Operations>

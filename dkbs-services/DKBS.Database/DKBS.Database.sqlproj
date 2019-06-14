@@ -86,8 +86,6 @@
     <Build Include="Tables\Procedure.sql" />
     <Build Include="Tables\ServiceCatalog.sql" />
     <Build Include="Tables\ServiceRequestCommunication.sql" />
-    <Build Include="Tables\ServiceRequestNote.sql" />
-    <Build Include="Tables\SRConversationItem.sql" />
     <Build Include="Tables\BookingAndStatus.sql" />
     <Build Include="Tables\TownZipCode.sql" />
     <Build Include="Tables\Provision.sql" />
@@ -120,8 +118,6 @@
     <Build Include="Tables\EmailConversation.sql" />
     <Build Include="Tables\chatcommunication.sql" />
     <Build Include="Tables\PartnerInspirationCategoriesUK.sql" />
-    <Build Include="Tables\ServiceRequestNotes.sql" />
-    <Build Include="Tables\SRConversationItems.sql" />
     <Build Include="Tables\SRInternalNotes.sql" />
     <Build Include="Tables\SRInternalNotify.sql" />
     <Build Include="dbo\Tables\SRConversationItem.sql" />

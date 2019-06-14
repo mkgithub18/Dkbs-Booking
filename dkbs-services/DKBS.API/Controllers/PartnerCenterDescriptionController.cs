@@ -36,7 +36,7 @@ namespace DKBS.API.Controllers
         [HttpGet("{partnerCenterDescriptionId}")]
         public ActionResult<PartnerCenterDescriptionDTO> GetPartnerCenterDescriptionId(int partnerCenterDescriptionId)
         {
-            return _choiceRepoistory.GetPartnerCenterDescriptions().FirstOrDefault(c => c.PartnerCenterDescription_Id == partnerCenterDescriptionId);
+            return _choiceRepoistory.GetPartnerCenterDescriptions().FirstOrDefault(c => c.PartnerCenterDescriptionId == partnerCenterDescriptionId);
         }
 
         // POST api/<controller>
@@ -54,7 +54,7 @@ namespace DKBS.API.Controllers
                 return BadRequest();
 
 
-            var checkPartnerIdinDb = _choiceRepoistory.GetPartnerCenterDescriptions().Find(c => c.PartnerCenterDescription_Id == partnerCenterDescriptionDto.PartnerCenterDescription_Id);
+            var checkPartnerIdinDb = _choiceRepoistory.GetPartnerCenterDescriptions().Find(c => c.PartnerCenterDescriptionId == partnerCenterDescriptionDto.PartnerCenterDescriptionId);
 
             if (checkPartnerIdinDb != null)
             {
@@ -63,7 +63,7 @@ namespace DKBS.API.Controllers
 
             PartnerCenterDescription newlyCreatedPartnerCenterDescription = new PartnerCenterDescription()
             {
-                PartnerCenterDescription_Id = partnerCenterDescriptionDto.PartnerCenterDescription_Id,
+                PartnerCenterDescriptionId = partnerCenterDescriptionDto.PartnerCenterDescriptionId,
                 PartnerId = partnerCenterDescriptionDto.PartnerId,
                 Rooms = partnerCenterDescriptionDto.Rooms,
                 Capacity = partnerCenterDescriptionDto.Capacity,
@@ -79,7 +79,7 @@ namespace DKBS.API.Controllers
 
             _choiceRepoistory.GetPartnerCenterDescriptions().Add(destination);
             _choiceRepoistory.Complete();
-            return CreatedAtRoute("GetPartnerCenterDescriptionsById", new { name = newlyCreatedPartnerCenterDescription.PartnerCenterDescription_Id }, newlyCreatedPartnerCenterDescription);
+            return CreatedAtRoute("GetPartnerCenterDescriptionsById", new { name = newlyCreatedPartnerCenterDescription.PartnerCenterDescriptionId }, newlyCreatedPartnerCenterDescription);
         }
 
 
@@ -95,7 +95,7 @@ namespace DKBS.API.Controllers
             if (partnerCenterDescriptionDto == null)
                 return BadRequest();
 
-            var partnerCenterDescription = _choiceRepoistory.GetPartnerCenterDescriptions().Find(c => c.PartnerCenterDescription_Id == PartnerCenterDescription_Id);
+            var partnerCenterDescription = _choiceRepoistory.GetPartnerCenterDescriptions().Find(c => c.PartnerCenterDescriptionId == PartnerCenterDescription_Id);
 
             if (partnerCenterDescription == null)
             {

@@ -6,10 +6,10 @@
     [Price]                              INT            NULL,
     [ApprovalStatus]                     BIT            NULL,
     [PartnerInspirationCategoriesDKSpId] NVARCHAR (50)  NULL,
-    [CreatedDate]                        DATETIME       NOT NULL,
-    [CreatedBy]                          NVARCHAR (255) NOT NULL,
-    [LastModified]                       DATETIME       NOT NULL,
-    [LastModifiedBY]                     NVARCHAR (255) NOT NULL,
+    [CreatedDate]                        DATETIME       NULL,
+    [CreatedBy]                          NVARCHAR (255) NULL,
+    [LastModified]                       DATETIME       NULL,
+    [LastModifiedBY]                     NVARCHAR (255) NULL,
     PRIMARY KEY CLUSTERED ([PartnerInspirationCategoriesDKId] ASC),
     CONSTRAINT [FK_PartnerInspirationCategoriesDK_Partner] FOREIGN KEY ([PartnerId]) REFERENCES [dbo].[Partner] ([PartnerId])
 );
