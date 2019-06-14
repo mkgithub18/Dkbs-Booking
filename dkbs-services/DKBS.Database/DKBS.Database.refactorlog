@@ -1330,4 +1330,11 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="TextforQuotationforEmail" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="cafdd824-1d09-4b5a-b519-268c9275d2d8" ChangeDateTime="06/14/2019 16:08:26">
+    <Property Name="ElementName" Value="[dbo].[ProcedureReply].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[ProcedureReply]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ProcedureReplyId" />
+  </Operation>
 </Operations>

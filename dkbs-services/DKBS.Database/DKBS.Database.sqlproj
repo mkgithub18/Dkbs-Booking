@@ -116,6 +116,9 @@
     <Build Include="dbo\Tables\CoursePackagePremiumServices.sql" />
     <Build Include="dbo\Tables\CoursePackageMenue.sql" />
     <Build Include="dbo\Tables\CoursePackageFreeServices.sql" />
+    <Build Include="Tables\ProcedureReply.sql" />
+    <Build Include="Tables\ProcedureStatus.sql" />
+    <Build Include="Tables\ProcedureCancelReason.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="DKBS.publish.xml" />
