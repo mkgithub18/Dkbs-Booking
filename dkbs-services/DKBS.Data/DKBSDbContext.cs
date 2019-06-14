@@ -104,6 +104,11 @@ namespace DKBS.Data
         public DbSet<PartnerInspirationCategoriesDK> PartnerInspirationCategoriesDK { get; set; }
         public DbSet<Provision> provision { get; set; }
 
+        public DbSet<ChatCommunication> chatCommunication { get; set; }
+        public DbSet<EmailConversation> emailConversation { get; set; }
+        public DbSet<SRInternalNotes> sRInternalNotes { get; set; }
+        public DbSet<SRInternalNotify> sRInternalNotify { get; set; }
+
         public DbSet<SCPartnerCoursePackageMapping> SCPartnerCoursePackageMapping { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

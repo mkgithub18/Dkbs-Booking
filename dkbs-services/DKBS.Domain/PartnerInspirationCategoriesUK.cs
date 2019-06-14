@@ -19,7 +19,7 @@ namespace DKBS.Domain
 
 
         [Key]
-        public int PartnerInspirationCategoriesUK_Id { get; set; }
+        public int PartnerInspirationCategoriesUKId { get; set; }
 
         public int PartnerId { get; set; }
 
@@ -32,6 +32,15 @@ namespace DKBS.Domain
         public bool? ApprovalStatus { get; set; }
 
         public string PartnerInspirationCategoriesSpId { get; set; }
+
+        public DateTime CreatedDate { get; set; }
+
+        public string CreatedBy { get; set; }
+
+        public DateTime LastModified { get; set; }
+
+        public string LastModifiedBY { get; set; }
+
 
     }
 }

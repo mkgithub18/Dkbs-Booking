@@ -51,7 +51,7 @@ namespace DKBS.API.Controllers
         [HttpGet("{PartnerCenterRoomInfo_Id}")]
         public ActionResult<PartnerCenterRoomInfoDTO> GetPartnerCenterRoomInfo(int PartnerCenterRoomInfo_Id)
         {
-            return _choiceRepoistory.GetPartnerCenterRoomInfo().FirstOrDefault(c => c.PartnerCenterRoomInfo_Id == PartnerCenterRoomInfo_Id);
+            return _choiceRepoistory.GetPartnerCenterRoomInfo().FirstOrDefault(c => c.PartnerCenterRoomInfoId == PartnerCenterRoomInfo_Id);
         }
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace DKBS.API.Controllers
                 return BadRequest();
             }
 
-            var partnerCenterRoomInfo = _choiceRepoistory.GetPartnerCenterRoomInfo().Find(c => c.PartnerCenterRoomInfo_Id == PartnerCenterRoomInfo_Id);
+            var partnerCenterRoomInfo = _choiceRepoistory.GetPartnerCenterRoomInfo().Find(c => c.PartnerCenterRoomInfoId == PartnerCenterRoomInfo_Id);
 
             if (partnerCenterRoomInfo == null)
             {
@@ -120,7 +120,7 @@ namespace DKBS.API.Controllers
                 return BadRequest();
             }
 
-            var checkPartnerCenterRoomInfoIdinDb = _choiceRepoistory.GetPartnerCenterRoomInfo().Find(c => c.PartnerCenterRoomInfo_Id == partnerCenterRoomInfoDTO.PartnerCenterRoomInfo_Id);
+            var checkPartnerCenterRoomInfoIdinDb = _choiceRepoistory.GetPartnerCenterRoomInfo().Find(c => c.PartnerCenterRoomInfoId == partnerCenterRoomInfoDTO.PartnerCenterRoomInfoId);
 
             if (checkPartnerCenterRoomInfoIdinDb != null)
             {
@@ -129,7 +129,7 @@ namespace DKBS.API.Controllers
 
             PartnerCenterRoomInfo newlyCreatedPartnerCenterRoomInfo = new PartnerCenterRoomInfo()
             {
-                PartnerCenterRoomInfo_Id = partnerCenterRoomInfoDTO.PartnerCenterRoomInfo_Id,
+                PartnerCenterRoomInfoId = partnerCenterRoomInfoDTO.PartnerCenterRoomInfoId,
                 PartnerId = partnerCenterRoomInfoDTO.PartnerId,
                 MaxPersonsAtMeetingTable = partnerCenterRoomInfoDTO.MaxPersonsAtMeetingTable,
                 MaxPersonsAtSchoolTable = partnerCenterRoomInfoDTO.MaxPersonsAtSchoolTable,
@@ -137,7 +137,7 @@ namespace DKBS.API.Controllers
                 MaxPersonsAtIslands = partnerCenterRoomInfoDTO.MaxPersonsAtIslands,
                 MaxPersonsAtUTable = partnerCenterRoomInfoDTO.MaxPersonsAtUTable,
                 IsRoomdividetosmallroom = partnerCenterRoomInfoDTO.IsRoomdividetosmallroom,
-                Remark = partnerCenterRoomInfoDTO.Room_Name,
+                Remark = partnerCenterRoomInfoDTO.RoomName,
 
                 //LastModifiedBY = partnerCenterRoomInfoDTO.LastModifiedBY,
                 //LastModified = partnerCenterRoomInfoDTO.LastModified
@@ -151,7 +151,7 @@ namespace DKBS.API.Controllers
             _choiceRepoistory.SetpartnerCenterRoomInfo(newlyCreatedPartnerCenterRoomInfo);
             _choiceRepoistory.Complete();
 
-            return CreatedAtRoute("GetPartnerCenterRoomInfo", new { name = newlyCreatedPartnerCenterRoomInfo.Room_Name }, newlyCreatedPartnerCenterRoomInfo);
+            return CreatedAtRoute("GetPartnerCenterRoomInfo", new { name = newlyCreatedPartnerCenterRoomInfo.RoomName }, newlyCreatedPartnerCenterRoomInfo);
         }
 
 

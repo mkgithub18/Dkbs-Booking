@@ -116,6 +116,17 @@
     <Build Include="dbo\Tables\CoursePackagePremiumServices.sql" />
     <Build Include="dbo\Tables\CoursePackageMenue.sql" />
     <Build Include="dbo\Tables\CoursePackageFreeServices.sql" />
+    <Build Include="Tables\PartnerInspirationCategoriesDK.sql" />
+    <Build Include="Tables\EmailConversation.sql" />
+    <Build Include="Tables\chatcommunication.sql" />
+    <Build Include="Tables\PartnerInspirationCategoriesUK.sql" />
+    <Build Include="Tables\ServiceRequestNotes.sql" />
+    <Build Include="Tables\SRConversationItems.sql" />
+    <Build Include="Tables\SRInternalNotes.sql" />
+    <Build Include="Tables\SRInternalNotify.sql" />
+    <Build Include="dbo\Tables\SRConversationItem.sql" />
+    <Build Include="dbo\Tables\ServiceRequestNote.sql" />
+    <Build Include="dbo\Tables\CenterInfoApproveStatus.sql" />
     <Build Include="Tables\ProcedureReply.sql" />
     <Build Include="Tables\ProcedureStatus.sql" />
     <Build Include="Tables\ProcedureCancelReason.sql" />

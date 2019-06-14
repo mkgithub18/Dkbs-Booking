@@ -53,7 +53,7 @@ namespace DKBS.API.Controllers
         [HttpGet("{PartnerInspirationCategoriesDK_Id}")]
         public ActionResult<PartnerInspirationCategoriesDKDTO> GetPartnerInspirationCategoriesDK(int PartnerInspirationCategoriesDK_Id)
         {
-            return _choiceRepoistory.GetPartnerInspirationCategoriesDK().FirstOrDefault(c => c.PartnerInspirationCategoriesDK_Id == PartnerInspirationCategoriesDK_Id);
+            return _choiceRepoistory.GetPartnerInspirationCategoriesDK().FirstOrDefault(c => c.PartnerInspirationCategoriesDKId == PartnerInspirationCategoriesDK_Id);
         }
 
         /// <summary>
@@ -89,7 +89,7 @@ namespace DKBS.API.Controllers
                 return BadRequest();
             }
 
-            var partnerInspirationCategoriesDK = _choiceRepoistory.GetPartnerInspirationCategoriesDK().Find(c => c.PartnerInspirationCategoriesDK_Id == PartnerInspirationCategoriesDK_Id);
+            var partnerInspirationCategoriesDK = _choiceRepoistory.GetPartnerInspirationCategoriesDK().Find(c => c.PartnerInspirationCategoriesDKId == PartnerInspirationCategoriesDK_Id);
 
             if (partnerInspirationCategoriesDK == null)
             {
@@ -123,7 +123,7 @@ namespace DKBS.API.Controllers
                 return BadRequest();
             }
 
-            var checkPartnerInspirationCategoriesDK_Id = _choiceRepoistory.GetPartnerInspirationCategoriesDK().Find(c => c.PartnerInspirationCategoriesDK_Id == PartnerInspirationCategoriesDKDTO.PartnerInspirationCategoriesDK_Id);
+            var checkPartnerInspirationCategoriesDK_Id = _choiceRepoistory.GetPartnerInspirationCategoriesDK().Find(c => c.PartnerInspirationCategoriesDKId == PartnerInspirationCategoriesDKDTO.PartnerInspirationCategoriesDKId);
 
             if (checkPartnerInspirationCategoriesDK_Id != null)
             {
@@ -132,7 +132,7 @@ namespace DKBS.API.Controllers
 
             PartnerInspirationCategoriesDK newlypartnerInspirationCategoriesDKDTO = new PartnerInspirationCategoriesDK()
             {
-                PartnerInspirationCategoriesDK_Id = checkPartnerInspirationCategoriesDK_Id.PartnerInspirationCategoriesDK_Id,
+                PartnerInspirationCategoriesDKId = checkPartnerInspirationCategoriesDK_Id.PartnerInspirationCategoriesDKId,
                 PartnerId = checkPartnerInspirationCategoriesDK_Id.PartnerId,
                 // Room_Name = partnerInspirationCategoriesDTO.Room_Name,
                 Heading = checkPartnerInspirationCategoriesDK_Id.Heading,

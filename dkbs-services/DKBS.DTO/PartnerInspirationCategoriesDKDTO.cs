@@ -9,7 +9,7 @@ namespace DKBS.DTO
     {
 
         [Key]
-        public int PartnerInspirationCategoriesDK_Id { get; set; }
+        public int PartnerInspirationCategoriesDKId { get; set; }
 
         public int PartnerId { get; set; }
 
@@ -22,6 +22,14 @@ namespace DKBS.DTO
         public bool? ApprovalStatus { get; set; }
 
         public string PartnerInspirationCategoriesDKSpId { get; set; }
+
+        public DateTime CreatedDate { get; set; }
+
+        public string CreatedBy { get; set; }
+
+        public DateTime LastModified { get; set; }
+
+        public string LastModifiedBY { get; set; }
 
     }
 }

@@ -46,7 +46,7 @@ namespace DKBS.API.Controllers
         [HttpGet("{PartnerCenterInfo_Id}")]
         public ActionResult<PartnerCenterInfoDTO> GetPartnerCenterInfo(int PartnerCenterInfo_Id)
         {
-            return _choiceRepoistory.GetPartnerCenterInfo().FirstOrDefault(c => c.PartnerCenterInfo_Id == PartnerCenterInfo_Id);
+            return _choiceRepoistory.GetPartnerCenterInfo().FirstOrDefault(c => c.PartnerCenterInfoId == PartnerCenterInfo_Id);
         }
 
 
@@ -82,7 +82,7 @@ namespace DKBS.API.Controllers
             if (partnerCenterInfoDTO == null)
                 return BadRequest();
 
-            var PartnerCenterInfo = _choiceRepoistory.GetPartnerCenterInfo().Find(c => c.PartnerCenterInfo_Id == PartnerCenterInfo_Id);
+            var PartnerCenterInfo = _choiceRepoistory.GetPartnerCenterInfo().Find(c => c.PartnerCenterInfoId == PartnerCenterInfo_Id);
 
             if (PartnerCenterInfo == null)
             {
