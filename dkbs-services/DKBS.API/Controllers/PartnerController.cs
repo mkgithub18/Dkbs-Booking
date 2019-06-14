@@ -17,6 +17,8 @@ namespace DKBS.API.Controllers
     /// <summary>
     /// Partner controller
     /// </summary>
+    /// 
+    [Authorize]
     [Route("partner")]
     [ApiController]
     public class PartnerController : ControllerBase
@@ -65,7 +67,7 @@ namespace DKBS.API.Controllers
         /// <response code="400">If the item is null</response>            
         /// <returns>newly created partner</returns>
         ///
-        [Authorize]
+        
         [HttpPost("")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
@@ -97,6 +99,12 @@ namespace DKBS.API.Controllers
                 {
                     ModelState.AddModelError("Partner", $"Partner entry already exist for AccountId {dto.AccountId}.");
                     return BadRequest(ModelState);
+                }
+
+                // if partner type is "partner then assign membershiptype.
+                if(!string.IsNullOrWhiteSpace(dto.Partnertype) && dto.Partnertype.ToLower() == "partner")
+                {
+                    dto.Partnertype = dto.MembershipType;
                 }
 
                 CRMPartner newPartner = _mapper.Map<CRMPartnerDTO, CRMPartner>(dto);
@@ -154,7 +162,6 @@ namespace DKBS.API.Controllers
         /// <param name="dto"></param>
         /// <returns></returns>
         /// 
-        [Authorize]
         [HttpPut("{accountId}")]
         public async Task<IActionResult> UpdatePartner(string accountId, [FromBody] CRMPartnerDTO dto)
         {
@@ -183,6 +190,12 @@ namespace DKBS.API.Controllers
                 {
                     ModelState.AddModelError("Partner", $"No Partner found with AccountId {accountId}");
                     return NotFound(ModelState);
+                }
+
+                // if partner type is "partner then assign membershiptype.
+                if (!string.IsNullOrWhiteSpace(dto.Partnertype) && dto.Partnertype.ToLower() == "partner")
+                {
+                    dto.Partnertype = dto.MembershipType;
                 }
 
                 partner.Partnertype = dto.Partnertype;

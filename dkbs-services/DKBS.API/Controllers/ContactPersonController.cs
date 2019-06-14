@@ -17,6 +17,8 @@ namespace DKBS.API.Controllers
     /// <summary>
     /// Contact Parson
     /// </summary>
+    /// 
+    [Authorize]
     [Route("contactperson")]
     [ApiController]
     public class ContactPersonController : ControllerBase
@@ -89,7 +91,6 @@ namespace DKBS.API.Controllers
         /// <returns></returns>
         /// 
 
-        [Authorize]
         [HttpPost]
         public async Task<ActionResult<ContactPersonDTO>> CreateContactPerson([FromBody] ContactPersonDTO contactPersonDTO)
         {
@@ -148,7 +149,7 @@ namespace DKBS.API.Controllers
         /// <returns></returns>
         /// 
 
-        [Authorize]
+        
         [HttpPut("{contactId}")]
         public async Task<IActionResult> UpdateContactPerson(string contactId, [FromBody] ContactPersonUpdateDTO contactPersonUpdateDTO)
         {

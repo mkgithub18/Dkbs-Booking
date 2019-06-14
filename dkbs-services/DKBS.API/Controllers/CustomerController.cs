@@ -17,6 +17,7 @@ namespace DKBS.API.Controllers
     /// Customer Controller
     /// </summary>
     /// 
+    [Authorize]
     [Route("customer")]
     public class CustomerController : Controller
     {
@@ -65,7 +66,6 @@ namespace DKBS.API.Controllers
         /// <param name="customerDto"></param>
         /// <returns></returns>
         ///
-        [Authorize]
         [HttpPost]
         public async Task<ActionResult<CustomerDTO>> CreateCustomer([FromBody] CustomerDTO customerDto)
         {
@@ -128,7 +128,6 @@ namespace DKBS.API.Controllers
         /// <param name="customerUpdateDTO"></param>
         /// <returns></returns>
         /// 
-        [Authorize]
         [HttpPut("{accountId}")]
         public async Task<IActionResult> UpdateCustomer(string accountId, [FromBody] CustomerUpdateDTO customerUpdateDTO)
         {
