@@ -14,6 +14,7 @@ namespace DKBS.DTO
         public string LastName { get; set; }
         [Required]
         public string Email { get; set; }
+        [Required]
         public string Telephone { get; set; }
         public string MobilePhone { get; set; }
         [Required(ErrorMessage = "Account Id is required.")]
