@@ -497,6 +497,7 @@ namespace DKBS.Infrastructure.Sharepoint
 
         public async Task<int> InsertPartnerAsync(CRMPartner partner)
         {
+            int sharePointId = 0;
             try
             {
                 if (partner == null)
@@ -539,6 +540,7 @@ namespace DKBS.Infrastructure.Sharepoint
                         newItem["CompanyName"] = itemMetaData.Find(x => x.FieldName == "partnerName").Value;
                     }
                     newItem.Update();
+                    sharePointId = newItem.Id;
                     context.ExecuteQuery();
                     foreach (FieldMataData field in itemMetaData)
                     {
@@ -599,8 +601,8 @@ namespace DKBS.Infrastructure.Sharepoint
                                 break;
                             case "regions":
                                 //region values have to be sepaprated by => ;#
-                                if(!string.IsNullOrEmpty(field.Value))
-                                newItem["Region"] = field.Value;
+                                if (!string.IsNullOrEmpty(field.Value))
+                                    newItem["Region"] = field.Value;
                                 break;
                             case "membershipStartDate":
                                 //have to be provided in UTC format string
@@ -642,9 +644,17 @@ namespace DKBS.Infrastructure.Sharepoint
             }
             catch (Exception ex)
             {
-                throw ex;
-            }
+                // log error if sharepoint already inserted.
+                if (sharePointId > 0)
+                {
+                    return sharePointId;
+                }
+                else
+                {
+                    throw ex;
+                }
 
+            }
         }
 
         public async Task<bool> UpdatePartnerAsync(CRMPartner partner)
@@ -680,7 +690,7 @@ namespace DKBS.Infrastructure.Sharepoint
                     }
 
                     string zipCodeId = null;
-                    if (!string.IsNullOrWhiteSpace( itemMetaData.Find(x => x.FieldName == "postNumber").Value))
+                    if (!string.IsNullOrWhiteSpace(itemMetaData.Find(x => x.FieldName == "postNumber").Value))
                     {
                         zipCodeId = GetZipCodeId(context, itemMetaData.Find(x => x.FieldName == "postNumber").Value) + ";#";
                     }
