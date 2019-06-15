@@ -61,23 +61,44 @@ namespace DKBS.Infrastructure.Sharepoint
                         throw new ArgumentNullException("ContentType can't be null.");
                     }
 
-                    string zipCodeItemId = null;
+                    // string zipCodeItemId = null;
+                    string zipCode = null;
                     string industryCodeItemId = null;
+
+                    //if (itemMetaData.Find(x => x.FieldName == "postNumber") != null)
+                    //{
+                    //    //filter by zipcode item ID
+                    //    List zipsList = web.Lists.GetByTitle("TownZipCodes");
+                    //    CamlQuery query = new CamlQuery();
+                    //    string zipCode = itemMetaData.Find(x => x.FieldName == "postNumber").Value;
+                    //    query.ViewXml = @"<View><Query><Where><Eq><FieldRef Name='WorkZip' /><Value Type='Text'>" + zipCode + @"</Value></Eq></Where></Query>
+                    //                                    <ViewFields><FieldRef Name='ID'/></ViewFields></View>";
+                    //    ListItemCollection zipColl = zipsList.GetItems(query);
+                    //    context.Load(zipColl);
+                    //    context.ExecuteQuery();
+                    //    if (zipColl.Count == 1)
+                    //    {
+                    //        zipCodeItemId = zipColl[0].Id.ToString() + ";#";
+                    //    }
+                    //}
 
                     if (itemMetaData.Find(x => x.FieldName == "postNumber") != null)
                     {
-                        //filter by zipcode item ID
-                        List zipsList = web.Lists.GetByTitle("TownZipCodes");
-                        CamlQuery query = new CamlQuery();
-                        string zipCode = itemMetaData.Find(x => x.FieldName == "postNumber").Value;
-                        query.ViewXml = @"<View><Query><Where><Eq><FieldRef Name='WorkZip' /><Value Type='Text'>" + zipCode + @"</Value></Eq></Where></Query>
-                                                        <ViewFields><FieldRef Name='ID'/></ViewFields></View>";
-                        ListItemCollection zipColl = zipsList.GetItems(query);
-                        context.Load(zipColl);
-                        context.ExecuteQuery();
-                        if (zipColl.Count == 1)
+                        string zipCodeValue = itemMetaData.Find(x => x.FieldName == "postNumber").Value;
+                        string zipCodeId = GetZipCodeId(context, zipCodeValue);
+                        if (!string.IsNullOrEmpty(zipCodeId))
                         {
-                            zipCodeItemId = zipColl[0].Id.ToString() + ";#";
+                            zipCode = zipCodeId + ";#";
+                        }
+                    }
+
+                    string country = null;
+                    if (itemMetaData.Find(x => x.FieldName == "country") != null)
+                    {
+                        string countryId = GetLandId(context, itemMetaData.Find(x => x.FieldName == "country").Value);
+                        if (!string.IsNullOrEmpty(countryId))
+                        {
+                            country = countryId + ";#";
                         }
                     }
 
@@ -118,29 +139,31 @@ namespace DKBS.Infrastructure.Sharepoint
 
                     if (itemMetaData.Find(x => x.FieldName == "postNumber") != null)
                     {
-                        newItem["ZipMachingFilter"] = zipCodeItemId;
+                        newItem["ZipMachingFilter"] = zipCode;
                     }
 
                     if (itemMetaData.Find(x => x.FieldName == "country") != null)
                     {
-                        string country = itemMetaData.Find(x => x.FieldName == "country").Value;
-                        switch (country)
-                        {
-                            case "Denmark":
-                                newItem["Country"] = "1;#";
-                                break;
-                            case "Germany":
-                                newItem["Country"] = "2;#";
-                                break;
-                            case "Sweden":
-                                newItem["Country"] = "3;#";
-                                break;
-                            case "Andora":
-                                newItem["Country"] = "4;#";
-                                break;
-                            default:
-                                break;
-                        }
+
+                        newItem["Country"] = country;
+                        //  string country = itemMetaData.Find(x => x.FieldName == "country").Value;
+                        //switch (country)
+                        //{
+                        //    case "Denmark":
+                        //        newItem["Country"] = "1;#";
+                        //        break;
+                        //    case "Germany":
+                        //        newItem["Country"] = "2;#";
+                        //        break;
+                        //    case "Sweden":
+                        //        newItem["Country"] = "3;#";
+                        //        break;
+                        //    case "Andora":
+                        //        newItem["Country"] = "4;#";
+                        //        break;
+                        //    default:
+                        //        break;
+                        //}
                     }
 
                     if (itemMetaData.Find(x => x.FieldName == "phoneNumber") != null)
@@ -201,23 +224,44 @@ namespace DKBS.Infrastructure.Sharepoint
                         throw new ArgumentNullException("ContentType can't be null.");
                     }
 
-                    string zipCodeItemId = null;
+                   // string zipCodeItemId = null;
                     string industryCodeItemId = null;
 
+                    //if (itemMetaData.Find(x => x.FieldName == "postNumber") != null)
+                    //{
+                    //    //filter by zipcode item ID
+                    //    List zipsList = web.Lists.GetByTitle("TownZipCodes");
+                    //    CamlQuery query = new CamlQuery();
+                    //    string zipCode = itemMetaData.Find(x => x.FieldName == "postNumber").Value;
+                    //    query.ViewXml = @"<View><Query><Where><Eq><FieldRef Name='WorkZip' /><Value Type='Text'>" + zipCode + @"</Value></Eq></Where></Query>
+                    //                                    <ViewFields><FieldRef Name='ID'/></ViewFields></View>";
+                    //    ListItemCollection zipColl = zipsList.GetItems(query);
+                    //    context.Load(zipColl);
+                    //    context.ExecuteQuery();
+                    //    if (zipColl.Count == 1)
+                    //    {
+                    //        zipCodeItemId = zipColl[0].Id.ToString() + ";#";
+                    //    }
+                    //}
+
+                    string zipCode = null;
                     if (itemMetaData.Find(x => x.FieldName == "postNumber") != null)
                     {
-                        //filter by zipcode item ID
-                        List zipsList = web.Lists.GetByTitle("TownZipCodes");
-                        CamlQuery query = new CamlQuery();
-                        string zipCode = itemMetaData.Find(x => x.FieldName == "postNumber").Value;
-                        query.ViewXml = @"<View><Query><Where><Eq><FieldRef Name='WorkZip' /><Value Type='Text'>" + zipCode + @"</Value></Eq></Where></Query>
-                                                        <ViewFields><FieldRef Name='ID'/></ViewFields></View>";
-                        ListItemCollection zipColl = zipsList.GetItems(query);
-                        context.Load(zipColl);
-                        context.ExecuteQuery();
-                        if (zipColl.Count == 1)
+                        string zipCodeValue = itemMetaData.Find(x => x.FieldName == "postNumber").Value;
+                        string zipCodeId = GetZipCodeId(context, zipCodeValue);
+                        if (!string.IsNullOrEmpty(zipCodeId))
                         {
-                            zipCodeItemId = zipColl[0].Id.ToString() + ";#";
+                            zipCode = zipCodeId + ";#";
+                        }
+                    }
+
+                    string country = null;
+                    if (itemMetaData.Find(x => x.FieldName == "country") != null)
+                    {
+                        string countryId = GetLandId(context, itemMetaData.Find(x => x.FieldName == "country").Value);
+                        if (!string.IsNullOrEmpty(countryId))
+                        {
+                            country = countryId + ";#";
                         }
                     }
 
@@ -261,29 +305,30 @@ namespace DKBS.Infrastructure.Sharepoint
 
                             if (itemMetaData.Find(x => x.FieldName == "postNumber") != null)
                             {
-                                updatableItem["ZipMachingFilter"] = zipCodeItemId;
+                                updatableItem["ZipMachingFilter"] = zipCode;
                             }
 
                             if (itemMetaData.Find(x => x.FieldName == "country") != null)
                             {
-                                string country = itemMetaData.Find(x => x.FieldName == "country").Value;
-                                switch (country)
-                                {
-                                    case "Denmark":
-                                        updatableItem["Country"] = "1;#";
-                                        break;
-                                    case "Germany":
-                                        updatableItem["Country"] = "2;#";
-                                        break;
-                                    case "Sweden":
-                                        updatableItem["Country"] = "3;#";
-                                        break;
-                                    case "Andora":
-                                        updatableItem["Country"] = "4;#";
-                                        break;
-                                    default:
-                                        break;
-                                }
+                                updatableItem["Country"] = country;
+                                //string country = itemMetaData.Find(x => x.FieldName == "country").Value;
+                                //switch (country)
+                                //{
+                                //    case "Denmark":
+                                //        updatableItem["Country"] = "1;#";
+                                //        break;
+                                //    case "Germany":
+                                //        updatableItem["Country"] = "2;#";
+                                //        break;
+                                //    case "Sweden":
+                                //        updatableItem["Country"] = "3;#";
+                                //        break;
+                                //    case "Andora":
+                                //        updatableItem["Country"] = "4;#";
+                                //        break;
+                                //    default:
+                                //        break;
+                                //}
                             }
 
                             if (itemMetaData.Find(x => x.FieldName == "phoneNumber") != null)
@@ -520,11 +565,38 @@ namespace DKBS.Infrastructure.Sharepoint
                     ContentTypeCollection ctColl = lst.ContentTypes;
                     context.Load(ctColl);
                     context.ExecuteQuery();
-                    string zipCodeId = null;
+                    //string zipCodeId = null;
+                    string zipCode = null;
                     if (!string.IsNullOrEmpty(itemMetaData.Find(x => x.FieldName == "postNumber").Value))
                     {
-                        zipCodeId = GetZipCodeId(context, itemMetaData.Find(x => x.FieldName == "postNumber").Value) + ";#";
+                        // zipCodeId = GetZipCodeId(context, itemMetaData.Find(x => x.FieldName == "postNumber").Value) + ";#";
+                        string zipCodeId = GetZipCodeId(context, itemMetaData.Find(x => x.FieldName == "postNumber").Value);
+                        if (zipCodeId != null)
+                        {
+                            zipCode = zipCodeId + ";#";
+                        }
                     }
+
+                    string partnerType = null;
+                    if (itemMetaData.Find(x => x.FieldName == "partnertype") != null)
+                    {
+                        string partnerTypeId = GetPartnerTypeID(itemMetaData.Find(x => x.FieldName == "partnertype").Value);
+                        if (!string.IsNullOrEmpty(partnerTypeId))
+                        {
+                            partnerType = partnerTypeId + ";#";
+                        }
+                    }
+                    string country = null;
+                    if (itemMetaData.Find(x => x.FieldName == "land") != null)
+                    {
+                        string countryId = GetLandId(context, itemMetaData.Find(x => x.FieldName == "land").Value);
+                        if (!string.IsNullOrEmpty(countryId))
+                        {
+                            country = countryId + ";#";
+                        }
+                    }
+
+
                     ContentType ct = ctColl.FirstOrDefault(p => p.Name == "Partner");
 
                     if (ct == null)
@@ -538,15 +610,15 @@ namespace DKBS.Infrastructure.Sharepoint
                     {
                         newItem["CompanyName"] = itemMetaData.Find(x => x.FieldName == "partnerName").Value;
                     }
-                    newItem.Update();
-                    context.ExecuteQuery();
+                   newItem.Update();
+                   context.ExecuteQuery();
                     foreach (FieldMataData field in itemMetaData)
                     {
                         switch (field.FieldName)
                         {
                             case "partnertype":
                                 if (!string.IsNullOrEmpty(field.Value))
-                                    newItem["PartnerType"] = GetPartnerTypeID(field.Value) + ";#";
+                                    newItem["PartnerType"] = partnerType;
                                 break;
                             case "accountId":
                                 if (!string.IsNullOrEmpty(field.Value))
@@ -568,7 +640,11 @@ namespace DKBS.Infrastructure.Sharepoint
                                 break;
                             case "centertype":
                                 if (!string.IsNullOrEmpty(field.Value))
-                                    newItem["CenterType"] = GetCenterTypeFormatedValue(field.Value);
+                                //{ var value1 = GetCenterTypeFormatedValue(field.Value);
+                                //    newItem["CenterType"] = value1!=null?value1:string.Empty;
+                                //}
+                               
+                                newItem["CenterType"] = GetCenterTypeFormatedValue(field.Value);
                                 break;
                             case "address1":
                                 if (!string.IsNullOrEmpty(field.Value))
@@ -581,11 +657,13 @@ namespace DKBS.Infrastructure.Sharepoint
                             //case "town":
                             case "postNumber":
                                 if (!string.IsNullOrEmpty(field.Value))
-                                    newItem["ZipMachingFilter"] = zipCodeId;
+                                    newItem["ZipMachingFilter"] = zipCode;
+                                //newItem["ZipMachingFilter"] = zipCode != null ? zipCode : string.Empty;
                                 break;
                             case "land":
                                 if (!string.IsNullOrEmpty(field.Value))
-                                    newItem["Country"] = GetLandId(field.Value);
+                                     newItem["Country"] = country;
+                                  //  newItem["Country"] = GetLandId(field.Value);
                                 break;
                             //case "stateAgreement":
                             //    break;
@@ -679,11 +757,43 @@ namespace DKBS.Infrastructure.Sharepoint
                         throw new ArgumentNullException("Partner can't be null.");
                     }
 
-                    string zipCodeId = null;
-                    if (!string.IsNullOrWhiteSpace( itemMetaData.Find(x => x.FieldName == "postNumber").Value))
+                    //string zipCodeId = null;
+                    //if (!string.IsNullOrWhiteSpace( itemMetaData.Find(x => x.FieldName == "postNumber").Value))
+                    //{
+                    //    zipCodeId = GetZipCodeId(context, itemMetaData.Find(x => x.FieldName == "postNumber").Value) + ";#";
+                    //}
+
+                    //string zipCodeId = null;
+                    string zipCode = null;
+                    if (!string.IsNullOrEmpty(itemMetaData.Find(x => x.FieldName == "postNumber").Value))
                     {
-                        zipCodeId = GetZipCodeId(context, itemMetaData.Find(x => x.FieldName == "postNumber").Value) + ";#";
+                        // zipCodeId = GetZipCodeId(context, itemMetaData.Find(x => x.FieldName == "postNumber").Value) + ";#";
+                        string zipCodeId = GetZipCodeId(context, itemMetaData.Find(x => x.FieldName == "postNumber").Value);
+                        if (zipCodeId != null)
+                        {
+                            zipCode = zipCodeId + ";#";
+                        }
                     }
+
+                    string partnerType = null;
+                    if (itemMetaData.Find(x => x.FieldName == "partnertype") != null)
+                    {
+                        string partnerTypeId = GetPartnerTypeID(itemMetaData.Find(x => x.FieldName == "partnertype").Value);
+                        if (!string.IsNullOrEmpty(partnerTypeId))
+                        {
+                            partnerType = partnerTypeId + ";#";
+                        }
+                    }
+                    string country = null;
+                    if (itemMetaData.Find(x => x.FieldName == "land") != null)
+                    {
+                        string countryId = GetLandId(context, itemMetaData.Find(x => x.FieldName == "land").Value);
+                        if (!string.IsNullOrEmpty(countryId))
+                        {
+                            country = countryId + ";#";
+                        }
+                    }
+
 
                     if (itemMetaData.Find(x => x.FieldName == "accountId") != null && partner.SharePointId.HasValue)
                     {
@@ -701,7 +811,7 @@ namespace DKBS.Infrastructure.Sharepoint
                                         break;
                                     case "partnertype":
                                         if (!string.IsNullOrEmpty(field.Value))
-                                            updatableItem["PartnerType"] = GetPartnerTypeID(field.Value) + ";#";
+                                            updatableItem["PartnerType"] = partnerType;
                                         break;
                                     //case "membershipType":
                                     //    break;
@@ -732,11 +842,11 @@ namespace DKBS.Infrastructure.Sharepoint
                                     //case "town":
                                     case "postNumber":
                                         if (!string.IsNullOrEmpty(field.Value))
-                                            updatableItem["ZipMachingFilter"] = zipCodeId;
+                                            updatableItem["ZipMachingFilter"] = zipCode;
                                         break;
                                     case "land":
                                         if (!string.IsNullOrEmpty(field.Value))
-                                            updatableItem["Country"] = GetLandId(field.Value);
+                                            updatableItem["Country"] = country;
                                         break;
                                     //case "stateAgreement":
                                     //    break;
@@ -839,7 +949,8 @@ namespace DKBS.Infrastructure.Sharepoint
             context.ExecuteQuery();
             if (zipColl.Count == 1)
             {
-                result = zipColl[0].Id.ToString() + ";#";
+                // result = zipColl[0].Id.ToString() + ";#";
+                result = zipColl[0].Id.ToString();
             }
             return result;
         }
@@ -925,40 +1036,54 @@ namespace DKBS.Infrastructure.Sharepoint
             }
 
             return result;
+          //  return result != null ? result : string.Empty;
         }
-        private static string GetLandId(string landTitle)
+        private static string GetLandId(ClientContext clientContext,string landTitle)
         {
             string result = null;
-            switch (landTitle)
+            //switch (landTitle)
+            //{
+            //    case "Danmark":
+            //        result = "1;#";
+            //        break;
+            //    case "UK":
+            //        result = "2;#";
+            //        break;
+            //    case "Sverige":
+            //        result = "3;#";
+            //        break;
+            //    case "Tyskland":
+            //        result = "4;#";
+            //        break;
+            //    case "Norge":
+            //        result = "5;#";
+            //        break;
+            //    case "Finland":
+            //        result = "6;#";
+            //        break;
+            //    case "Belgien":
+            //        result = "7;#";
+            //        break;
+            //    case "USA":
+            //        result = "8;#";
+            //        break;
+            //    default:
+            //        break;
+            //}
+
+            List countryList = clientContext.Web.Lists.GetByTitle("Land");
+            CamlQuery query = new CamlQuery();
+            query.ViewXml = @"<View><Query><Where><Eq><FieldRef Name='Title' /><Value Type='Text'>" + landTitle + @"</Value></Eq></Where></Query>
+                                                        <ViewFields><FieldRef Name='ID'/></ViewFields></View>";
+            ListItemCollection countryColl = countryList.GetItems(query);
+            clientContext.Load(countryColl);
+            clientContext.ExecuteQuery();
+            if (countryColl.Count == 1)
             {
-                case "Danmark":
-                    result = "1;#";
-                    break;
-                case "UK":
-                    result = "2;#";
-                    break;
-                case "Sverige":
-                    result = "3;#";
-                    break;
-                case "Tyskland":
-                    result = "4;#";
-                    break;
-                case "Norge":
-                    result = "5;#";
-                    break;
-                case "Finland":
-                    result = "6;#";
-                    break;
-                case "Belgien":
-                    result = "7;#";
-                    break;
-                case "USA":
-                    result = "8;#";
-                    break;
-                default:
-                    break;
+                result = countryColl[0].Id.ToString();
             }
             return result;
+            //return result != null ? result : string.Empty;
         }
 
         private static ListItem GetPartnerItem(ClientContext context, List customersLst, string accountId)
