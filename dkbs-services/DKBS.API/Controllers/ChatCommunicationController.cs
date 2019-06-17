@@ -54,6 +54,19 @@ namespace DKBS.API.Controllers
             return _choiceRepoistory.GetChatCommunication().FirstOrDefault(c => c.Booking_ID == BookingID);
         }
 
+
+        /// <summary>
+        /// Get GetById by PartnerId
+        /// </summary>
+        /// <param name="Procedure_ID"></param>
+        /// <returns></returns> 
+        [Route("GetByProvisionID")]
+        [HttpGet()]
+        public ActionResult<ChatCommunicationDTO> GetByProvisionID(string Procedure_ID)
+        {
+            return _choiceRepoistory.GetChatCommunication().FirstOrDefault(c => c.Procedure_ID == Procedure_ID);
+        }
+
         /// <summary>
         /// Update UpdatesRInternalNotes
         /// </summary>
@@ -64,7 +77,7 @@ namespace DKBS.API.Controllers
 
         [HttpPut()]
         [Route("UpdatesRInternalNotes/{EmailConversationID:int}")]
-        public IActionResult UpdatesRInternalNotes(int Chat_ID, [FromBody] ChatCommunicationDTO chatCommunicationDTO)
+        public IActionResult UpdateschatCommunication(int Chat_ID, [FromBody] ChatCommunicationDTO chatCommunicationDTO)
         {
             if (!ModelState.IsValid)
             {
