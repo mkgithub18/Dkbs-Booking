@@ -15,7 +15,7 @@ namespace DKBS.DTO
         //  public string Maxspace_at_tables { get; set; }
         //  public Boolean State_agreement { get; set; }
         //  public string MaxAccommodation { get; set; }
-        //  public int PartnerId { get; set; }
+        //  public int CRMPartnerId { get; set; }
         //  public string PartnerCenfoInfoSPId { get; set; }
 
 
@@ -34,7 +34,7 @@ namespace DKBS.DTO
 
         public string MaxAccommodation { get; set; }
 
-        public int? PartnerId { get; set; }
+        public int? CRMPartnerId { get; set; }
 
         public string PartnerCenfoInfoSPId { get; set; }
 

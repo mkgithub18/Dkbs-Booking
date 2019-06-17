@@ -1,5 +1,5 @@
 ﻿CREATE TABLE [dbo].[EmailConversation] (
-    [PartnerId]           INT            NOT NULL,
+    [CRMPartnerId]           INT            NOT NULL,
     [EmailTitle]          VARCHAR (255)  NOT NULL,
     [Message]             VARCHAR (255)  NULL,
     [Sender]              VARCHAR (255)  NULL,

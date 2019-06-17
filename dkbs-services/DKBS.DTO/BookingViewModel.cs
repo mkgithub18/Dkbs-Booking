@@ -16,7 +16,7 @@ namespace DKBS.DTO
         }
 
         public int BookingId { get; set; }
-        public int PartnerId { get; set; }
+        public int CRMPartnerId { get; set; }
         public int CustomerId { get; set; }
         public int TableTypeId { get; set; }
         public int CancellationReasonId { get; set; }

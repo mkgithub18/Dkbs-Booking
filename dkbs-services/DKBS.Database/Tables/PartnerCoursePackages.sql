@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[PartnerCoursePackages] (
     [ID]                        INT           IDENTITY (1, 1) NOT NULL,
-    [PartnerID]                 INT           NULL,
+    [CRMPartnerId]                 INT           NULL,
     [ServiceCatalogueID]        INT           NULL,
     [Offered]                   BIT           NULL,
     [Price]                     MONEY         NULL,

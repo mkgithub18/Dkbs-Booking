@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace DKBS.DTO
 {
-   public class GetWebsitePartnerListDTO
+   public class DKBSPartnerListDTO
     {
-        public int? CRMPartnerId { get; set; }
+        public int? CRMCRMPartnerId { get; set; }
         public string CVR { get; set; }
         public string Address1 { get; set; }
         public string Address2 { get; set; }
@@ -23,7 +23,8 @@ namespace DKBS.DTO
         public bool RecommandedNPGRT60 { get; set; }
         public bool QualityAssuredNPSGRD30 { get; set; }
         public string Partnertype { get; set; }
-        public DateTime LastModified { get; set; }
+        public DateTime PartnerInfoModificationdate { get; set; }
+
 
 
     }

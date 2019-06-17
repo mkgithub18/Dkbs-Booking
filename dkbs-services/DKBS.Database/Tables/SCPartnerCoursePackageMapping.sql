@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [dbo].[SCPartnerCoursePackageMapping] (
     [Id]                            INT   IDENTITY (1, 1) NOT NULL,
     [ServiceCatalogueID]            INT   NULL,
-    [PartnerID]                     INT   NULL,
+    [CRMPartnerId]                     INT   NULL,
     [CoursePackageFreeServiceID]    INT   NULL,
     [CoursePackageYearPriceID]      INT   NULL,
     [CoursePackagePremiumServiceID] INT   NULL,

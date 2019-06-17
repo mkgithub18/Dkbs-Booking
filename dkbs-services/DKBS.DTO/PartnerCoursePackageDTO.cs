@@ -10,7 +10,7 @@ namespace DKBS.DTO
     {
 
         public int ID { get; set; }
-        public int PartnerID {get; set; }
+        public int CRMPartnerId {get; set; }
         public int ServiceCatalogueID { get; set; }
         public bool Offered { get; set; }
         public decimal Price { get; set; }

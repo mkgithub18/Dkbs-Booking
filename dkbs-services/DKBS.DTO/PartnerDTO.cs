@@ -5,7 +5,8 @@ namespace DKBS.DTO
 {
     public class PartnerDTO
     {
-        public int PartnerId { get; set; }
+        [Key]
+        public int CRMPartnerId { get; set; }
         public string PartnerName { get; set; }
         public string EmailId { get; set; }
         public CenterTypeDTO CenterTypeDTO { get; set; }
@@ -19,6 +20,7 @@ namespace DKBS.DTO
 
     public class CRMPartnerDTO
     {
+        [Key]
         public string AccountId { get; set; }
         public string Partnertype { get; set; }
         public string MembershipType { get; set; }
@@ -43,7 +45,7 @@ namespace DKBS.DTO
         public string PanoramView { get; set; }
         public bool RecommandedNPGRT60 { get; set; }
         public bool QualityAssuredNPSGRD30 { get; set; }
-        public int? CRMPartnerId { get; set; }
+        public int? CRMCRMPartnerId { get; set; }
         public DateTime LastModified { get; set; }
         public string LastModifiedBy { get; set; }
         public DateTime CreatedDate { get; set; }

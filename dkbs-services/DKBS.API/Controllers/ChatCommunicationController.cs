@@ -16,7 +16,7 @@ namespace DKBS.API.Controllers
     /// </summary>
     /// 
 
-    [Route("api/[controller]")]
+    [Route("ChatCommunication")]
     [ApiController]
     public class ChatCommunicationController : Controller
     {
@@ -43,12 +43,12 @@ namespace DKBS.API.Controllers
 
 
         /// <summary>
-        /// Get GetById by PartnerId
+        /// Get GetById by CRMPartnerId
         /// </summary>
         /// <param name="BookingID"></param>
         /// <returns></returns> 
-        [Route("BookingID")]
-        [HttpGet()]
+       
+        [HttpGet("{BookingID}")]
         public ActionResult<ChatCommunicationDTO> GetById(string BookingID)
         {
             return _choiceRepoistory.GetChatCommunication().FirstOrDefault(c => c.Booking_ID == BookingID);

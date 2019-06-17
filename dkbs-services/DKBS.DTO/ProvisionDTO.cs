@@ -13,7 +13,7 @@ namespace DKBS.DTO
         //public string LastModifiedBy { get; set; }
 
         public int ProvisionId { get; set; }
-        public int PartnerId { get; set; }
+        public int CRMPartnerId { get; set; }
         public int CustomerId { get; set; }
         public int BookingId { get; set; }
         public decimal? Price { get; set; }

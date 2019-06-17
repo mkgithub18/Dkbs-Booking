@@ -55,15 +55,15 @@ namespace DKBS.API.Controllers
         }
 
         /// <summary>
-        /// Get PartnerCenterRoomInfoDTO by PartnerId
+        /// Get PartnerCenterRoomInfoDTO by CRMPartnerId
         /// </summary>
-        /// <param name="PartnerId"></param>
+        /// <param name="CRMPartnerId"></param>
         /// <returns></returns>
-        [Route("GetByPartnerId")]
+        [Route("GetByCRMPartnerId")]
         [HttpGet()]
-        public ActionResult<PartnerCenterRoomInfoDTO> GetById(int PartnerId)
+        public ActionResult<PartnerCenterRoomInfoDTO> GetById(int CRMPartnerId)
         {
-            return _choiceRepoistory.GetPartnerCenterRoomInfo().FirstOrDefault(c => c.PartnerId == PartnerId);
+            return _choiceRepoistory.GetPartnerCenterRoomInfo().FirstOrDefault(c => c.CRMPartnerId == CRMPartnerId);
         }
 
         /// <summary>
@@ -96,13 +96,13 @@ namespace DKBS.API.Controllers
             partnerCenterRoomInfo = partnerCenterRoomInfoDTO;
 
             _choiceRepoistory.Complete();
-            UpdateCRMPartnerInfoModificationdate(partnerCenterRoomInfoDTO.PartnerId);
+            UpdateCRMPartnerInfoModificationdate(partnerCenterRoomInfoDTO.CRMPartnerId);
             return NoContent();
         }
 
-        private void UpdateCRMPartnerInfoModificationdate(int? partnerID)
+        private void UpdateCRMPartnerInfoModificationdate(int? CRMPartnerId)
         {
-            var partner = _choiceRepoistory.GetById<CRMPartner>(c => c.CRMPartnerId == partnerID);
+            var partner = _choiceRepoistory.GetById<CRMPartner>(c => c.CRMCRMPartnerId == CRMPartnerId);
             partner.PartnerInfoModificationdate = DateTime.UtcNow;
             _choiceRepoistory.Attach(partner);
             _choiceRepoistory.Complete();
@@ -139,7 +139,7 @@ namespace DKBS.API.Controllers
             PartnerCenterRoomInfo newlyCreatedPartnerCenterRoomInfo = new PartnerCenterRoomInfo()
             {
                 PartnerCenterRoomInfoId = partnerCenterRoomInfoDTO.PartnerCenterRoomInfoId,
-                PartnerId = partnerCenterRoomInfoDTO.PartnerId,
+                CRMPartnerId = partnerCenterRoomInfoDTO.CRMPartnerId,
                 MaxPersonsAtMeetingTable = partnerCenterRoomInfoDTO.MaxPersonsAtMeetingTable,
                 MaxPersonsAtSchoolTable = partnerCenterRoomInfoDTO.MaxPersonsAtSchoolTable,
                 MaxPersonsAtRowOfChairs = partnerCenterRoomInfoDTO.MaxPersonsAtRowOfChairs,
@@ -159,7 +159,7 @@ namespace DKBS.API.Controllers
 
             _choiceRepoistory.SetpartnerCenterRoomInfo(newlyCreatedPartnerCenterRoomInfo);
             _choiceRepoistory.Complete();
-            UpdateCRMPartnerInfoModificationdate(partnerCenterRoomInfoDTO.PartnerId);
+            UpdateCRMPartnerInfoModificationdate(partnerCenterRoomInfoDTO.CRMPartnerId);
 
             return CreatedAtRoute("GetPartnerCenterRoomInfo", new { name = newlyCreatedPartnerCenterRoomInfo.RoomName }, newlyCreatedPartnerCenterRoomInfo);
         }

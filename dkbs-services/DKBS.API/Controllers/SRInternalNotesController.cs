@@ -41,7 +41,7 @@ namespace DKBS.API.Controllers
 
 
         /// <summary>
-        /// Get GetById by PartnerId
+        /// Get GetById by CRMPartnerId
         /// </summary>
         /// <param name="BookingID"></param>
         /// <returns></returns> 

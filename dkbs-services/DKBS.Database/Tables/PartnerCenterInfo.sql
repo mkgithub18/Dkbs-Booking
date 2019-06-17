@@ -6,7 +6,7 @@
     [MaxspaceAtTables]                  NVARCHAR (50)  NULL,
     [StateAgreement]                    BIT            NULL,
     [MaxAccommodation]                  NVARCHAR (50)  NULL,
-    [PartnerId]                         INT            NULL,
+    [CRMCRMPartnerId]                         INT            NULL,
     [PartnerCenfoInfoSPId]              NVARCHAR (50)  NULL,
     [NumberOfSingleRooms]               INT            NULL,
     [NumberOfDoubleRooms]               INT            NULL,

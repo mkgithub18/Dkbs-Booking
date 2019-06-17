@@ -11,7 +11,7 @@ namespace DKBS.DTO
         public int PartnerCoursePackageMenueID { get; set; }
         public int ServiceCatalogueID { get; set; }
         public bool Include { get; set; }
-        public int PartnerID { get; set; }
+        public int CRMPartnerId { get; set; }
         public int CoursePackageMenueID { get; set; }
         public string PartnerCoursePakageMenue_SPID { get; set; } 
         public DateTime CreatedDate { get; set; }

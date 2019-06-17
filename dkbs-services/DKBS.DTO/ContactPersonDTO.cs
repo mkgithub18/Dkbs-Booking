@@ -6,7 +6,7 @@ namespace DKBS.DTO
 {
     public class ContactPersonDTO
     {
-        [JsonIgnore]
+        [Key]
         public int ContactPersonId { get; set; }
         [Required]
         public string FirstName { get; set; }

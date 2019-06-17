@@ -369,7 +369,7 @@
     <Property Name="ElementType" Value="SqlSimpleColumn" />
     <Property Name="ParentElementName" Value="[dbo].[PartnerEmployee]" />
     <Property Name="ParentElementType" Value="SqlTable" />
-    <Property Name="NewName" Value="PartnerId" />
+    <Property Name="NewName" Value="CRMPartnerId" />
   </Operation>
   <Operation Name="Rename Refactor" Key="6884e5f9-c30d-4759-97b2-1cbf4a85cd00" ChangeDateTime="03/31/2019 09:07:57">
     <Property Name="ElementName" Value="[dbo].[PartnerEmployee].[MailGroup_Id]" />
@@ -390,7 +390,7 @@
     <Property Name="ElementType" Value="SqlSimpleColumn" />
     <Property Name="ParentElementName" Value="[dbo].[Partners]" />
     <Property Name="ParentElementType" Value="SqlTable" />
-    <Property Name="NewName" Value="PartnerId" />
+    <Property Name="NewName" Value="CRMPartnerId" />
   </Operation>
   <Operation Name="Rename Refactor" Key="3a303016-3dee-4df3-b0f5-865a4f5da1b9" ChangeDateTime="03/31/2019 09:08:35">
     <Property Name="ElementName" Value="[dbo].[ProcedureInfo].[ProcedureInfo_Id]" />
@@ -411,7 +411,7 @@
     <Property Name="ElementType" Value="SqlSimpleColumn" />
     <Property Name="ParentElementName" Value="[dbo].[ProcedureInfo]" />
     <Property Name="ParentElementType" Value="SqlTable" />
-    <Property Name="NewName" Value="PartnerId" />
+    <Property Name="NewName" Value="CRMPartnerId" />
   </Operation>
   <Operation Name="Rename Refactor" Key="eb769cae-09b0-49b3-bf89-69a483b1022e" ChangeDateTime="03/31/2019 09:09:00">
     <Property Name="ElementName" Value="[dbo].[ProcedureReviewType].[ProcedureReviewType_Id]" />
@@ -446,7 +446,7 @@
     <Property Name="ElementType" Value="SqlSimpleColumn" />
     <Property Name="ParentElementName" Value="[dbo].[Procedures]" />
     <Property Name="ParentElementType" Value="SqlTable" />
-    <Property Name="NewName" Value="PartnerId" />
+    <Property Name="NewName" Value="CRMPartnerId" />
   </Operation>
   <Operation Name="Rename Refactor" Key="96894244-06b4-44e1-975d-b6a772f44fcb" ChangeDateTime="03/31/2019 09:09:40">
     <Property Name="ElementName" Value="[dbo].[Procedures].[ProcedureReviewType_Id]" />
@@ -985,7 +985,7 @@
     <Property Name="ElementType" Value="SqlSimpleColumn" />
     <Property Name="ParentElementName" Value="[dbo].[Provision]" />
     <Property Name="ParentElementType" Value="SqlTable" />
-    <Property Name="NewName" Value="PartnerId" />
+    <Property Name="NewName" Value="CRMPartnerId" />
   </Operation>
   <Operation Name="Rename Refactor" Key="2277c7a0-6090-42be-8d96-5700211e5715" ChangeDateTime="04/14/2019 04:23:21">
     <Property Name="ElementName" Value="[dbo].[BookingRegions].[BookingRegionsId]" />
@@ -1167,14 +1167,14 @@
     <Property Name="ElementType" Value="SqlSimpleColumn" />
     <Property Name="ParentElementName" Value="[dbo].[PartnerInspirationCategories]" />
     <Property Name="ParentElementType" Value="SqlTable" />
-    <Property Name="NewName" Value="PartnerId" />
+    <Property Name="NewName" Value="CRMPartnerId" />
   </Operation>
   <Operation Name="Rename Refactor" Key="48105cc2-5ed0-41a8-8122-09e824319ab7" ChangeDateTime="05/08/2019 10:32:47">
     <Property Name="ElementName" Value="[dbo].[PartnerCoursePackages].[Partner_Id]" />
     <Property Name="ElementType" Value="SqlSimpleColumn" />
     <Property Name="ParentElementName" Value="[dbo].[PartnerCoursePackages]" />
     <Property Name="ParentElementType" Value="SqlTable" />
-    <Property Name="NewName" Value="PartnerId" />
+    <Property Name="NewName" Value="CRMPartnerId" />
   </Operation>
   <Operation Name="Rename Refactor" Key="638a9ebc-7d3a-488c-8efa-ebd7a7c509c7" ChangeDateTime="05/08/2019 10:33:35">
     <Property Name="ElementName" Value="[dbo].[PartnerCoursePackages].[ServiceCatalogue_Id]" />
@@ -1195,21 +1195,21 @@
     <Property Name="ElementType" Value="SqlSimpleColumn" />
     <Property Name="ParentElementName" Value="[dbo].[PartnerCenterRoomInfo]" />
     <Property Name="ParentElementType" Value="SqlTable" />
-    <Property Name="NewName" Value="PartnerId" />
+    <Property Name="NewName" Value="CRMPartnerId" />
   </Operation>
   <Operation Name="Rename Refactor" Key="f1c91a0e-56e4-4e55-a74e-7a348f421249" ChangeDateTime="05/08/2019 10:35:59">
     <Property Name="ElementName" Value="[dbo].[PartnerCenterInfo].[Partner_Id]" />
     <Property Name="ElementType" Value="SqlSimpleColumn" />
     <Property Name="ParentElementName" Value="[dbo].[PartnerCenterInfo]" />
     <Property Name="ParentElementType" Value="SqlTable" />
-    <Property Name="NewName" Value="PartnerId" />
+    <Property Name="NewName" Value="CRMPartnerId" />
   </Operation>
   <Operation Name="Rename Refactor" Key="bdd4dac8-b268-4e53-bbd0-926a1a408961" ChangeDateTime="05/08/2019 10:36:45">
     <Property Name="ElementName" Value="[dbo].[PartnerCenterDescription].[Partner_Id]" />
     <Property Name="ElementType" Value="SqlSimpleColumn" />
     <Property Name="ParentElementName" Value="[dbo].[PartnerCenterDescription]" />
     <Property Name="ParentElementType" Value="SqlTable" />
-    <Property Name="NewName" Value="PartnerId" />
+    <Property Name="NewName" Value="CRMPartnerId" />
   </Operation>
   <Operation Name="Rename Refactor" Key="3bf69dfb-a716-4b10-b372-38af907231f3" ChangeDateTime="05/08/2019 16:40:05">
     <Property Name="ElementName" Value="[dbo].[Customer].[CustomerName]" />
@@ -1329,5 +1329,26 @@
     <Property Name="ParentElementName" Value="[dbo].[PartnerCenterDescription]" />
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="TextforQuotationforEmail" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="fc100be9-a3c3-4e38-9833-2ced698e94a3" ChangeDateTime="06/13/2019 11:28:12">
+    <Property Name="ElementName" Value="[dbo].[PartnerCenterInfo].[CRMPartnerId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[PartnerCenterInfo]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CRMCRMPartnerId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="bb3e6f1e-35f2-4cdd-b8a8-467c43c41053" ChangeDateTime="06/13/2019 11:28:26">
+    <Property Name="ElementName" Value="[dbo].[PartnerCenterInfo].[CRMCRMPartnerId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[PartnerCenterInfo]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CRMPartnerId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="5e54b9df-db51-4171-a1c8-4e227ac61704" ChangeDateTime="06/13/2019 11:28:37">
+    <Property Name="ElementName" Value="[dbo].[PartnerCenterInfo].[CRMPartnerId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[PartnerCenterInfo]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CRMCRMPartnerId" />
   </Operation>
 </Operations>

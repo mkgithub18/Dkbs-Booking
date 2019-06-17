@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[PartnerCenterDescription] (
     [PartnerCenterDescription_Id]  INT            NOT NULL,
-    [PartnerId]                    INT            NOT NULL,
+    [CRMPartnerId]                    INT            NOT NULL,
     [Rooms]                        NVARCHAR (50)  NULL,
     [Capacity]                     NVARCHAR (50)  NULL,
     [Facilities]                   NVARCHAR (50)  NULL,
@@ -15,7 +15,7 @@
     [LastModified]                 DATETIME       NOT NULL,
     [LastModifiedBY]               NVARCHAR (255) NOT NULL,
     PRIMARY KEY CLUSTERED ([PartnerCenterDescription_Id] ASC),
-    CONSTRAINT [FK_PartnerCenterDescription_Partner] FOREIGN KEY ([PartnerId]) REFERENCES [dbo].[Partner] ([PartnerId])
+    CONSTRAINT [FK_PartnerCenterDescription_Partner] FOREIGN KEY ([CRMPartnerId]) REFERENCES [dbo].[Partner] ([CRMPartnerId])
 );
 
 

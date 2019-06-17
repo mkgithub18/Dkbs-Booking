@@ -143,7 +143,7 @@ namespace DKBS.API.Controllers
             Provision newlyProvision = new Provision()
             {               
                 ProvisionId = provisionDTO.ProvisionId,
-                PartnerId = provisionDTO.PartnerId,
+                CRMPartnerId = provisionDTO.CRMPartnerId,
                 CustomerId = provisionDTO.CustomerId,
                 BookingId = provisionDTO.BookingId,
                 Price = provisionDTO.Price,

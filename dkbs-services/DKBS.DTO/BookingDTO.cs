@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace DKBS.DTO
 {
     public class BookingDTO
     {
-
+        
         public BookingDTO()
         {
             RegionDTO = new List<RegionDTO>();
@@ -14,6 +15,7 @@ namespace DKBS.DTO
             BookingAlternativeServiceDTO = new List<BookingAlternativeServiceDTO>();
             ProcedureInfoDTO = new List<ProcedureInfoDTO>();
         }
+        [Key]
         public int BookingId { get; set; }
         public PartnerDTO PartnerDTO { get; set; }
         public CustomerDTO CustomerDTO { get; set; }

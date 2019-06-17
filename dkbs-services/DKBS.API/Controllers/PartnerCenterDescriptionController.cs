@@ -54,9 +54,9 @@ namespace DKBS.API.Controllers
                 return BadRequest();
 
 
-            var checkPartnerIdinDb = _choiceRepoistory.GetPartnerCenterDescriptions().Find(c => c.PartnerCenterDescription_Id == partnerCenterDescriptionDto.PartnerCenterDescription_Id);
+            var checkCRMPartnerIdinDb = _choiceRepoistory.GetPartnerCenterDescriptions().Find(c => c.PartnerCenterDescription_Id == partnerCenterDescriptionDto.PartnerCenterDescription_Id);
 
-            if (checkPartnerIdinDb != null)
+            if (checkCRMPartnerIdinDb != null)
             {
                 return BadRequest();
             }
@@ -64,7 +64,7 @@ namespace DKBS.API.Controllers
             PartnerCenterDescription newlyCreatedPartnerCenterDescription = new PartnerCenterDescription()
             {
                 PartnerCenterDescription_Id = partnerCenterDescriptionDto.PartnerCenterDescription_Id,
-                PartnerId = partnerCenterDescriptionDto.PartnerId,
+                CRMPartnerId = partnerCenterDescriptionDto.CRMPartnerId,
                 Rooms = partnerCenterDescriptionDto.Rooms,
                 Capacity = partnerCenterDescriptionDto.Capacity,
                 Facilities = partnerCenterDescriptionDto.Facilities,
@@ -79,7 +79,7 @@ namespace DKBS.API.Controllers
 
             _choiceRepoistory.GetPartnerCenterDescriptions().Add(destination);
             _choiceRepoistory.Complete();
-            UpdateCRMPartnerInfoModificationdate(partnerCenterDescriptionDto.PartnerId);
+            UpdateCRMPartnerInfoModificationdate(partnerCenterDescriptionDto.CRMPartnerId);
             return CreatedAtRoute("GetPartnerCenterDescriptionsById", new { name = newlyCreatedPartnerCenterDescription.PartnerCenterDescription_Id }, newlyCreatedPartnerCenterDescription);
         }
 
@@ -108,13 +108,13 @@ namespace DKBS.API.Controllers
             partnerCenterDescription = partnerCenterDescriptionDto;
 
             _choiceRepoistory.Complete();
-            UpdateCRMPartnerInfoModificationdate(partnerCenterDescriptionDto.PartnerId);
+            UpdateCRMPartnerInfoModificationdate(partnerCenterDescriptionDto.CRMPartnerId);
             return NoContent();
         }
 
-        private void UpdateCRMPartnerInfoModificationdate(int partnerID)
+        private void UpdateCRMPartnerInfoModificationdate(int CRMPartnerId)
         {
-            var partner = _choiceRepoistory.GetById<CRMPartner>(c => c.CRMPartnerId == partnerID);
+            var partner = _choiceRepoistory.GetById<CRMPartner>(c => c.CRMCRMPartnerId == CRMPartnerId);
             partner.PartnerInfoModificationdate = DateTime.UtcNow;
             _choiceRepoistory.Attach(partner);
             _choiceRepoistory.Complete();

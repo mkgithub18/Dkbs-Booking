@@ -43,7 +43,7 @@ namespace DKBS.API.Controllers
 
 
         /// <summary>
-        /// Get PartnerCenterInfo_Id by PartnerId
+        /// Get PartnerCenterInfo_Id by CRMPartnerId
         /// </summary>
         /// <param name="BookingID"></param>
         /// <returns></returns> 
@@ -118,7 +118,7 @@ namespace DKBS.API.Controllers
 
             EmailConversation newlyEmailConversation = new EmailConversation()
             {
-                PartnerId = emailConversationDTO.PartnerId,
+                CRMPartnerId = emailConversationDTO.CRMPartnerId,
                 EmailTitle = emailConversationDTO.EmailTitle,
                 Message = emailConversationDTO.Message,
                 Sender = emailConversationDTO.Sender,

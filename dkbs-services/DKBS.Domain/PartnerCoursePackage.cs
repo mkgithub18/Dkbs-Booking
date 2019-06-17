@@ -9,7 +9,7 @@ namespace DKBS.Domain
     public class PartnerCoursePackages
     {
         public int Id { get; set; }
-        public int PartnerID { get; set; }
+        public int CRMPartnerId { get; set; }
         public int ServiceCatalogueID { get; set; }
         public bool Offered { get; set; }
         public decimal Price { get; set; }

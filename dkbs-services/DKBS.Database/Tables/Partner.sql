@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[Partner]
 (
-	[PartnerId] INT NOT NULL PRIMARY KEY, 
+	[CRMPartnerId] INT NOT NULL PRIMARY KEY, 
     [PartnerName] VARCHAR(255) NOT NULL,
     [EmailId] VARCHAR(255) NULL, 
 	[CenterTypeId] INT NULL,

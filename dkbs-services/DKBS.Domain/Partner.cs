@@ -5,7 +5,8 @@ namespace DKBS.Domain
 {
     public class Partner
     {
-        public int PartnerId { get; set; }
+        [Key]
+        public int CRMPartnerId { get; set; }
         public string PartnerName { get; set; }
         public string EmailId { get; set; }
         public CenterType CenterType { get; set; }
@@ -18,7 +19,8 @@ namespace DKBS.Domain
 
     public class CRMPartner
     {
-        public int CRMPartnerId { get; set; }
+        [Key]
+        public int CRMCRMPartnerId { get; set; }
         public string AccountId { get; set; }
         public string Partnertype { get; set; }
         public string MembershipType { get; set; }

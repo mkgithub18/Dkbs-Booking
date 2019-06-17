@@ -12,7 +12,7 @@ namespace DKBS.Domain
         [Key]
         public int? EmailConversationID { get; set; }
 
-        public int PartnerId { get; set; }
+        public int CRMPartnerId { get; set; }
 
         public string EmailTitle { get; set; }
 

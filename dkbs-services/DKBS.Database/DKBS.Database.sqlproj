@@ -105,22 +105,12 @@
     <Build Include="Tables\ContactPerson.sql" />
     <Build Include="Tables\CRMPartner.sql" />
     <Build Include="Tables\PartnerEmployee.sql" />
-    <Build Include="dbo\Tables\SCPartnerCoursePackageMapping.sql" />
-    <Build Include="dbo\Tables\CoursePackageYearPrice.sql" />
-    <Build Include="dbo\Tables\CoursePackagePremiumServices.sql" />
-    <Build Include="dbo\Tables\CoursePackageMenue.sql" />
-    <Build Include="dbo\Tables\CoursePackageFreeServices.sql" />
     <Build Include="Tables\PartnerInspirationCategoriesDK.sql" />
     <Build Include="Tables\EmailConversation.sql" />
     <Build Include="Tables\chatcommunication.sql" />
     <Build Include="Tables\PartnerInspirationCategoriesUK.sql" />
-    <Build Include="Tables\ServiceRequestNotes.sql" />
-    <Build Include="Tables\SRConversationItems.sql" />
     <Build Include="Tables\SRInternalNotes.sql" />
     <Build Include="Tables\SRInternalNotify.sql" />
-    <Build Include="dbo\Tables\SRConversationItem.sql" />
-    <Build Include="dbo\Tables\ServiceRequestNote.sql" />
-    <Build Include="dbo\Tables\CenterInfoApproveStatus.sql" />
     <Build Include="Tables\ContactPerson_old.sql" />
     <Build Include="Tables\CoursePackageMenue.sql" />
     <Build Include="Tables\Customer_old.sql" />
@@ -130,6 +120,9 @@
     <Build Include="Tables\PartnerCoursePackageYearPrice.sql" />
     <Build Include="Tables\SCPartnerCoursePackageMapping.sql" />
     <Build Include="Tables\ServiceCatalogue.sql" />
+    <Build Include="Tables\ServiceRequestNote.sql" />
+    <Build Include="Tables\SRConversationItem.sql" />
+    <Build Include="Tables\CenterInfoApproveStatus.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="DKBS.publish.xml" />

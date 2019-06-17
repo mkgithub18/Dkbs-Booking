@@ -1,5 +1,5 @@
 ﻿CREATE TABLE [dbo].[CRMPartner] (
-    [CRMPartnerId]           INT            IDENTITY (1, 1) NOT NULL,
+    [CRMCRMPartnerId]           INT            IDENTITY (1, 1) NOT NULL,
     [AccountId]              NVARCHAR (100) NOT NULL,
     [Partnertype]            NVARCHAR (100) NULL,
     [MembershipType]         NVARCHAR (100) NULL,
@@ -27,7 +27,7 @@
     [LastModifiedBy]         NVARCHAR (100) NULL,
     [CreatedDate]            DATETIME       NULL,
     [CreatedBy]              NVARCHAR (100) NULL,
-    PRIMARY KEY CLUSTERED ([CRMPartnerId] ASC),
+    PRIMARY KEY CLUSTERED ([CRMCRMPartnerId] ASC),
     UNIQUE NONCLUSTERED ([AccountId] ASC)
 );
 

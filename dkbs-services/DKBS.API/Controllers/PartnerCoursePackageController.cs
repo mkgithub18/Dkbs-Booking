@@ -80,17 +80,17 @@ namespace DKBS.API.Controllers
                     return NotFound(ModelState);
                 }
 
-                partnerCoursePackageInDb.PartnerID = partnerCoursePackageDTO.PartnerID;
+                partnerCoursePackageInDb.CRMPartnerId = partnerCoursePackageDTO.CRMPartnerId;
                 partnerCoursePackageInDb.Offered = partnerCoursePackageDTO.Offered;
                 partnerCoursePackageInDb.Price = partnerCoursePackageDTO.Price;
                 partnerCoursePackageInDb.ServiceCatalogueID = partnerCoursePackageDTO.ServiceCatalogueID;
                 _choiceRepoistory.Attach(partnerCoursePackageInDb);
                 _choiceRepoistory.Complete();
-                UpdateCoursePackageMenue(partnerCoursePackageDTO, partnerCoursePackageInDb.Id, partnerCoursePackageInDb.PartnerID, partnerCoursePackageInDb.ServiceCatalogueID);
-                UpdateCoursePackageFreeServices(partnerCoursePackageDTO, partnerCoursePackageInDb.Id, partnerCoursePackageInDb.PartnerID, partnerCoursePackageInDb.ServiceCatalogueID);
-                UpdateCoursePackagePremiumServices(partnerCoursePackageDTO, partnerCoursePackageInDb.Id, partnerCoursePackageInDb.PartnerID,partnerCoursePackageInDb.ServiceCatalogueID);
-                UpdateCoursePackageYearPrice(partnerCoursePackageDTO, partnerCoursePackageInDb.Id,partnerCoursePackageInDb.PartnerID,partnerCoursePackageInDb.ServiceCatalogueID);
-                UpdateCRMPartnerInfoModificationdate(partnerCoursePackageDTO.PartnerID);
+                UpdateCoursePackageMenue(partnerCoursePackageDTO, partnerCoursePackageInDb.Id, partnerCoursePackageInDb.CRMPartnerId, partnerCoursePackageInDb.ServiceCatalogueID);
+                UpdateCoursePackageFreeServices(partnerCoursePackageDTO, partnerCoursePackageInDb.Id, partnerCoursePackageInDb.CRMPartnerId, partnerCoursePackageInDb.ServiceCatalogueID);
+                UpdateCoursePackagePremiumServices(partnerCoursePackageDTO, partnerCoursePackageInDb.Id, partnerCoursePackageInDb.CRMPartnerId,partnerCoursePackageInDb.ServiceCatalogueID);
+                UpdateCoursePackageYearPrice(partnerCoursePackageDTO, partnerCoursePackageInDb.Id,partnerCoursePackageInDb.CRMPartnerId,partnerCoursePackageInDb.ServiceCatalogueID);
+                UpdateCRMPartnerInfoModificationdate(partnerCoursePackageDTO.CRMPartnerId);
                 return NoContent();
 
             }
@@ -101,20 +101,20 @@ namespace DKBS.API.Controllers
             }
         }
 
-        private void UpdateCRMPartnerInfoModificationdate(int partnerID)
+        private void UpdateCRMPartnerInfoModificationdate(int CRMPartnerId)
         {
-            var partner = _choiceRepoistory.GetById<CRMPartner>(c => c.CRMPartnerId == partnerID);
+            var partner = _choiceRepoistory.GetById<CRMPartner>(c => c.CRMCRMPartnerId == CRMPartnerId);
             partner.PartnerInfoModificationdate = DateTime.UtcNow;
             _choiceRepoistory.Attach(partner);
             _choiceRepoistory.Complete();
         }
 
-        private void UpdateCoursePackageMenue(PartnerCoursePackagesDTO partnerCoursePackageDTO, int Id, int PartnerId, int serviceCatalogueID)
+        private void UpdateCoursePackageMenue(PartnerCoursePackagesDTO partnerCoursePackageDTO, int Id, int CRMPartnerId, int serviceCatalogueID)
         {
             foreach (var partnercoursePackageMenue in partnerCoursePackageDTO.PartnerCoursePackageMenueList)
             {
                 var partnerCoursePackageMenueInDb = _choiceRepoistory.GetById<PartnerCoursePackageMenue>(c => c.CoursePackageMenueID == partnercoursePackageMenue.CoursePackageMenueID
-                && c.PartnerID == PartnerId
+                && c.CRMPartnerId == CRMPartnerId
                 && c.ServiceCatalogueID == serviceCatalogueID);
                 if (partnerCoursePackageMenueInDb == null)
                 {
@@ -123,7 +123,7 @@ namespace DKBS.API.Controllers
 
                         CoursePackageMenueID = partnercoursePackageMenue.CoursePackageMenueID,
                         Include = partnercoursePackageMenue.Include,
-                        PartnerID = PartnerId,
+                        CRMPartnerId = CRMPartnerId,
                         ServiceCatalogueID = serviceCatalogueID,
                         CreatedDate = DateTime.Now,
                         ModifiedDate = DateTime.Now
@@ -144,12 +144,12 @@ namespace DKBS.API.Controllers
         }
 
 
-        private void UpdateCoursePackageFreeServices(PartnerCoursePackagesDTO partnerCoursePackageDTO, int Id, int PartnerId, int serviceCatalogueID)
+        private void UpdateCoursePackageFreeServices(PartnerCoursePackagesDTO partnerCoursePackageDTO, int Id, int CRMPartnerId, int serviceCatalogueID)
         {
             foreach (var partnercoursePackageFreeServices in partnerCoursePackageDTO.PartnerCoursePackageFreeServicesList)
             {
                 var partnercoursePackageFreeServicesInDb = _choiceRepoistory.GetById<PartnerCoursePackageFreeServices>(c => c.PartnerCoursePackageFreeServiceID == partnercoursePackageFreeServices.PartnerCoursePackageFreeServiceID
-                && c.PartnerID == PartnerId
+                && c.CRMPartnerId == CRMPartnerId
                 && c.ServiceCatalogueID == serviceCatalogueID);
                 if (partnercoursePackageFreeServicesInDb == null)
                 {
@@ -157,7 +157,7 @@ namespace DKBS.API.Controllers
                     {
 
                         Description = partnercoursePackageFreeServices.Description,
-                        PartnerID = PartnerId,
+                        CRMPartnerId = CRMPartnerId,
                         ServiceCatalogueID = serviceCatalogueID,
                         CreatedDate = DateTime.Now,
                         ModifiedDate = DateTime.Now
@@ -177,11 +177,11 @@ namespace DKBS.API.Controllers
             }
         }
 
-        private void UpdateCoursePackagePremiumServices(PartnerCoursePackagesDTO partnerCoursePackageDTO, int Id, int PartnerId, int serviceCatalogueID)
+        private void UpdateCoursePackagePremiumServices(PartnerCoursePackagesDTO partnerCoursePackageDTO, int Id, int CRMPartnerId, int serviceCatalogueID)
         {
             foreach (var partnercoursePackagePremiumServices in partnerCoursePackageDTO.PartnerCoursePackagePremiumServicesList)
             {
-                var partnercoursePackagePremiumServicesInDb = _choiceRepoistory.GetById<PartnerCoursePackagePremiumServices>(c => c.PartnerCoursePackagePremiumServiceID == partnercoursePackagePremiumServices.PartnerCoursePackagePremiumServiceID && c.PartnerID== PartnerId && c.ServiceCatalogueID == serviceCatalogueID);
+                var partnercoursePackagePremiumServicesInDb = _choiceRepoistory.GetById<PartnerCoursePackagePremiumServices>(c => c.PartnerCoursePackagePremiumServiceID == partnercoursePackagePremiumServices.PartnerCoursePackagePremiumServiceID && c.CRMPartnerId== CRMPartnerId && c.ServiceCatalogueID == serviceCatalogueID);
                 if (partnercoursePackagePremiumServicesInDb == null)
                 {
                     PartnerCoursePackagePremiumServices newPartnerCoursePackagePremiumServices = new PartnerCoursePackagePremiumServices
@@ -189,7 +189,7 @@ namespace DKBS.API.Controllers
 
                         Description = partnercoursePackagePremiumServices.Description,
                         Price = partnercoursePackagePremiumServices.Price,
-                        PartnerID = PartnerId,
+                        CRMPartnerId = CRMPartnerId,
                         ServiceCatalogueID = serviceCatalogueID,
                         CreatedDate = DateTime.Now,
                         ModifiedDate = DateTime.Now
@@ -210,11 +210,11 @@ namespace DKBS.API.Controllers
             }
         }
 
-        private void UpdateCoursePackageYearPrice(PartnerCoursePackagesDTO partnerCoursePackageDTO, int Id , int PartnerId, int serviceCatalogueID)
+        private void UpdateCoursePackageYearPrice(PartnerCoursePackagesDTO partnerCoursePackageDTO, int Id , int CRMPartnerId, int serviceCatalogueID)
         {
             foreach (var partnercoursePackageYearPrice in partnerCoursePackageDTO.PartnerCoursePackageYearPriceList)
             {
-                var partnercoursePackageYearPriceInDb = _choiceRepoistory.GetById<PartnerCoursePackageYearPrice>(c => c.PartnerCoursePackageYearPriceID==partnercoursePackageYearPrice.PartnerCoursePackageYearPriceID && c.PartnerID == PartnerId && c.ServiceCatalogueID == serviceCatalogueID);
+                var partnercoursePackageYearPriceInDb = _choiceRepoistory.GetById<PartnerCoursePackageYearPrice>(c => c.PartnerCoursePackageYearPriceID==partnercoursePackageYearPrice.PartnerCoursePackageYearPriceID && c.CRMPartnerId == CRMPartnerId && c.ServiceCatalogueID == serviceCatalogueID);
                 if (partnercoursePackageYearPriceInDb == null)
                 {
                     PartnerCoursePackageYearPrice newPartnerCoursePackageYearPrice = new PartnerCoursePackageYearPrice
@@ -222,7 +222,7 @@ namespace DKBS.API.Controllers
 
                         Year = partnercoursePackageYearPrice.Year,
                         PricePerPerson = partnercoursePackageYearPrice.PricePerPerson,
-                        PartnerID = PartnerId,
+                        CRMPartnerId = CRMPartnerId,
                         ServiceCatalogueID = serviceCatalogueID,
                         CreatedDate = DateTime.Now,
                         ModifiedDate = DateTime.Now

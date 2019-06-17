@@ -92,7 +92,7 @@ namespace DKBS.API.Controllers
             //    CenterType = centerType,
             //    PartnerType = partnerType,
             //    EmailId = partnerEmployeeDto.Email,
-            //    PartnerId = partnerEmployeeDto.PartnerDTO.PartnerId,
+            //    CRMPartnerId = partnerEmployeeDto.PartnerDTO.CRMPartnerId,
             //    PartnerName = partnerEmployeeDto.PartnerDTO.PartnerName,
             //     PhoneNumber = partnerEmployeeDto.PartnerDTO.PhoneNumber,
             //    LastModified = partnerEmployeeDto.PartnerDTO.LastModified,
@@ -140,14 +140,14 @@ namespace DKBS.API.Controllers
                 Email = newlyCreatedPartnerEmployee.Email,
                 TelePhoneNumber = newlyCreatedPartnerEmployee.TelePhoneNumber,
                 // In future we have to get the account Id from Partner
-                PartnerId = newlyCreatedPartnerEmployee.Partner,
+                CRMPartnerId = newlyCreatedPartnerEmployee.Partner,
                 PartnerEmployeeId = newlyCreatedPartnerEmployee.PESharePointId,
                 JobTitle = newlyCreatedPartnerEmployee.JobTitle,
                 MailGroup = newlyCreatedPartnerEmployee.MailGroup,
 
             };
 
-            UpdateCRMPartnerInfoModificationdate(partnerEmployeeDto.PartnerId);
+            //UpdateCRMPartnerInfoModificationdate(partnerEmployeeDto.CRMPartnerId);
             return CreatedAtRoute("GetPartnerEmployeeById", new { peSharePointId = newlyCreatedPartnerEmployee.PESharePointId }, newlyCreatedPartnerEmployee);
         }
 
@@ -171,76 +171,76 @@ namespace DKBS.API.Controllers
                 return BadRequest();
             }
 
-            var checkPartnerIdinDb = _choiceRepoistory.GetById<PartnerEmployee>(c => c.PESharePointId == peSharePointId);//_choiceRepoistory.GetPartnerEmployees().Find(c => c.SharePointId == partnerEmployeeId);
+            var checkCRMPartnerIdinDb = _choiceRepoistory.GetById<PartnerEmployee>(c => c.PESharePointId == peSharePointId);//_choiceRepoistory.GetPartnerEmployees().Find(c => c.SharePointId == partnerEmployeeId);
 
-            if (checkPartnerIdinDb == null)
+            if (checkCRMPartnerIdinDb == null)
             {
                 return BadRequest();
             }
 
-            //checkPartnerIdinDb = partnerEmployeeDTO;
+            //checkCRMPartnerIdinDb = partnerEmployeeDTO;
 
 
-            checkPartnerIdinDb.FirstName = partnerEmployeeUpdateDTO.FirstName;
-            checkPartnerIdinDb.LastName = partnerEmployeeUpdateDTO.LastName;
+            checkCRMPartnerIdinDb.FirstName = partnerEmployeeUpdateDTO.FirstName;
+            checkCRMPartnerIdinDb.LastName = partnerEmployeeUpdateDTO.LastName;
             // PartnerEmployeeId = partnerEmployeeDto.PartnerEmployeeId,
-            checkPartnerIdinDb.Email = partnerEmployeeUpdateDTO.Email;
+            checkCRMPartnerIdinDb.Email = partnerEmployeeUpdateDTO.Email;
             // ParticipantType = participantType,
-            checkPartnerIdinDb.JobTitle = partnerEmployeeUpdateDTO.JobTitle;
+            checkCRMPartnerIdinDb.JobTitle = partnerEmployeeUpdateDTO.JobTitle;
             //  PartnerType = partnerType,
-            checkPartnerIdinDb.MailGroup = partnerEmployeeUpdateDTO.MailGroup;
+            checkCRMPartnerIdinDb.MailGroup = partnerEmployeeUpdateDTO.MailGroup;
 
 
-            // checkPartnerIdinDb.SharePointId = partnerEmployeeDTO.SharePointId;
+            // checkCRMPartnerIdinDb.SharePointId = partnerEmployeeDTO.SharePointId;
 
 
-            checkPartnerIdinDb.TelePhoneNumber = partnerEmployeeUpdateDTO.TelePhoneNumber;
+            checkCRMPartnerIdinDb.TelePhoneNumber = partnerEmployeeUpdateDTO.TelePhoneNumber;
 
 
-            checkPartnerIdinDb.Partner = partnerEmployeeUpdateDTO.Partner;
+            checkCRMPartnerIdinDb.Partner = partnerEmployeeUpdateDTO.Partner;
 
 
-            checkPartnerIdinDb.LastModified = partnerEmployeeUpdateDTO.LastModified;
+            checkCRMPartnerIdinDb.LastModified = partnerEmployeeUpdateDTO.LastModified;
 
 
-            checkPartnerIdinDb.LastModifiedBY = partnerEmployeeUpdateDTO.LastModifiedBY;
+            checkCRMPartnerIdinDb.LastModifiedBY = partnerEmployeeUpdateDTO.LastModifiedBY;
 
 
-            checkPartnerIdinDb.CreatedBy = partnerEmployeeUpdateDTO.CreatedBy;
+            checkCRMPartnerIdinDb.CreatedBy = partnerEmployeeUpdateDTO.CreatedBy;
 
 
-            checkPartnerIdinDb.CreatedOn = partnerEmployeeUpdateDTO.CreatedOn;
+            checkCRMPartnerIdinDb.CreatedOn = partnerEmployeeUpdateDTO.CreatedOn;
 
 
-            checkPartnerIdinDb.ModifiedBY = partnerEmployeeUpdateDTO.ModifiedBY;
+            checkCRMPartnerIdinDb.ModifiedBY = partnerEmployeeUpdateDTO.ModifiedBY;
 
 
-            checkPartnerIdinDb.ModifiedOn = partnerEmployeeUpdateDTO.ModifiedOn;
+            checkCRMPartnerIdinDb.ModifiedOn = partnerEmployeeUpdateDTO.ModifiedOn;
 
 
-            checkPartnerIdinDb.SMSNotification = partnerEmployeeUpdateDTO.SMSNotification;
+            checkCRMPartnerIdinDb.SMSNotification = partnerEmployeeUpdateDTO.SMSNotification;
 
 
-            checkPartnerIdinDb.EmailNotification = partnerEmployeeUpdateDTO.EmailNotification;
+            checkCRMPartnerIdinDb.EmailNotification = partnerEmployeeUpdateDTO.EmailNotification;
 
 
-            checkPartnerIdinDb.Identifier = partnerEmployeeUpdateDTO.Identifier;
-
-
-
-            checkPartnerIdinDb.DeactivatedUser = partnerEmployeeUpdateDTO.DeactivatedUser;
+            checkCRMPartnerIdinDb.Identifier = partnerEmployeeUpdateDTO.Identifier;
 
 
 
-            _choiceRepoistory.Attach(checkPartnerIdinDb);
+            checkCRMPartnerIdinDb.DeactivatedUser = partnerEmployeeUpdateDTO.DeactivatedUser;
+
+
+
+            _choiceRepoistory.Attach(checkCRMPartnerIdinDb);
             _choiceRepoistory.Complete();
-            UpdateCRMPartnerInfoModificationdate(partnerEmployeeDto.PartnerId);
+            //UpdateCRMPartnerInfoModificationdate(partnerEmployeeUpdateDTO.CRMPartnerId);
             return NoContent();
         }
 
-        private void UpdateCRMPartnerInfoModificationdate(int? partnerID)
+        private void UpdateCRMPartnerInfoModificationdate(int? CRMPartnerId)
         {
-            var partner = _choiceRepoistory.GetById<CRMPartner>(c => c.CRMPartnerId == partnerID);
+            var partner = _choiceRepoistory.GetById<CRMPartner>(c => c.CRMCRMPartnerId == CRMPartnerId);
             partner.PartnerInfoModificationdate = DateTime.UtcNow;
             _choiceRepoistory.Attach(partner);
             _choiceRepoistory.Complete();

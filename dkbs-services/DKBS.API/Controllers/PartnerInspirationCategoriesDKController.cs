@@ -57,15 +57,15 @@ namespace DKBS.API.Controllers
         }
 
         /// <summary>
-        /// Get PartnerInspirationCategoriesDK_Id by PartnerId
+        /// Get PartnerInspirationCategoriesDK_Id by CRMPartnerId
         /// </summary>
-        /// <param name="PartnerId"></param>
+        /// <param name="CRMPartnerId"></param>
         /// <returns></returns>
-        [Route("GetByPartnerId")]
+        [Route("GetByCRMPartnerId")]
         [HttpGet()]
-        public ActionResult<PartnerInspirationCategoriesDKDTO> GetById(int PartnerId)
+        public ActionResult<PartnerInspirationCategoriesDKDTO> GetById(int CRMPartnerId)
         {
-            return _choiceRepoistory.GetPartnerInspirationCategoriesDK().FirstOrDefault(c => c.PartnerId == PartnerId);
+            return _choiceRepoistory.GetPartnerInspirationCategoriesDK().FirstOrDefault(c => c.CRMPartnerId == CRMPartnerId);
         }
 
 
@@ -99,13 +99,13 @@ namespace DKBS.API.Controllers
             partnerInspirationCategoriesDK = PartnerInspirationCategoriesDKDTO;
 
             _choiceRepoistory.Complete();
-            UpdateCRMPartnerInfoModificationdate(PartnerInspirationCategoriesDKDTO.PartnerId);
+            UpdateCRMPartnerInfoModificationdate(PartnerInspirationCategoriesDKDTO.CRMPartnerId);
             return NoContent();
         }
 
-        private void UpdateCRMPartnerInfoModificationdate(int partnerID)
+        private void UpdateCRMPartnerInfoModificationdate(int CRMPartnerId)
         {
-            var partner = _choiceRepoistory.GetById<CRMPartner>(c => c.CRMPartnerId == partnerID);
+            var partner = _choiceRepoistory.GetById<CRMPartner>(c => c.CRMCRMPartnerId == CRMPartnerId);
             partner.PartnerInfoModificationdate = DateTime.UtcNow;
             _choiceRepoistory.Attach(partner);
             _choiceRepoistory.Complete();
@@ -142,7 +142,7 @@ namespace DKBS.API.Controllers
             PartnerInspirationCategoriesDK newlypartnerInspirationCategoriesDKDTO = new PartnerInspirationCategoriesDK()
             {
                 PartnerInspirationCategoriesDKId = checkPartnerInspirationCategoriesDK_Id.PartnerInspirationCategoriesDKId,
-                PartnerId = checkPartnerInspirationCategoriesDK_Id.PartnerId,
+                CRMPartnerId = checkPartnerInspirationCategoriesDK_Id.CRMPartnerId,
                 // Room_Name = partnerInspirationCategoriesDTO.Room_Name,
                 Heading = checkPartnerInspirationCategoriesDK_Id.Heading,
                 Description = checkPartnerInspirationCategoriesDK_Id.Description,
@@ -159,7 +159,7 @@ namespace DKBS.API.Controllers
 
             _choiceRepoistory.SetpartnerInspirationCategoriesDK(newlypartnerInspirationCategoriesDKDTO);
             _choiceRepoistory.Complete();
-            UpdateCRMPartnerInfoModificationdate(PartnerInspirationCategoriesDKDTO.PartnerId);
+            UpdateCRMPartnerInfoModificationdate(PartnerInspirationCategoriesDKDTO.CRMPartnerId);
             return CreatedAtRoute("GetPartnerCenterRoomInfo", new { name = newlypartnerInspirationCategoriesDKDTO.Heading }, newlypartnerInspirationCategoriesDKDTO);
         }
 

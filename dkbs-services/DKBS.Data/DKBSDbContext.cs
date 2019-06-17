@@ -7,7 +7,7 @@ using System.Text;
 
 namespace DKBS.Data
 {
-   public class DKBSDbContext :DbContext
+    public class DKBSDbContext : DbContext
     {
         public DKBSDbContext(DbContextOptions<DKBSDbContext> options) : base(options)
         {
@@ -106,14 +106,10 @@ namespace DKBS.Data
         public DbSet<PartnerCoursePackagePremiumServices> PartnerCoursePackagePremiumServices { get; set; }
         public DbSet<PartnerCoursePackageYearPrice> PartnerCoursePackageYearPrice { get; set; }
         public DbSet<SCPartnerCoursePackageMapping> SCPartnerCoursePackageMapping { get; set; }
-
         public DbSet<ChatCommunication> chatCommunication { get; set; }
         public DbSet<EmailConversation> emailConversation { get; set; }
         public DbSet<SRInternalNotes> sRInternalNotes { get; set; }
         public DbSet<SRInternalNotify> sRInternalNotify { get; set; }
-
-        public DbSet<SCPartnerCoursePackageMapping> SCPartnerCoursePackageMapping { get; set; }
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
@@ -229,5 +225,5 @@ namespace DKBS.Data
 
         //}
     }
-    
+
 }

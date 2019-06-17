@@ -11,7 +11,7 @@ namespace DKBS.DTO
         [Key]
         public int PartnerInspirationCategoriesDKId { get; set; }
 
-        public int PartnerId { get; set; }
+        public int CRMPartnerId { get; set; }
 
         public string Heading { get; set; }
 

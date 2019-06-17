@@ -12,7 +12,7 @@ namespace DKBS.DTO
         public string JobTitle { get; set; }
         public string TelePhoneNumber { get; set; }
         public string Email { get; set; }
-        public string PartnerId { get; set; }
+        public string CRMPartnerId { get; set; }
         public string MailGroup { get; set; }
     }
 }

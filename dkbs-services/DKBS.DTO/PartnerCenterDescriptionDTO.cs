@@ -6,7 +6,7 @@ namespace DKBS.DTO
   public  class PartnerCenterDescriptionDTO
     {
         public int PartnerCenterDescription_Id { get; set; }
-        public int PartnerId { get; set; }
+        public int CRMPartnerId { get; set; }
         public string Rooms { get; set; }
         public string Capacity { get; set; }
         public string Facilities { get; set; }

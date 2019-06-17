@@ -8,7 +8,7 @@ namespace DKBS.Domain
 {
    public class GetWebsitePartnerList
     {
-        public int? CRMPartnerId { get; set; }
+        public int? CRMCRMPartnerId { get; set; }
         public string CVR { get; set; }
         public string Address1 { get; set; }
         public string Address2 { get; set; }

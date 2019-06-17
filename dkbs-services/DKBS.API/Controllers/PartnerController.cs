@@ -19,15 +19,15 @@ namespace DKBS.API.Controllers
     [ApiController]
     public class PartnerController : ControllerBase
     {
-        private readonly IChoiceRepository _choiceRepoistory;
-        private IMapper _mapper;
+        private readonly IChoiceRepository choiceRepoistory;
+        private IMapper mapper;
         /// <summary>
         /// Partner controller
         /// </summary>
         public PartnerController(IChoiceRepository choiceReposiroty, IMapper mapper)
         {
-            _choiceRepoistory = choiceReposiroty;
-            _mapper = mapper;
+            choiceRepoistory = choiceReposiroty;
+            mapper = mapper;
         }
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace DKBS.API.Controllers
         [HttpGet()]
         public ActionResult<CRMPartnerDTO> GetPartners()
         {
-            return Ok(_choiceRepoistory.GetPartners());
+            return Ok(choiceRepoistory.GetPartners());
         }
 
         /// <summary>
@@ -48,9 +48,23 @@ namespace DKBS.API.Controllers
         [HttpGet("{id:int}")]
         public ActionResult<CRMPartnerDTO> GetPartnerById(int id)
         {
-            return _choiceRepoistory.GetPartners().Find(c => c.CRMPartnerId == id);
+            return choiceRepoistory.GetPartners().Find(c => c.CRMCRMPartnerId == id);
         }
 
+        /// <summary>
+        /// Get CRMCRMPartnerId by id
+        /// </summary>
+        /// <param name="CRMCRMPartnerId"></param>
+        /// <returns></returns>
+    
+        [HttpGet("DKBSPartnerDetails/{Id:int}")]
+        public  ActionResult<DKBSPartnerDetailsDTO> GetDKBSPartnerDetailsById(int Id)
+        {
+            //var list = choiceRepoistory.GetDKBSPartnerDetailsById();
+            return choiceRepoistory.GetDKBSPartnerDetailsById(Id); 
+        }
+
+        
         /// <summary>
         /// Get  Website Partner List.
         /// </summary>
@@ -58,22 +72,16 @@ namespace DKBS.API.Controllers
         /// <returns>Website Partner List</returns>
         ///
 
-        [HttpGet("GetWebsitePartnerList")]
-        public ActionResult<List<GetWebsitePartnerListDTO>> GetWebsitePartner()
+        [HttpGet("DKBSPartnerList")]
+        public ActionResult<List<DKBSPartnerListDTO>> GetWebsitePartner()
         {
-            var partnerList = _choiceRepoistory.GetWebsitePartners().FindAll(c => c.LastModified.Date == DateTime.Now.Date);
+            var partnerList = choiceRepoistory.GetWebsitePartners().FindAll(c => c.PartnerInfoModificationdate.Date == DateTime.UtcNow.Date);
             return partnerList;
         }
 
-        /// <summary>
-        /// Get Partner Details .
-        /// </summary>
-        /// <param name="LastModified"></param>
-        /// <returns> Partner Details</returns>
-        ///
 
-       
-       // [Authorize]
+
+        // [Authorize]
         [HttpPost("")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
@@ -99,7 +107,7 @@ namespace DKBS.API.Controllers
                     return BadRequest(ModelState);
                 }
 
-                var partner = _choiceRepoistory.GetById<CRMPartner>(c => c.AccountId == dto.AccountId);
+                var partner = choiceRepoistory.GetById<CRMPartner>(c => c.AccountId == dto.AccountId);
 
                 if (partner != null)
                 {
@@ -107,17 +115,17 @@ namespace DKBS.API.Controllers
                     return BadRequest(ModelState);
                 }
 
-                CRMPartner newPartner = _mapper.Map<CRMPartnerDTO, CRMPartner>(dto);
+                CRMPartner newPartner = mapper.Map<CRMPartnerDTO, CRMPartner>(dto);
                 newPartner.CreatedBy = "CRM";
                 newPartner.CreatedDate = DateTime.UtcNow;
                 newPartner.LastModified = DateTime.UtcNow;
                 newPartner.LastModifiedBy = "CRM";
                 newPartner.PartnerInfoModificationdate = DateTime.UtcNow;
-                _choiceRepoistory.Attach<CRMPartner>(newPartner);
-                _choiceRepoistory.Complete();
+                choiceRepoistory.Attach<CRMPartner>(newPartner);
+                choiceRepoistory.Complete();
 
-                AddNewServiceCatalog(newPartner.CRMPartnerId);
-                AddNewPartnerCenterInfo(newPartner.CRMPartnerId);
+                AddNewServiceCatalog(newPartner.CRMCRMPartnerId);
+                AddNewPartnerCenterInfo(newPartner.CRMCRMPartnerId);
 
                 return CreatedAtRoute("GetPartnerByAccountId", new { newPartner.AccountId }, dto);
             }
@@ -128,16 +136,16 @@ namespace DKBS.API.Controllers
             }
         }
 
-        private void AddNewPartnerCenterInfo(int PartnerId)
+        private void AddNewPartnerCenterInfo(int CRMPartnerId)
         {
             PartnerCenterInfo newPartnerCenterInfo = new PartnerCenterInfo
             {
-                PartnerId = PartnerId,
-                Total_Rooms = 0,
-                Group_Rooms = 0,
-                Max_space_at_row_of_chairs = string.Empty,
-                Maxspace_at_tables = string.Empty,
-                State_agreement = false,
+                CRMPartnerId = CRMPartnerId,
+                TotalRooms = 0,
+                GroupRooms = 0,
+                MaxSpaceAtRowOfChairs = string.Empty,
+                MaxspaceAtTables = string.Empty,
+                StateAgreement = false,
                 MaxAccommodation = string.Empty,
                 PartnerCenfoInfoSPId = string.Empty,
                 NumberOfSingleRooms = 0,
@@ -181,51 +189,51 @@ namespace DKBS.API.Controllers
                 CreatedBy = "CRM",
                 LastModified = DateTime.UtcNow,
                 LastModifiedBY = "CRM"
-                
+
 
             };
 
-            _choiceRepoistory.Attach<PartnerCenterInfo>(newPartnerCenterInfo);
-            _choiceRepoistory.Complete();
+            choiceRepoistory.Attach<PartnerCenterInfo>(newPartnerCenterInfo);
+            choiceRepoistory.Complete();
 
         }
 
-        private void AddNewServiceCatalog(int PartnerId)
+        private void AddNewServiceCatalog(int CRMPartnerId)
         {
-            var serviceCatalogueList = _choiceRepoistory.GetServiceCatalog();
+            var serviceCatalogueList = choiceRepoistory.GetServiceCatalog();
 
             foreach (var serviceCatalogue in serviceCatalogueList)
             {
                 PartnerCoursePackages newPartnerCoursePackages = new PartnerCoursePackages
                 {
                     ServiceCatalogueID = serviceCatalogue.ServiceCatalogueID,
-                    PartnerID = PartnerId,
+                    CRMPartnerId = CRMPartnerId,
                     Offered = false,
                     Price = serviceCatalogue.Price.HasValue ? serviceCatalogue.Price.Value : 0,
                     ModifiedDate = DateTime.UtcNow,
                     CreatedDate = DateTime.UtcNow
                 };
-                _choiceRepoistory.Attach<PartnerCoursePackages>(newPartnerCoursePackages);
-                _choiceRepoistory.Complete();
-                AddNewPartnerCoursePackageMenue(serviceCatalogue.CoursePackageMenueList, PartnerId, serviceCatalogue.ServiceCatalogueID);
+                choiceRepoistory.Attach<PartnerCoursePackages>(newPartnerCoursePackages);
+                choiceRepoistory.Complete();
+                AddNewPartnerCoursePackageMenue(serviceCatalogue.CoursePackageMenueList, CRMPartnerId, serviceCatalogue.ServiceCatalogueID);
             }
 
         }
 
-        private void AddNewPartnerCoursePackageMenue(List<CoursePackageMenueDTO> coursePackageMenueList, int PartnerId, int serviceCatalogueID)
+        private void AddNewPartnerCoursePackageMenue(List<CoursePackageMenueDTO> coursePackageMenueList, int CRMPartnerId, int serviceCatalogueID)
         {
             foreach (var coursePackageMenue in coursePackageMenueList)
             {
                 PartnerCoursePackageMenue newPartnerCoursePackageMenue = new PartnerCoursePackageMenue
                 {
                     ServiceCatalogueID = serviceCatalogueID,
-                    PartnerID = PartnerId,
+                    CRMPartnerId = CRMPartnerId,
                     CoursePackageMenueID = coursePackageMenue.CoursePackageMenueID,
                     ModifiedDate = DateTime.UtcNow,
                     CreatedDate = DateTime.UtcNow
                 };
-                _choiceRepoistory.Attach<PartnerCoursePackageMenue>(newPartnerCoursePackageMenue);
-                _choiceRepoistory.Complete();
+                choiceRepoistory.Attach<PartnerCoursePackageMenue>(newPartnerCoursePackageMenue);
+                choiceRepoistory.Complete();
             }
 
         }
@@ -238,14 +246,14 @@ namespace DKBS.API.Controllers
         [HttpGet("{accountId}", Name = "GetPartnerByAccountId")]
         public ActionResult<CRMPartnerDTO> GetPartnerByAccountId(string accountId)
         {
-            var partner = _choiceRepoistory.GetById<CRMPartner>(c => c.AccountId == accountId);
+            var partner = choiceRepoistory.GetById<CRMPartner>(c => c.AccountId == accountId);
 
             if (partner == null)
             {
                 return NotFound(accountId);
             }
 
-            var returnval = _mapper.Map<CRMPartner, CRMPartnerDTO>(partner);
+            var returnval = mapper.Map<CRMPartner, CRMPartnerDTO>(partner);
 
             return Ok(returnval);
         }
@@ -280,14 +288,14 @@ namespace DKBS.API.Controllers
                     return BadRequest(ModelState);
                 }
 
-                var partner = _choiceRepoistory.GetById<CRMPartner>(c => c.AccountId == accountId);
+                var partner = choiceRepoistory.GetById<CRMPartner>(c => c.AccountId == accountId);
 
                 if (partner == null)
                 {
                     ModelState.AddModelError("Partner", $"No Partner found with AccountId {accountId}");
                     return NotFound(ModelState);
                 }
-                
+
                 partner.Partnertype = dto.Partnertype;
                 partner.MembershipType = dto.MembershipType;
                 partner.PartnerName = dto.PartnerName;
@@ -311,10 +319,10 @@ namespace DKBS.API.Controllers
                 partner.RecommandedNPGRT60 = dto.RecommandedNPGRT60;
                 partner.QualityAssuredNPSGRD30 = dto.QualityAssuredNPSGRD30;
                 partner.LastModified = DateTime.UtcNow;
-                partner.LastModifiedBy = "CRM";  
+                partner.LastModifiedBy = "CRM";
                 partner.PartnerInfoModificationdate = DateTime.UtcNow;
-                _choiceRepoistory.Attach(partner);
-                _choiceRepoistory.Complete();
+                choiceRepoistory.Attach(partner);
+                choiceRepoistory.Complete();
 
                 return NoContent();
             }
@@ -324,8 +332,8 @@ namespace DKBS.API.Controllers
             }
         }
 
-       
-        
+
+
 
     }
 }

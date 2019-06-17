@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[Provision] (
     [ProvisionId]    INT             NOT NULL,
-    [PartnerId]      INT             NOT NULL,
+    [CRMPartnerId]      INT             NOT NULL,
     [CustomerId]     INT             NOT NULL,
     [BookingId]      INT             NOT NULL,
     [Price]          DECIMAL (19, 4) NULL,
@@ -16,7 +16,7 @@
     PRIMARY KEY CLUSTERED ([ProvisionId] ASC),
     CONSTRAINT [FK_Provision_Booking] FOREIGN KEY ([BookingId]) REFERENCES [dbo].[Booking] ([BookingId]),
     CONSTRAINT [FK_Provision_Customer] FOREIGN KEY ([CustomerId]) REFERENCES [dbo].[Customer] ([CustomerId]),
-    CONSTRAINT [FK_Provision_Partners] FOREIGN KEY ([PartnerId]) REFERENCES [dbo].[Partner] ([PartnerId])
+    CONSTRAINT [FK_Provision_Partners] FOREIGN KEY ([CRMPartnerId]) REFERENCES [dbo].[Partner] ([CRMPartnerId])
 );
 
 

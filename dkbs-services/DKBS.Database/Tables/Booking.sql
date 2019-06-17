@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [dbo].[Booking]
 (
 	[BookingId] INT NOT NULL PRIMARY KEY IDENTITY, 
-    [PartnerId] INT NOT NULL,
+    [CRMPartnerId] INT NOT NULL,
 	[CustomerId] INT NOT NULL,		 
 	[TableTypeId] INT NOT NULL,	
 	[CancellationReasonId] INT NOT NULL,
@@ -19,7 +19,7 @@
 	[DepartDateTime] DateTime NULL, 
 	[FlexibleDates] Bit NULL, 
 	[InternalHistory] NVARCHAR(MAX) NULL, 
-	CONSTRAINT [FK_Booking_Partner] FOREIGN KEY ([PartnerId]) REFERENCES [Partner](PartnerId), 
+	CONSTRAINT [FK_Booking_Partner] FOREIGN KEY ([CRMPartnerId]) REFERENCES [Partner](CRMPartnerId), 
     CONSTRAINT [FK_Booking_Customer] FOREIGN KEY (CustomerId) REFERENCES [Customer](CustomerId), 
     CONSTRAINT [FK_Booking_TableType] FOREIGN KEY ([TableTypeId]) REFERENCES [TableType]([TableTypeId]), 
     CONSTRAINT [FK_Booking_CancellationReason] FOREIGN KEY ([CancellationReasonId]) REFERENCES [CancellationReason]([CancellationReasonId]), 

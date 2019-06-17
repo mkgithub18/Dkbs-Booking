@@ -33,7 +33,7 @@ namespace DKBS.Repository
         List<PartnerCoursePackagePremiumServicesDTO> GetAllCoursePackagePremiumServices();
         List<CoursePackageYearPriceDTO> GetAllCoursePackageYearPrice();
         List<SCPartnerCoursePackageMappingDTO> GetAllSCPartnerCoursePackageMapping();
-       
+
         List<ServiceCatalogueDTO> GetServiceCatalog();
         List<RegionDTO> GetRegions();
         List<PurposeDTO> GetPurposes();
@@ -49,6 +49,7 @@ namespace DKBS.Repository
         List<CoursePackageTypeDTO> GetCoursePackageTypes();
 
         List<ContactPersonDTO> GetContactPersons();
+
         List<CampaignDTO> GetCampaigns();
         List<CenterTypeDTO> GetCenterTypes();
         List<CenterMatchingDTO> GetCenterMatchings();
@@ -56,7 +57,8 @@ namespace DKBS.Repository
         List<CancellationReasonDTO> GetCancellationReasons();
         List<CustomerDTO> GetCustomers();
         List<CRMPartnerDTO> GetPartners();
-        List<GetWebsitePartnerListDTO> GetWebsitePartners();
+        DKBSPartnerDetailsDTO GetDKBSPartnerDetailsById(int Id);
+        List<DKBSPartnerListDTO> GetWebsitePartners();
         List<PartnerCenterDescriptionDTO> GetPartnerCenterDescriptions();
         List<PartnerCoursePackageFreeServicesDTO> GetPartnerCoursePackageFreeServices();
         List<PartnerCoursePackagesDTO> GetPartnerCoursePackages();
@@ -343,7 +345,7 @@ namespace DKBS.Repository
         //    {
         //        BookingDTO bookingDto = new BookingDTO();
 
-        //        var partner = _dbContext.Partner.Where(x => x.PartnerId == item.PartnerId).Include(x => x.CenterType).Include(x => x.PartnerType).FirstOrDefault();
+        //        var partner = _dbContext.Partner.Where(x => x.CRMPartnerId == item.CRMPartnerId).Include(x => x.CenterType).Include(x => x.PartnerType).FirstOrDefault();
         //        var centerType = _dbContext.CenterType.Where(x => x.CenterTypeId == partner.CenterType.CenterTypeId).FirstOrDefault();
         //        CenterTypeDTO centerTypeDto = _mapper.Map<CenterTypeDTO>(centerType);
         //        var partnerType = _dbContext.PartnerType.Where(x => x.PartnerTypeId == partner.PartnerType.PartnerTypeId).FirstOrDefault();
@@ -351,7 +353,7 @@ namespace DKBS.Repository
 
         //        var partnerDto = new PartnerDTO()
         //        {
-        //            PartnerId = partner.PartnerId,
+        //            CRMPartnerId = partner.CRMPartnerId,
         //            CenterTypeDTO = centerTypeDto,
         //            PartnerTypeDTO = partnerTypeDto,
         //            EmailId = partner.EmailId,
@@ -443,7 +445,7 @@ namespace DKBS.Repository
             {
                 BookingDTO bookingDto = new BookingDTO();
 
-                var partner = _dbContext.Partner.Where(x => x.PartnerId == item.PartnerId).Include(x => x.CenterType).Include(x => x.PartnerType).ToList().FirstOrDefault();
+                var partner = _dbContext.Partner.Where(x => x.CRMPartnerId == item.CRMPartnerId).Include(x => x.CenterType).Include(x => x.PartnerType).ToList().FirstOrDefault();
                 var centerType = _dbContext.CenterType.Where(x => x.CenterTypeId == partner.CenterType.CenterTypeId).ToList().FirstOrDefault();
                 CenterTypeDTO centerTypeDto = _mapper.Map<CenterTypeDTO>(centerType);
                 var partnerType = _dbContext.PartnerType.Where(x => x.PartnerTypeId == partner.PartnerType.PartnerTypeId).FirstOrDefault();
@@ -451,7 +453,7 @@ namespace DKBS.Repository
 
                 var partnerDto = new PartnerDTO()
                 {
-                    PartnerId = partner.PartnerId,
+                    CRMPartnerId = partner.CRMPartnerId,
                     CenterTypeDTO = centerTypeDto,
                     PartnerTypeDTO = partnerTypeDto,
                     EmailId = partner.EmailId,
@@ -622,7 +624,7 @@ namespace DKBS.Repository
             {
                 BookingDTO bookingDto = new BookingDTO();
 
-                var partner = _dbContext.Partner.Where(x => x.PartnerId == item.PartnerId).Include(x => x.CenterType).Include(x => x.PartnerType).ToList().FirstOrDefault();
+                var partner = _dbContext.Partner.Where(x => x.CRMPartnerId == item.CRMPartnerId).Include(x => x.CenterType).Include(x => x.PartnerType).ToList().FirstOrDefault();
                 var centerType = _dbContext.CenterType.Where(x => x.CenterTypeId == partner.CenterType.CenterTypeId).ToList().FirstOrDefault();
                 CenterTypeDTO centerTypeDto = _mapper.Map<CenterTypeDTO>(centerType);
                 var partnerType = _dbContext.PartnerType.Where(x => x.PartnerTypeId == partner.PartnerType.PartnerTypeId).FirstOrDefault();
@@ -630,7 +632,7 @@ namespace DKBS.Repository
 
                 var partnerDto = new PartnerDTO()
                 {
-                    PartnerId = partner.PartnerId,
+                    CRMPartnerId = partner.CRMPartnerId,
                     CenterTypeDTO = centerTypeDto,
                     PartnerTypeDTO = partnerTypeDto,
                     EmailId = partner.EmailId,
@@ -949,10 +951,10 @@ namespace DKBS.Repository
             var returnPartnerCoursePackages = _mapper.Map<List<PartnerCoursePackagesDTO>>(_dbContext.PartnerCoursePackages.ToList());
             foreach (var partnerCoursePackages in returnPartnerCoursePackages)
             {
-                partnerCoursePackages.PartnerCoursePackageMenueList = GetPartnerCoursePackagesMenue().FindAll(x => x.PartnerID == partnerCoursePackages.PartnerID && x.ServiceCatalogueID == partnerCoursePackages.ServiceCatalogueID);
-                partnerCoursePackages.PartnerCoursePackageFreeServicesList = GetPartnerCoursePackageFreeServices().FindAll(x => x.PartnerID == partnerCoursePackages.PartnerID && x.ServiceCatalogueID == partnerCoursePackages.ServiceCatalogueID);
-                partnerCoursePackages.PartnerCoursePackagePremiumServicesList = GetAllCoursePackagePremiumServices().FindAll(x => x.PartnerID == partnerCoursePackages.PartnerID && x.ServiceCatalogueID == partnerCoursePackages.ServiceCatalogueID);
-                partnerCoursePackages.PartnerCoursePackageYearPriceList = GetCoursePackageYearPrice().FindAll(x => x.PartnerID == partnerCoursePackages.PartnerID && x.ServiceCatalogueID == partnerCoursePackages.ServiceCatalogueID);
+                partnerCoursePackages.PartnerCoursePackageMenueList = GetPartnerCoursePackagesMenue().FindAll(x => x.CRMPartnerId == partnerCoursePackages.CRMPartnerId && x.ServiceCatalogueID == partnerCoursePackages.ServiceCatalogueID);
+                partnerCoursePackages.PartnerCoursePackageFreeServicesList = GetPartnerCoursePackageFreeServices().FindAll(x => x.CRMPartnerId == partnerCoursePackages.CRMPartnerId && x.ServiceCatalogueID == partnerCoursePackages.ServiceCatalogueID);
+                partnerCoursePackages.PartnerCoursePackagePremiumServicesList = GetAllCoursePackagePremiumServices().FindAll(x => x.CRMPartnerId == partnerCoursePackages.CRMPartnerId && x.ServiceCatalogueID == partnerCoursePackages.ServiceCatalogueID);
+                partnerCoursePackages.PartnerCoursePackageYearPriceList = GetCoursePackageYearPrice().FindAll(x => x.CRMPartnerId == partnerCoursePackages.CRMPartnerId && x.ServiceCatalogueID == partnerCoursePackages.ServiceCatalogueID);
             }
             return returnPartnerCoursePackages;
         }
@@ -962,9 +964,9 @@ namespace DKBS.Repository
             return _mapper.Map<List<PartnerCoursePackagePremiumServicesDTO>>(_dbContext.PartnerCoursePackagePremiumServices.ToList());
         }
 
-        public List<GetWebsitePartnerListDTO> GetWebsitePartners()
+        public List<DKBSPartnerListDTO> GetWebsitePartners()
         {
-            return _dbContext.CRMPartner.Select(p => new GetWebsitePartnerListDTO { CRMPartnerId = p.CRMPartnerId, CVR = p.CVR, Address1 = p.Address1, Address2 = p.Address2, PostNumber = p.PostNumber, Regions = p.Regions, Land = p.Land, Telefon = p.Telefon, Email = p.Email, PanoramView = p.PanoramView, PublicURL = p.PublicURL, Centertype = p.Centertype, RecommandedNPGRT60 = p.RecommandedNPGRT60, QualityAssuredNPSGRD30 = p.QualityAssuredNPSGRD30, Partnertype = p.Partnertype, LastModified = p.LastModified }).ToList();
+            return _dbContext.CRMPartner.Select(p => new DKBSPartnerListDTO { CRMCRMPartnerId = p.CRMCRMPartnerId, CVR = p.CVR, Address1 = p.Address1, Address2 = p.Address2, PostNumber = p.PostNumber, Regions = p.Regions, Land = p.Land, Telefon = p.Telefon, Email = p.Email, PanoramView = p.PanoramView, PublicURL = p.PublicURL, Centertype = p.Centertype, RecommandedNPGRT60 = p.RecommandedNPGRT60, QualityAssuredNPSGRD30 = p.QualityAssuredNPSGRD30, Partnertype = p.Partnertype, PartnerInfoModificationdate = p.PartnerInfoModificationdate }).ToList();
         }
 
         public List<PartnerCoursePackageMenueDTO> GetPartnerCoursePackagesMenue()
@@ -975,7 +977,7 @@ namespace DKBS.Repository
                     select new PartnerCoursePackageMenueDTO
                     {
                         CoursePackageMenueID = pcm.CoursePackageMenueID,
-                        PartnerID = pcm.PartnerID,
+                        CRMPartnerId = pcm.CRMPartnerId,
                         ServiceCatalogueID = pcm.ServiceCatalogueID,
                         PartnerCoursePackageMenueID = pcm.PartnerCoursePackageMenueID,
                         PartnerCoursePakageMenue_SPID = pcm.PartnerCoursePakageMenue_SPID,
@@ -997,6 +999,18 @@ namespace DKBS.Repository
         public List<PartnerCoursePackageYearPriceDTO> GetCoursePackageYearPrice()
         {
             return _mapper.Map<List<PartnerCoursePackageYearPriceDTO>>(_dbContext.PartnerCoursePackageYearPrice.ToList());
+        }
+
+        public DKBSPartnerDetailsDTO GetDKBSPartnerDetailsById(int Id)
+        {
+            var DKBSPartnerDetailsDTO = new DKBSPartnerDetailsDTO();
+            DKBSPartnerDetailsDTO.PartnerCenterInfoList = GetPartnerCenterInfo().FindAll(x => x.CRMPartnerId == Id);
+            DKBSPartnerDetailsDTO.PartnerCenterDescriptionList = GetPartnerCenterDescriptions().FindAll(x => x.CRMPartnerId == Id);
+            DKBSPartnerDetailsDTO.PartnerCenterRoomInfoList = GetPartnerCenterRoomInfo().FindAll(x => x.CRMPartnerId == Id);
+            DKBSPartnerDetailsDTO.PartnerCoursePackagesList = GetPartnerCoursePackages().FindAll(x => x.CRMPartnerId == Id);
+            DKBSPartnerDetailsDTO.PartnerInspirationCategoriesDK = GetPartnerInspirationCategoriesDK().FindAll(x => x.CRMPartnerId == Id);
+            DKBSPartnerDetailsDTO.PartnerInspirationCategoriesUK = GetPartnerInspirationCategoriesUK().FindAll(x => x.CRMPartnerId == Id);
+            return null;
         }
     }
 }

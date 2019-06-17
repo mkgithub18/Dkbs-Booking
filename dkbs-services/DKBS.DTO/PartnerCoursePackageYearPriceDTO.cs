@@ -13,7 +13,7 @@ namespace DKBS.DTO
         public string Year { get; set; }
         public string PartnerCoursePackageYearPrice_SPID { get; set; }
         public decimal PricePerPerson { get; set; }
-        public int PartnerID { get; set; }
+        public int CRMPartnerId { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime ModifiedDate { get; set; }
         public string createdBy { get; set; }

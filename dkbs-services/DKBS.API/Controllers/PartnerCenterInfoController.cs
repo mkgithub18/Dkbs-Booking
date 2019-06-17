@@ -52,15 +52,15 @@ namespace DKBS.API.Controllers
 
 
         /// <summary>
-        /// Get PartnerCenterInfo_Id by PartnerId
+        /// Get PartnerCenterInfo_Id by CRMPartnerId
         /// </summary>
-        /// <param name="PartnerId"></param>
+        /// <param name="CRMPartnerId"></param>
         /// <returns></returns> 
-        [Route("GetByPartnerId")]
+        [Route("GetByCRMPartnerId")]
         [HttpGet()]
-        public ActionResult<PartnerCenterInfoDTO> GetById(int PartnerId)
+        public ActionResult<PartnerCenterInfoDTO> GetById(int CRMPartnerId)
         {
-            return _choiceRepoistory.GetPartnerCenterInfo().FirstOrDefault(c => c.PartnerId == PartnerId);
+            return _choiceRepoistory.GetPartnerCenterInfo().FirstOrDefault(c => c.CRMPartnerId == CRMPartnerId);
         }
 
         /// <summary>
@@ -93,13 +93,13 @@ namespace DKBS.API.Controllers
             PartnerCenterInfo = partnerCenterInfoDTO;
 
             _choiceRepoistory.Complete();
-            UpdateCRMPartnerInfoModificationdate(partnerCenterInfoDTO.PartnerId);
+            UpdateCRMPartnerInfoModificationdate(partnerCenterInfoDTO.CRMPartnerId);
             return NoContent();
         }
         
-        private void UpdateCRMPartnerInfoModificationdate(int? partnerID)
+        private void UpdateCRMPartnerInfoModificationdate(int? CRMPartnerId)
         {
-            var partner = _choiceRepoistory.GetById<CRMPartner>(c => c.CRMPartnerId == partnerID);
+            var partner = _choiceRepoistory.GetById<CRMPartner>(c => c.CRMCRMPartnerId == CRMPartnerId);
             partner.PartnerInfoModificationdate = DateTime.UtcNow;
             _choiceRepoistory.Attach(partner);
             _choiceRepoistory.Complete();

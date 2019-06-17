@@ -16,7 +16,7 @@ namespace DKBS.Domain
          public int CauseOfRemovalId { get; set; }
          public int ProcedureReviewTypeId { get; set; }
          public int BookingId { get; set; }
-         public int PartnerId { get; set; }
+         public int CRMPartnerId { get; set; }
          public int CustomerId { get; set; }
     }
 }

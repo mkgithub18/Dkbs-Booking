@@ -202,7 +202,7 @@ namespace DKBS.API.Controllers
 
 
             //_choiceRepoistory.Complete();
-            booking.PartnerId = bookingPutViewModel.PartnerId;
+            booking.CRMPartnerId = bookingPutViewModel.CRMPartnerId;
             booking.ArrivalDateTime = bookingPutViewModel.ArrivalDateTime;
             booking.BookingAndStatusId = bookingPutViewModel.BookingAndStatusId;
             booking.CampaignId = bookingPutViewModel.CampaignId;
@@ -250,7 +250,7 @@ namespace DKBS.API.Controllers
                     BookingId = booking.BookingId,
                     FromDate = item.FromDate,
                     NumberOfParticipants = item.NumberOfParticipants,
-                    ServiceCatalogId = item.ServiceCatalogId,
+                    ServiceCatalogueId = item.ServiceCatalogueId,
                     ToDate = item.ToDate
                 };
 
@@ -309,7 +309,7 @@ namespace DKBS.API.Controllers
                 {
 
                     BookingId = newlyCreatedBooking.BookingId,
-                    PartnerId = bookingViewModel.Partners[0].PartnerId,
+                    CRMPartnerId = bookingViewModel.Partners[0].CRMPartnerId,
                     CustomerId = bookingViewModel.CustomerId,
                     CauseOfRemovalId = bookingViewModel.CauseOfRemovalId,
                     ProcedureReviewTypeId = procedureReviewTypeId,
@@ -326,7 +326,7 @@ namespace DKBS.API.Controllers
                 {
                     ProcedureId = procedure.ProcedureId,
                     CenterTypeId = centerType.CenterTypeId,
-                    PartnerId = bookingViewModel.Partners[0].PartnerId,
+                    CRMPartnerId = bookingViewModel.Partners[0].CRMPartnerId,
                     Reply = "Default Reply",
                     Chat = "Default Chat",
                     Comment = "Default Comment",
@@ -366,7 +366,7 @@ namespace DKBS.API.Controllers
                     BookingId = newlyCreatedBooking.BookingId,
                     FromDate = item.FromDate,
                     NumberOfParticipants = item.NumberOfParticipants,
-                    ServiceCatalogId = item.ServiceCatalogId,
+                    ServiceCatalogueId = item.ServiceCatalogueId,
                     ToDate = item.ToDate
                 };
 

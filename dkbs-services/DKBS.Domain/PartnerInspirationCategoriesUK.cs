@@ -10,7 +10,7 @@ namespace DKBS.Domain
 
 
         //public int PartnerInspirationCategories_Id { get; set; }
-        //public int PartnerId { get; set; }
+        //public int CRMPartnerId { get; set; }
         //public string Room_Name { get; set; }
         //public int Price { get; set; }
         //public Boolean Approval_Status { get; set; }
@@ -21,7 +21,7 @@ namespace DKBS.Domain
         [Key]
         public int PartnerInspirationCategoriesUKId { get; set; }
 
-        public int PartnerId { get; set; }
+        public int CRMPartnerId { get; set; }
 
         public string Heading { get; set; }
 
