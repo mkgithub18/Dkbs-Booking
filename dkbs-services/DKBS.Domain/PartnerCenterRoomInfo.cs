@@ -8,9 +8,9 @@ namespace DKBS.Domain
     public class PartnerCenterRoomInfo
     {
         [Key]
-        public int PartnerCenterRoomInfo_Id { get; set; }
+        public int PartnerCenterRoomInfoId { get; set; }
 
-        public string Room_Name { get; set; }
+        public string RoomName { get; set; }
 
         public int PartnerId { get; set; }
 

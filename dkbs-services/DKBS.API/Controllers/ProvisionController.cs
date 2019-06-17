@@ -50,6 +50,37 @@ namespace DKBS.API.Controllers
         }
 
         /// <summary>
+        /// Get ProvisionDTO by BookingId
+        /// </summary>
+        /// <param name="BookingId"></param>
+        /// <returns></returns>
+        [Route("GettProvisionByBookingId")]
+        [HttpGet()]
+        public ActionResult<ProvisionDTO> GetById(int BookingId)
+        {
+            return _choiceRepoistory.GetProvisions().FirstOrDefault(c => c.BookingId == BookingId);
+        }
+
+
+        /// <summary>
+        /// Get ProvisionDTO by BookingId
+        /// </summary>
+        /// <param name="BookingId"></param>
+        /// <returns></returns>
+        [Route("GetByMultiId")]
+        [HttpGet()]
+        public ActionResult<ProvisionDTO> GetByMultiId(int BookingId)
+        {
+
+            //string idChecked = "1,2,3,4,5";
+            ////Split the string to an array
+            //string[] ids = idChecked.Split(',');
+            //var blog = _choiceRepoistory.GetProvisions().Where(x =>x.BookingId);
+
+            return _choiceRepoistory.GetProvisions().FirstOrDefault(c => c.BookingId == BookingId);
+        }
+
+        /// <summary>
         /// Update provision
         /// </summary>
         /// <param name="provisionId"></param>

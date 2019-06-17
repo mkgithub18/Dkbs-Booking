@@ -75,6 +75,10 @@ namespace DKBS.Repository
         List<PartnerInspirationCategoriesUKDTO> GetPartnerInspirationCategoriesUK();
         List<PartnerInspirationCategoriesDKDTO> GetPartnerInspirationCategoriesDK();
 
+        List<ChatCommunicationDTO> GetChatCommunication();
+        List<EmailConversationDTO> GetEmailConversation();
+        List<SRInternalNotesDTO> GetSRInternalNotes();
+        List<SRInternalNotifyDTO> GetSRInternalNotify();
 
         TEntity GetById<TEntity>(int id) where TEntity : class;
 
@@ -110,6 +114,12 @@ namespace DKBS.Repository
         void SetpartnerInspirationCategoriesUK(PartnerInspirationCategoriesUK partnerInspirationCategoriesUK);
         void SetpartnerInspirationCategoriesDK(PartnerInspirationCategoriesDK partnerInspirationCategoriesDK);
         void SetProvision(Provision provision);
+
+        void SetChatCommunication(ChatCommunication chatCommunication);
+        void SetEmailConversation(EmailConversation emailConversation);
+        void SetSRInternalNotes(SRInternalNotes sRInternalNotes);
+        void SetSRInternalNotify(SRInternalNotify sRInternalNotify);
+
 
     }
 
@@ -285,6 +295,25 @@ namespace DKBS.Repository
         }
 
 
+        public List<ChatCommunicationDTO> GetChatCommunication()
+        {
+            return _mapper.Map<List<ChatCommunicationDTO>>(_dbContext.chatCommunication.ToList());
+        }
+
+        public List<EmailConversationDTO> GetEmailConversation()
+        {
+            return _mapper.Map<List<EmailConversationDTO>>(_dbContext.emailConversation.ToList());
+        }
+
+        public List<SRInternalNotesDTO> GetSRInternalNotes()
+        {
+            return _mapper.Map<List<SRInternalNotesDTO>>(_dbContext.sRInternalNotes.ToList());
+        }
+
+        public List<SRInternalNotifyDTO> GetSRInternalNotify()
+        {
+            return _mapper.Map<List<SRInternalNotifyDTO>>(_dbContext.sRInternalNotify.ToList());
+        }
 
 
 
@@ -854,6 +883,27 @@ namespace DKBS.Repository
         {
             _dbContext.provision.Add(provision);
         }
+
+        public void SetChatCommunication(ChatCommunication chatCommunication)
+        {
+            _dbContext.chatCommunication.Add(chatCommunication);
+        }
+
+        public void SetEmailConversation(EmailConversation emailConversation)
+        {
+            _dbContext.emailConversation.Add(emailConversation);
+        }
+
+        public void SetSRInternalNotes(SRInternalNotes sRInternalNotes)
+        {
+            _dbContext.sRInternalNotes.Add(sRInternalNotes);
+        }
+
+        public void SetSRInternalNotify(SRInternalNotify sRInternalNotify)
+        {
+            _dbContext.sRInternalNotify.Add(sRInternalNotify);
+        }
+
 
         List<TEntity> IChoiceRepository.GetAll<TEntity>()
         {

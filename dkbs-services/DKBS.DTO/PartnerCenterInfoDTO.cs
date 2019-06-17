@@ -20,17 +20,17 @@ namespace DKBS.DTO
 
 
         [Key]
-        public int PartnerCenterInfo_Id { get; set; }
+        public int PartnerCenterInfoId { get; set; }
 
-        public int? Total_Rooms { get; set; }
+        public int? TotalRooms { get; set; }
 
-        public int? Group_Rooms { get; set; }
+        public int? GroupRooms { get; set; }
 
-        public string Max_space_at_row_of_chairs { get; set; }
+        public string MaxSpaceAtRowOfChairs { get; set; }
 
-        public string Maxspace_at_tables { get; set; }
+        public string MaxspaceAtTables { get; set; }
 
-        public bool? State_agreement { get; set; }
+        public bool? StateAgreement { get; set; }
 
         public string MaxAccommodation { get; set; }
 
@@ -119,6 +119,5 @@ namespace DKBS.DTO
         public DateTime LastModified { get; set; }
 
         public string LastModifiedBY { get; set; }
-
     }
 }

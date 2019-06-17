@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace DKBS.DTO
@@ -13,7 +14,9 @@ namespace DKBS.DTO
         //public Boolean Approval_Status { get; set; }
         //public DateTime LastModified { get; set; }
 
-        public int PartnerInspirationCategoriesUK_Id { get; set; }
+
+        [Key]
+        public int PartnerInspirationCategoriesUKId { get; set; }
 
         public int PartnerId { get; set; }
 
@@ -23,8 +26,17 @@ namespace DKBS.DTO
 
         public int? Price { get; set; }
 
-        public string PartnerInspirationCategoriesSpId { get; set; }
         public bool? ApprovalStatus { get; set; }
+
+        public string PartnerInspirationCategoriesSpId { get; set; }
+
+        public DateTime CreatedDate { get; set; }
+
+        public string CreatedBy { get; set; }
+
+        public DateTime LastModified { get; set; }
+
+        public string LastModifiedBY { get; set; }
 
     }
 }
