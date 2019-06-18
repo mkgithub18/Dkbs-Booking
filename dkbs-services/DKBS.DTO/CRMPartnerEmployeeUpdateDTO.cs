@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DKBS.DTO
 {
-    public class CRMPartnerEmployeeDTO
+    public class CRMPartnerEmployeeUpdateDTO
     {
         public string partner_contact_id { get; set; }
         public string first_name { get; set; }
@@ -12,7 +12,7 @@ namespace DKBS.DTO
         public string job_title { get; set; }
         public string telephone { get; set; }
         public string email_address { get; set; }
-        public string parent_customer_id { get; set; }
+       // public string parent_customer_id { get; set; }
         public string mail_group { get; set; }
     }
 }

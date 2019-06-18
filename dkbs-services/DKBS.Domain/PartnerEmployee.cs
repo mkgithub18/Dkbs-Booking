@@ -10,7 +10,7 @@ namespace DKBS.Domain
         public string JobTitle { get; set; }
         public string TelePhoneNumber { get; set; }
         public string Email { get; set; }
-        public string Partner { get; set; }
+        public string CrmPartnerAccountId { get; set; }
         public string MailGroup { get; set; }
 
         public string PESharePointId { get; set; }

@@ -9,6 +9,10 @@ using DKBS.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
+using System.IO;
+using Newtonsoft.Json;
+using System.Text;
 
 namespace DKBS.API.Controllers
 {
@@ -21,6 +25,7 @@ namespace DKBS.API.Controllers
     {
         private readonly IChoiceRepository _choiceRepoistory;
         private IMapper _mapper;
+        PartnerEmployeeCRMService partnerEmployeeCRMService = new PartnerEmployeeCRMService();
         /// <summary>
         /// PartnerEmployee Controller
         /// </summary>
@@ -54,7 +59,7 @@ namespace DKBS.API.Controllers
         public ActionResult<IEnumerable<PartnerEmployeeDTO>> GetPartnerEmployees(string partnerName)
         {
             //currently sdduming partnerName only later we will change as per requirement
-            return _choiceRepoistory.GetPartnerEmployees().FindAll(c => c.Partner == partnerName);
+            return _choiceRepoistory.GetPartnerEmployees().FindAll(c => c.CrmPartnerAccountId == partnerName);
         }
 
         /// <summary>
@@ -63,7 +68,7 @@ namespace DKBS.API.Controllers
         /// <param name="partnerEmployeeDto"></param>
         /// <returns></returns>
         // GET api/PartnerEmployee/{PartnerEmployee}
-        [Authorize]
+       [Authorize]
         [HttpPost()]
         public ActionResult<IEnumerable<PartnerEmployeeDTO>> CreatePartnerEmployee([FromBody] PartnerEmployeeDTO partnerEmployeeDto)
         {
@@ -115,7 +120,7 @@ namespace DKBS.API.Controllers
                 MailGroup = partnerEmployeeDto.MailGroup,
                 PESharePointId = partnerEmployeeDto.PESharePointId,
                 TelePhoneNumber = partnerEmployeeDto.TelePhoneNumber,
-                Partner = partnerEmployeeDto.Partner,
+                CrmPartnerAccountId = partnerEmployeeDto.CrmPartnerAccountId,
                 LastModified = partnerEmployeeDto.LastModified,
                 LastModifiedBY = partnerEmployeeDto.LastModifiedBY,
                 CreatedBy = partnerEmployeeDto.CreatedBy,
@@ -131,26 +136,17 @@ namespace DKBS.API.Controllers
 
             // var destination = _mapper.Map<PartnerEmployee, PartnerEmployeeDTO>(newlyCreatedPartnerEmployee);
             _choiceRepoistory.SetPartnerEmployees(newlyCreatedPartnerEmployee);
-            _choiceRepoistory.Complete();
+            //_choiceRepoistory.Complete();          
 
-            CRMPartnerEmployeeDTO cRMPartnerEmployeeDTO = new CRMPartnerEmployeeDTO
+            bool Istrue = partnerEmployeeCRMService.CRMActionTypeGeneric(newlyCreatedPartnerEmployee, "CreatePartnerEmployeeCRM");
+
+            if (Istrue)
             {
-                FirstName = newlyCreatedPartnerEmployee.FirstName,
-                LastName = newlyCreatedPartnerEmployee.LastName,
-                Email = newlyCreatedPartnerEmployee.Email,
-                TelePhoneNumber = newlyCreatedPartnerEmployee.TelePhoneNumber,
-                // In future we have to get the account Id from Partner
-                PartnerId = newlyCreatedPartnerEmployee.Partner,
-                PartnerEmployeeId = newlyCreatedPartnerEmployee.PESharePointId,
-                JobTitle = newlyCreatedPartnerEmployee.JobTitle,
-                MailGroup = newlyCreatedPartnerEmployee.MailGroup,
-
-            };
-
-
-            return CreatedAtRoute("GetPartnerEmployeeById", new { peSharePointId = newlyCreatedPartnerEmployee.PESharePointId }, newlyCreatedPartnerEmployee);
+                _choiceRepoistory.Complete();
+                return CreatedAtRoute("GetPartnerEmployeeById", new { peSharePointId = newlyCreatedPartnerEmployee.PESharePointId }, newlyCreatedPartnerEmployee);
+            }
+            return BadRequest();
         }
-
 
         /// <summary>
         /// 
@@ -197,7 +193,7 @@ namespace DKBS.API.Controllers
             checkPartnerIdinDb.TelePhoneNumber = partnerEmployeeUpdateDTO.TelePhoneNumber;
 
 
-            checkPartnerIdinDb.Partner = partnerEmployeeUpdateDTO.Partner;
+            checkPartnerIdinDb.CrmPartnerAccountId = partnerEmployeeUpdateDTO.CrmPartnerAccountId;
 
 
             checkPartnerIdinDb.LastModified = partnerEmployeeUpdateDTO.LastModified;
@@ -226,17 +222,26 @@ namespace DKBS.API.Controllers
 
             checkPartnerIdinDb.Identifier = partnerEmployeeUpdateDTO.Identifier;
 
-
-
-            checkPartnerIdinDb.DeactivatedUser = partnerEmployeeUpdateDTO.DeactivatedUser;
-
-
+           checkPartnerIdinDb.DeactivatedUser = partnerEmployeeUpdateDTO.DeactivatedUser;
 
             _choiceRepoistory.Attach(checkPartnerIdinDb);
-            _choiceRepoistory.Complete();
 
-            return NoContent();
+          // _choiceRepoistory.Complete();
+
+            bool Istrue= partnerEmployeeCRMService.CRMActionTypeGeneric(checkPartnerIdinDb, "UpdatePartnerEmployeeCRM");
+
+
+            if (Istrue)
+            {
+                _choiceRepoistory.Complete();
+                return NoContent();
+            }
+
+           
+            return BadRequest();
         }
 
     }
+   
+
 }
