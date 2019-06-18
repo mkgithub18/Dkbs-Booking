@@ -16,14 +16,10 @@ namespace DKBS.Domain
         public string PESharePointId { get; set; }
         //public PartnerType PartnerType  { get; set; }
         //public ParticipantType ParticipantType { get; set; }
-        public DateTime CreatedOn { get; set; }
-        public string CreatedBy { get; set; }
-
         public DateTime LastModified { get; set; }
-        public string LastModifiedBY { get; set; }
-
-        public DateTime ModifiedOn { get; set; }
-        public string ModifiedBY { get; set; }
+        public string LastModifiedBy { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public string CreatedBy { get; set; }
         public Boolean EmailNotification { get; set; }
         public Boolean SMSNotification { get; set; }
         public string Identifier { get; set; }

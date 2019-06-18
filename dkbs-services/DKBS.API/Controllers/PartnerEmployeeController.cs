@@ -87,56 +87,12 @@ namespace DKBS.API.Controllers
             {
                 return BadRequest();
             }
-
-            //var centerType = _mapper.Map<CenterTypeDTO, CenterType>(partnerEmployeeDto.PartnerDTO.CenterTypeDTO);
-            //var partnerType = _mapper.Map<PartnerTypeDTO, PartnerType>(partnerEmployeeDto.PartnerDTO.PartnerTypeDTO);
-
-            // TODO: check and use map functionlity of mapping properties
-            //var partner = new Partner()
-            //{
-            //    CenterType = centerType,
-            //    PartnerType = partnerType,
-            //    EmailId = partnerEmployeeDto.Email,
-            //    PartnerId = partnerEmployeeDto.PartnerDTO.PartnerId,
-            //    PartnerName = partnerEmployeeDto.PartnerDTO.PartnerName,
-            //     PhoneNumber = partnerEmployeeDto.PartnerDTO.PhoneNumber,
-            //    LastModified = partnerEmployeeDto.PartnerDTO.LastModified,
-            //    LastModifiedBy = partnerEmployeeDto.PartnerDTO.LastModifiedBy
-            //};
-
-            //  var participantType = _mapper.Map<ParticipantTypeDTO, ParticipantType>(partnerEmployeeDto.ParticipantTypeDTO);
-            //  var mailGroup = _mapper.Map<MailGroupDTO, MailGroup>(partnerEmployeeDto.MailGroup);
-
-
-            PartnerEmployee newlyCreatedPartnerEmployee = new PartnerEmployee()
-            {
-                FirstName = partnerEmployeeDto.FirstName,
-                LastName = partnerEmployeeDto.LastName,
-                // PartnerEmployeeId = partnerEmployeeDto.PartnerEmployeeId,
-                Email = partnerEmployeeDto.Email,
-                // ParticipantType = participantType,
-                JobTitle = partnerEmployeeDto.JobTitle,
-                //  PartnerType = partnerType,
-                MailGroup = partnerEmployeeDto.MailGroup,
-                PESharePointId = partnerEmployeeDto.PESharePointId,
-                TelePhoneNumber = partnerEmployeeDto.TelePhoneNumber,
-                CrmPartnerAccountId = partnerEmployeeDto.CrmPartnerAccountId,
-                LastModified = partnerEmployeeDto.LastModified,
-                LastModifiedBY = partnerEmployeeDto.LastModifiedBY,
-                CreatedBy = partnerEmployeeDto.CreatedBy,
-                CreatedOn = partnerEmployeeDto.CreatedOn,
-                ModifiedBY = partnerEmployeeDto.ModifiedBY,
-                ModifiedOn = partnerEmployeeDto.ModifiedOn,
-                SMSNotification = partnerEmployeeDto.SMSNotification,
-                EmailNotification = partnerEmployeeDto.EmailNotification,
-                Identifier = partnerEmployeeDto.Identifier,
-                DeactivatedUser = partnerEmployeeDto.DeactivatedUser,
-
-            };
-
-            // var destination = _mapper.Map<PartnerEmployee, PartnerEmployeeDTO>(newlyCreatedPartnerEmployee);
+            PartnerEmployee newlyCreatedPartnerEmployee = _mapper.Map<PartnerEmployeeDTO, PartnerEmployee>(partnerEmployeeDto);
+            newlyCreatedPartnerEmployee.CreatedDate = DateTime.UtcNow;
+            newlyCreatedPartnerEmployee.CreatedBy = "CRM";
+            newlyCreatedPartnerEmployee.LastModified = DateTime.UtcNow;
+            newlyCreatedPartnerEmployee.LastModifiedBy = "CRM";
             _choiceRepoistory.SetPartnerEmployees(newlyCreatedPartnerEmployee);
-            //_choiceRepoistory.Complete();          
 
             bool Istrue = partnerEmployeeCRMService.CRMActionTypeGeneric(newlyCreatedPartnerEmployee, "CreatePartnerEmployeeCRM");
 
@@ -191,37 +147,12 @@ namespace DKBS.API.Controllers
 
 
             checkPartnerIdinDb.TelePhoneNumber = partnerEmployeeUpdateDTO.TelePhoneNumber;
-
-
             checkPartnerIdinDb.CrmPartnerAccountId = partnerEmployeeUpdateDTO.CrmPartnerAccountId;
-
-
-            checkPartnerIdinDb.LastModified = partnerEmployeeUpdateDTO.LastModified;
-
-
-            checkPartnerIdinDb.LastModifiedBY = partnerEmployeeUpdateDTO.LastModifiedBY;
-
-
-            checkPartnerIdinDb.CreatedBy = partnerEmployeeUpdateDTO.CreatedBy;
-
-
-            checkPartnerIdinDb.CreatedOn = partnerEmployeeUpdateDTO.CreatedOn;
-
-
-            checkPartnerIdinDb.ModifiedBY = partnerEmployeeUpdateDTO.ModifiedBY;
-
-
-            checkPartnerIdinDb.ModifiedOn = partnerEmployeeUpdateDTO.ModifiedOn;
-
-
+            checkPartnerIdinDb.LastModified = DateTime.UtcNow;
+            checkPartnerIdinDb.LastModifiedBy = "CRM";
             checkPartnerIdinDb.SMSNotification = partnerEmployeeUpdateDTO.SMSNotification;
-
-
             checkPartnerIdinDb.EmailNotification = partnerEmployeeUpdateDTO.EmailNotification;
-
-
             checkPartnerIdinDb.Identifier = partnerEmployeeUpdateDTO.Identifier;
-
            checkPartnerIdinDb.DeactivatedUser = partnerEmployeeUpdateDTO.DeactivatedUser;
 
             _choiceRepoistory.Attach(checkPartnerIdinDb);

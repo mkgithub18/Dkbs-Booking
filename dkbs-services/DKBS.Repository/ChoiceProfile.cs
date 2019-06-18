@@ -48,6 +48,7 @@ namespace DKBS.Repository
             CreateMap<CRMPartner, CRMPartnerDTO>();
             CreateMap<CRMPartnerDTO, CRMPartner>();
             CreateMap<PartnerEmployee, PartnerEmployeeDTO>();
+            CreateMap<PartnerEmployeeDTO, PartnerEmployee>();
             CreateMap<PartnerType, PartnerTypeDTO>();
             CreateMap<Procedure, ProcedureDTO>();
             CreateMap<ProcedureInfo, ProcedureInfoDTO>();
