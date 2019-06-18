@@ -19,6 +19,8 @@ namespace DKBS.API.Controllers
     /// <summary>
     /// PartnerEmployee controller
     /// </summary>
+    /// 
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class PartnerEmployeeController : Controller
