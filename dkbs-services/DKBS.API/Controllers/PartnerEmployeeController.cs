@@ -74,32 +74,40 @@ namespace DKBS.API.Controllers
         [HttpPost()]
         public ActionResult<IEnumerable<PartnerEmployeeDTO>> CreatePartnerEmployee([FromBody] PartnerEmployeeDTO partnerEmployeeDto)
         {
-
-            if (!ModelState.IsValid)
+            try
             {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest();
+                }
+
+                if (partnerEmployeeDto == null)
+                    return BadRequest();
+
+                var checkPartnerEmployeeinDb = _choiceRepoistory.GetPartnerEmployees().Find(c => c.PESharePointId == partnerEmployeeDto.PESharePointId);
+
+                if (checkPartnerEmployeeinDb != null)
+                {
+                    return BadRequest();
+                }
+                PartnerEmployee newlyCreatedPartnerEmployee = _mapper.Map<PartnerEmployeeDTO, PartnerEmployee>(partnerEmployeeDto);
+                _choiceRepoistory.SetPartnerEmployees(newlyCreatedPartnerEmployee);
+
+               // bool Istrue = partnerEmployeeCRMService.CRMActionTypeGeneric(newlyCreatedPartnerEmployee, "CreatePartnerEmployeeCRM");
+
+                if (true)
+                {
+                    _choiceRepoistory.Complete();
+                    return CreatedAtRoute("GetPartnerEmployeeById", new { peSharePointId = newlyCreatedPartnerEmployee.PESharePointId }, newlyCreatedPartnerEmployee);
+                }
+            }
+            catch (Exception)
+            {
+
                 return BadRequest();
             }
-
-            if (partnerEmployeeDto == null)
-                return BadRequest();
-
-            var checkPartnerEmployeeinDb = _choiceRepoistory.GetPartnerEmployees().Find(c => c.PESharePointId == partnerEmployeeDto.PESharePointId);
-
-            if (checkPartnerEmployeeinDb != null)
-            {
-                return BadRequest();
-            }
-            PartnerEmployee newlyCreatedPartnerEmployee = _mapper.Map<PartnerEmployeeDTO, PartnerEmployee>(partnerEmployeeDto);
-            _choiceRepoistory.SetPartnerEmployees(newlyCreatedPartnerEmployee);
-
-            bool Istrue = partnerEmployeeCRMService.CRMActionTypeGeneric(newlyCreatedPartnerEmployee, "CreatePartnerEmployeeCRM");
-
-            if (Istrue)
-            {
-                _choiceRepoistory.Complete();
-                return CreatedAtRoute("GetPartnerEmployeeById", new { peSharePointId = newlyCreatedPartnerEmployee.PESharePointId }, newlyCreatedPartnerEmployee);
-            }
-            return BadRequest();
+          
+           
         }
 
         /// <summary>
@@ -112,62 +120,70 @@ namespace DKBS.API.Controllers
         [HttpPut("{peSharePointId}")]
         public IActionResult UpdatePartnerEmployee(string peSharePointId, [FromBody] PartnerEmployeeUpdateDTO partnerEmployeeUpdateDTO)
         {
+            try
+            {
+                if (partnerEmployeeUpdateDTO == null)
+                    return BadRequest();
 
-            if (partnerEmployeeUpdateDTO == null)
-                return BadRequest();
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest();
+                }
 
-            if (!ModelState.IsValid)
+                var checkPartnerIdinDb = _choiceRepoistory.GetById<PartnerEmployee>(c => c.PESharePointId == peSharePointId);//_choiceRepoistory.GetPartnerEmployees().Find(c => c.SharePointId == partnerEmployeeId);
+
+                if (checkPartnerIdinDb == null)
+                {
+                    return BadRequest();
+                }
+
+                //checkPartnerIdinDb = partnerEmployeeDTO;
+
+
+                checkPartnerIdinDb.FirstName = partnerEmployeeUpdateDTO.FirstName;
+                checkPartnerIdinDb.LastName = partnerEmployeeUpdateDTO.LastName;
+                // PartnerEmployeeId = partnerEmployeeDto.PartnerEmployeeId,
+                checkPartnerIdinDb.Email = partnerEmployeeUpdateDTO.Email;
+                // ParticipantType = participantType,
+                checkPartnerIdinDb.JobTitle = partnerEmployeeUpdateDTO.JobTitle;
+                //  PartnerType = partnerType,
+                checkPartnerIdinDb.MailGroup = partnerEmployeeUpdateDTO.MailGroup;
+
+
+                // checkPartnerIdinDb.SharePointId = partnerEmployeeDTO.SharePointId;
+
+
+                checkPartnerIdinDb.TelePhoneNumber = partnerEmployeeUpdateDTO.TelePhoneNumber;
+                checkPartnerIdinDb.CrmPartnerAccountId = partnerEmployeeUpdateDTO.CrmPartnerAccountId;
+                checkPartnerIdinDb.LastModified = partnerEmployeeUpdateDTO.LastModified;
+                checkPartnerIdinDb.LastModifiedBy = partnerEmployeeUpdateDTO.LastModifiedBy;
+                checkPartnerIdinDb.SMSNotification = partnerEmployeeUpdateDTO.SMSNotification;
+                checkPartnerIdinDb.EmailNotification = partnerEmployeeUpdateDTO.EmailNotification;
+                checkPartnerIdinDb.Identifier = partnerEmployeeUpdateDTO.Identifier;
+                checkPartnerIdinDb.DeactivatedUser = partnerEmployeeUpdateDTO.DeactivatedUser;
+
+                _choiceRepoistory.Attach(checkPartnerIdinDb);
+
+                // _choiceRepoistory.Complete();
+
+               // bool Istrue = partnerEmployeeCRMService.CRMActionTypeGeneric(checkPartnerIdinDb, "UpdatePartnerEmployeeCRM");
+
+
+                if (true)
+                {
+                    _choiceRepoistory.Complete();
+                    return NoContent();
+                }
+            }
+            catch (Exception)
             {
                 return BadRequest();
             }
 
-            var checkPartnerIdinDb = _choiceRepoistory.GetById<PartnerEmployee>(c => c.PESharePointId == peSharePointId);//_choiceRepoistory.GetPartnerEmployees().Find(c => c.SharePointId == partnerEmployeeId);
-
-            if (checkPartnerIdinDb == null)
-            {
-                return BadRequest();
-            }
-
-            //checkPartnerIdinDb = partnerEmployeeDTO;
-
-
-            checkPartnerIdinDb.FirstName = partnerEmployeeUpdateDTO.FirstName;
-            checkPartnerIdinDb.LastName = partnerEmployeeUpdateDTO.LastName;
-            // PartnerEmployeeId = partnerEmployeeDto.PartnerEmployeeId,
-            checkPartnerIdinDb.Email = partnerEmployeeUpdateDTO.Email;
-            // ParticipantType = participantType,
-            checkPartnerIdinDb.JobTitle = partnerEmployeeUpdateDTO.JobTitle;
-            //  PartnerType = partnerType,
-            checkPartnerIdinDb.MailGroup = partnerEmployeeUpdateDTO.MailGroup;
-
-
-            // checkPartnerIdinDb.SharePointId = partnerEmployeeDTO.SharePointId;
-
-
-            checkPartnerIdinDb.TelePhoneNumber = partnerEmployeeUpdateDTO.TelePhoneNumber;
-            checkPartnerIdinDb.CrmPartnerAccountId = partnerEmployeeUpdateDTO.CrmPartnerAccountId;
-            checkPartnerIdinDb.LastModified = partnerEmployeeUpdateDTO.LastModified;
-            checkPartnerIdinDb.LastModifiedBy = partnerEmployeeUpdateDTO.LastModifiedBy;
-            checkPartnerIdinDb.SMSNotification = partnerEmployeeUpdateDTO.SMSNotification;
-            checkPartnerIdinDb.EmailNotification = partnerEmployeeUpdateDTO.EmailNotification;
-            checkPartnerIdinDb.Identifier = partnerEmployeeUpdateDTO.Identifier;
-           checkPartnerIdinDb.DeactivatedUser = partnerEmployeeUpdateDTO.DeactivatedUser;
-
-            _choiceRepoistory.Attach(checkPartnerIdinDb);
-
-          // _choiceRepoistory.Complete();
-
-            bool Istrue= partnerEmployeeCRMService.CRMActionTypeGeneric(checkPartnerIdinDb, "UpdatePartnerEmployeeCRM");
-
-
-            if (Istrue)
-            {
-                _choiceRepoistory.Complete();
-                return NoContent();
-            }
+          
 
            
-            return BadRequest();
+           
         }
 
     }
