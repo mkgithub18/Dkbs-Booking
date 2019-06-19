@@ -146,6 +146,8 @@ namespace DKBS.API.Controllers
 
             checkPartnerIdinDb.TelePhoneNumber = partnerEmployeeUpdateDTO.TelePhoneNumber;
             checkPartnerIdinDb.CrmPartnerAccountId = partnerEmployeeUpdateDTO.CrmPartnerAccountId;
+            checkPartnerIdinDb.LastModified = partnerEmployeeUpdateDTO.LastModified;
+            checkPartnerIdinDb.LastModifiedBy = partnerEmployeeUpdateDTO.LastModifiedBy;
             checkPartnerIdinDb.SMSNotification = partnerEmployeeUpdateDTO.SMSNotification;
             checkPartnerIdinDb.EmailNotification = partnerEmployeeUpdateDTO.EmailNotification;
             checkPartnerIdinDb.Identifier = partnerEmployeeUpdateDTO.Identifier;
