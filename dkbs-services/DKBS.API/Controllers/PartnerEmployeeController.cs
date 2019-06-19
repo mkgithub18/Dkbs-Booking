@@ -90,10 +90,6 @@ namespace DKBS.API.Controllers
                 return BadRequest();
             }
             PartnerEmployee newlyCreatedPartnerEmployee = _mapper.Map<PartnerEmployeeDTO, PartnerEmployee>(partnerEmployeeDto);
-            newlyCreatedPartnerEmployee.CreatedDate = DateTime.UtcNow;
-            newlyCreatedPartnerEmployee.CreatedBy = "CRM";
-            newlyCreatedPartnerEmployee.LastModified = DateTime.UtcNow;
-            newlyCreatedPartnerEmployee.LastModifiedBy = "CRM";
             _choiceRepoistory.SetPartnerEmployees(newlyCreatedPartnerEmployee);
 
             bool Istrue = partnerEmployeeCRMService.CRMActionTypeGeneric(newlyCreatedPartnerEmployee, "CreatePartnerEmployeeCRM");
@@ -150,8 +146,6 @@ namespace DKBS.API.Controllers
 
             checkPartnerIdinDb.TelePhoneNumber = partnerEmployeeUpdateDTO.TelePhoneNumber;
             checkPartnerIdinDb.CrmPartnerAccountId = partnerEmployeeUpdateDTO.CrmPartnerAccountId;
-            checkPartnerIdinDb.LastModified = DateTime.UtcNow;
-            checkPartnerIdinDb.LastModifiedBy = "CRM";
             checkPartnerIdinDb.SMSNotification = partnerEmployeeUpdateDTO.SMSNotification;
             checkPartnerIdinDb.EmailNotification = partnerEmployeeUpdateDTO.EmailNotification;
             checkPartnerIdinDb.Identifier = partnerEmployeeUpdateDTO.Identifier;

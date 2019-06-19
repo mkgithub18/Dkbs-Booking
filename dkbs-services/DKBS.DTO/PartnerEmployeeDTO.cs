@@ -29,5 +29,10 @@ namespace DKBS.DTO
         public string Identifier { get; set; }
 
         public bool DeactivatedUser { get; set; }
+
+        public DateTime? LastModified { get; set; }
+        public string LastModifiedBy { get; set; }
+        public DateTime? CreatedDate { get; set; }
+        public string CreatedBy { get; set; }
     }
 }
